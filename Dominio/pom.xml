@@ -47,12 +47,6 @@
             <version>2.7.12</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.itson</groupId>
-            <artifactId>Interfaces</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

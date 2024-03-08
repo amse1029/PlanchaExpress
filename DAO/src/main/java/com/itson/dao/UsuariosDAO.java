@@ -6,7 +6,6 @@ package com.itson.dao;
 
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IUsuariosDAO;
-import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,7 +22,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     EntityManager em = emf.createEntityManager();
     
     /**
-     * Método que realiza una inserción "masiva" de 20 personas 
+     * Método que realiza una inserción de 2 usuarios
      */
     @Override
     public void insertar() {
@@ -31,8 +30,10 @@ public class UsuariosDAO implements IUsuariosDAO {
             em.getTransaction().begin();
 
             Usuario admin = new Usuario("Raúl Soto", "1234");
+            Usuario recepcionista = new Usuario("Elvia Villegas", "1234");
 
             em.persist(admin);
+            em.persist(recepcionista);
 
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se ha insertado el admin con éxito");

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -29,40 +30,24 @@ public class NotaRemision implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long folio;
     
-    @Column(name = "descripcion", nullable = false)
-    private String descripcion;
-    
-    @Column(name = "fecha_recepcion", nullable = true)
+    @Column(name = "fecha_recepcion", nullable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha_recepcion;
     
     @Column(name = "fecha_entrega", nullable = true)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha_entrega;
     
     @Column(name = "total", nullable = false)
     private float total;
     
-    @OneToMany
-    (mappedBy = "id", cascade = {CascadeType.REMOVE}) // Nombre del atributo de la otra clase
-    private Cliente cliente;
     
-    @OneToMany
-    (mappedBy = "id", cascade = {CascadeType.REMOVE}) // Nombre del atributo de la otra clase
-    private Usuario usuario;
-
     public Long getFolio() {
         return folio;
     }
 
     public void setFolio(Long folio) {
         this.folio = folio;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public Date getFecha_recepcion() {
@@ -89,21 +74,7 @@ public class NotaRemision implements Serializable {
         this.total = total;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+    
     
     @Override
     public int hashCode() {
@@ -129,7 +100,7 @@ public class NotaRemision implements Serializable {
 
     @Override
     public String toString() {
-        return "NotaRemision{" + "folio=" + folio + ", descripcion=" + descripcion + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", total=" + total + ", cliente=" + cliente + ", usuario=" + usuario + '}';
+        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", total=" + total + '}';
     }
 
 
