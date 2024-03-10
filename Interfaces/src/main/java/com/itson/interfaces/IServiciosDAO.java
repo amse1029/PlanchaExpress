@@ -4,12 +4,18 @@
  */
 package com.itson.interfaces;
 
+import com.itson.dominio.Servicio;
+
 /**
  *
  * @author alexasoto
  */
 public interface IServiciosDAO {
     
-    public void insertar();
+    public boolean insertarServicio(Servicio servicio);
+    public boolean eliminarServicio(Long id);
+    public Servicio buscarServicio(Long id);
+    public boolean actualizarServicio(Servicio servicio);
+    
     
 }

@@ -4,6 +4,7 @@
 
 package com.itson.dao;
 
+import com.itson.dominio.Usuario;
 import com.itson.interfaces.IUsuariosDAO;
 
 /**
@@ -13,8 +14,15 @@ import com.itson.interfaces.IUsuariosDAO;
 public class DAO {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        IUsuariosDAO usuario = new UsuariosDAO();
-        usuario.insertar();
+        IUsuariosDAO usuarios = new UsuariosDAO();
+        Usuario usuario=new Usuario();
+        usuario.setNombre("Abraham");
+        usuario.setPass("Gatito");
+        boolean res=usuarios.insertarUsuario(usuario);
+        if(res){
+            System.out.println("insercion exitosa");
+        }else{
+            System.out.println("error en insercion");
+        }
     }
 }

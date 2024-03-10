@@ -4,12 +4,18 @@
  */
 package com.itson.interfaces;
 
+import com.itson.dominio.Usuario;
+
 /**
  *
  * @author alexasoto
  */
 public interface IUsuariosDAO {
     
-    public void insertar();
+    public boolean insertarUsuario(Usuario usuario);
+    public boolean eliminarUsuario(Long id);
+    public boolean actualizarUsuario(Usuario usuario);
+    public Usuario buscarUsuario(Long id);
+    public boolean autenticarUsuario(String nombre, String pass);
     
 }

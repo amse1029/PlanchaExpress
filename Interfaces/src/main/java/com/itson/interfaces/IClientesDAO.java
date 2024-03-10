@@ -4,12 +4,16 @@
  */
 package com.itson.interfaces;
 
+import com.itson.dominio.Cliente;
+
 /**
  *
  * @author alexasoto
  */
 public interface IClientesDAO {
     
-    public void insertar();
-    
+    public boolean insertarCliente(Cliente cliente);
+    public boolean actualizarCliente(Cliente cliente);
+    public boolean eliminarCliente(Long id);
+    public Cliente buscarCliente(Long id);
 }

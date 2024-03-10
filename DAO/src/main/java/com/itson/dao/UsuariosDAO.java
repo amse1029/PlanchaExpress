@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,29 +19,135 @@ import javax.swing.JOptionPane;
  */
 public class UsuariosDAO implements IUsuariosDAO {
     
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.itson.agenciafiscal");
-    EntityManager em = emf.createEntityManager();
-    
-    /**
-     * Método que realiza una inserción de 2 usuarios
-     */
+    private EntityManagerFactory em = null;
+
+    public UsuariosDAO() {
+        em = Persistence.createEntityManagerFactory("notas");
+    }
+
+    public EntityManager getEntityManager() {
+        return em.createEntityManager();
+    }
+
     @Override
-    public void insertar() {
+    public boolean insertarUsuario(Usuario usuario) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(usuario);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            if (em != null) {
+                em.getTransaction().rollback();
+                System.err.print(ex.getMessage());
+                return false;
+            }
+        } finally {
+            if (em != null) {
+                em.close();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean eliminarUsuario(Long id) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
             em.getTransaction().begin();
 
-            Usuario admin = new Usuario("Raúl Soto", "1234");
-            Usuario recepcionista = new Usuario("Elvia Villegas", "1234");
+            Usuario usuario = em.find(Usuario.class, id); 
 
-            em.persist(admin);
-            em.persist(recepcionista);
+            if (usuario != null) {
+                em.remove(usuario);
+                em.getTransaction().commit();
+                System.out.println("Usuario eliminado exitosamente");
+                return true;
+            } else {
+                System.out.println("Usuario no encontrado");
+                return false;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error al eliminar cliente: " + ex.getMessage());
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // Deshacer la transacción en caso de error
+            }
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return false;
+    }
 
+    @Override
+    public boolean actualizarUsuario(Usuario usuario) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.merge(usuario);
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha insertado el admin con éxito");
-        } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "Error al insertar");
-            em.getTransaction().rollback();
+            return true;
+        } catch (Exception ex) {
+            if (em != null) {
+                em.getTransaction().rollback();
+                System.err.print(ex.getMessage());
+            }
+            return false;
+        } finally {
+            if (em != null) {
+                em.close();
+                return false;
+            }
         }
     }
+
+    @Override
+    public Usuario buscarUsuario(Long id) {
+        EntityManager em = null;
+        Usuario usuario = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT u FROM Usuarios u where u.id = :id");
+            query.setParameter("id", id);
+            usuario = (Usuario) query.getSingleResult();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        em.close();
+        return usuario;
+    }
+
+    @Override
+    public boolean autenticarUsuario(String nombre, String pass) {
+        EntityManager em = null;
+        Usuario usuario = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT u FROM Usuarios u where u.nombre = :nombre && u.pass = :pass");
+            query.setParameter("nombre", nombre);
+            query.setParameter("pass", pass);
+            usuario = (Usuario) query.getSingleResult();
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        em.close();
+        if(usuario!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    
     }
     
