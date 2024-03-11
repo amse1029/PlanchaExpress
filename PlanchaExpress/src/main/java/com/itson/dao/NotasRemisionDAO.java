@@ -8,6 +8,8 @@ import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.INotasRemisionDAO;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.persistence.EntityManager;
@@ -24,7 +26,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.itson.planchaexpress");
     EntityManager em = emf.createEntityManager();
-//Date fecha_recepcion, Date fecha_entrega, float total
+
     @Override
      public void insertarNota() {
          
@@ -33,11 +35,17 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
         try {
             em.getTransaction().begin();
 
-            GregorianCalendar gregorianCalendar  = new GregorianCalendar(2024, 2, 11);
-            Date recepcion = gregorianCalendar.getTime();
-            GregorianCalendar gregorianCalendar2  = new GregorianCalendar(2024, 2, 12);
-            Date entrega = gregorianCalendar.getTime();
-            NotaRemision nota1 = new NotaRemision(recepcion, entrega, 100,clientes.getCliente(), usuarios.getUsuario());
+            Date fechaActual = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaActual);
+
+            int minutosAAgregar = 60;
+
+            calendar.add(Calendar.MINUTE, minutosAAgregar);
+
+            Date entrega = calendar.getTime();
+
+            NotaRemision nota1 = new NotaRemision(fechaActual, entrega, 100,clientes.getCliente(), usuarios.getUsuario());
 
             em.persist(nota1);
           
