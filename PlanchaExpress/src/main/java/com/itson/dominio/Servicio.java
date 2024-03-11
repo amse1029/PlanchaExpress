@@ -5,11 +5,15 @@
 package com.itson.dominio;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,17 +34,26 @@ public class Servicio implements Serializable {
     
     @Column(name = "precio", nullable = false)
     private float precio;
+    
+    @ManyToMany(mappedBy = "servicios")
+    private List<NotaRemision> notasRemisiones;
+
+    public Servicio() {
+    }
+
+    
+    public Servicio(String descripcion, float precio, List<NotaRemision> notasRemisiones) {
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.notasRemisiones = notasRemisiones;
+    }
 
     public Servicio(String descripcion, float precio) {
         this.descripcion = descripcion;
         this.precio = precio;
     }
 
-    public Servicio() {
-    }
-    
-    
-    
+
     public Long getId() {
         return id;
     }

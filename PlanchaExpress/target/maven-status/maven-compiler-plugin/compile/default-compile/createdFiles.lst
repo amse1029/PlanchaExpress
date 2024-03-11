@@ -1,7 +1,6 @@
 com\itson\dominio\Cliente_.class
 com\itson\dao\ClientesDAO.class
 com\itson\dao\NotasRemisionDAO.class
-com\itson\dominio\NotaServicio_.class
 com\itson\dominio\Cliente.class
 com\itson\dominio\Usuario_.class
 excepciones\PersistenciaException.class
@@ -13,7 +12,6 @@ pruebas\Pruebas.class
 com\itson\dominio\Usuario.class
 com\itson\planchaexpress\PlanchaExpress.class
 com\itson\dao\ServiciosDAO.class
-com\itson\dominio\NotaServicio.class
 com\itson\dao\UsuariosDAO.class
 com\itson\interfaces\IConexionBD.class
 com\itson\dominio\NotaRemision.class

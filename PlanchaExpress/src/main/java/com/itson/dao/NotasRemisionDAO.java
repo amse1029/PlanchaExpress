@@ -6,6 +6,7 @@ package com.itson.dao;
 
 import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.INotasRemisionDAO;
 import java.time.LocalTime;
@@ -32,9 +33,11 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
          
          UsuariosDAO usuarios = new UsuariosDAO();
          ClientesDAO clientes = new ClientesDAO();
+         ServiciosDAO servicios = new ServiciosDAO();
         try {
             em.getTransaction().begin();
 
+            
             Date fechaActual = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(fechaActual);
@@ -45,9 +48,20 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
 
             Date entrega = calendar.getTime();
 
-            NotaRemision nota1 = new NotaRemision(fechaActual, entrega, 100,clientes.getCliente(), usuarios.getUsuario());
+            NotaRemision nota1 = new NotaRemision();
+            nota1.setFecha_entrega(entrega);
+            nota1.setFecha_recepcion(fechaActual);
+            nota1.setUsuario(usuarios.getUsuario());
+            nota1.setTotal(50);
+            nota1.setCliente(clientes.getCliente());
+            Servicio servicio = servicios.getServicio();
+            nota1.getServicios().add(servicio);
+            
+
+            
 
             em.persist(nota1);
+//            em.persist(servicio);
           
 
             em.getTransaction().commit();

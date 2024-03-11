@@ -4,8 +4,11 @@
  */
 package com.itson.dominio;
 
+import com.itson.dao.NotasRemisionDAO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -50,9 +55,29 @@ public class NotaRemision implements Serializable {
     @ManyToOne()
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+    
+     @ManyToMany
+     @JoinTable(
+        name = "notaservicio",
+        joinColumns = @JoinColumn(name = "folio"),
+        inverseJoinColumns = @JoinColumn(name = "id_servicio")
+    )
+     private List<Servicio> servicios;
 
     public NotaRemision() {
+        this.servicios = new ArrayList<>();
     }
+
+    public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario, List<Servicio> servicios) {
+        this.fecha_recepcion = fecha_recepcion;
+        this.fecha_entrega = fecha_entrega;
+        this.total = total;
+        this.cliente = cliente;
+        this.usuario = usuario;
+        this.servicios = servicios;
+        this.servicios = new ArrayList<>();
+    }
+
 
     public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario) {
         this.fecha_recepcion = fecha_recepcion;
@@ -60,8 +85,36 @@ public class NotaRemision implements Serializable {
         this.total = total;
         this.cliente = cliente;
         this.usuario = usuario;
+        this.servicios = new ArrayList<>();
+        
     }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Servicio> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<Servicio> servicios) {
+        this.servicios = servicios;
+    }
+
    
+    
     public Long getFolio() {
         return folio;
     }

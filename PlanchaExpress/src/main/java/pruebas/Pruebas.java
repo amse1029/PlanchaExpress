@@ -28,9 +28,9 @@ public class Pruebas {
         IServiciosDAO servicios = new ServiciosDAO();
         INotasRemisionDAO notas = new NotasRemisionDAO();
         
-//        usuarios.insertarUsuario();
-//        clientes.insertarCliente();
-//        servicios.insertarServicio();
+        usuarios.insertarUsuario();
+        clientes.insertarCliente();
+        servicios.insertarServicio();
         notas.insertarNota();
     }
     

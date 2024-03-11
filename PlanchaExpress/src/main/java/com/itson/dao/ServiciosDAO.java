@@ -50,6 +50,21 @@ public class ServiciosDAO implements IServiciosDAO {
             em.getTransaction().rollback();
         }
     }
+    
+    public Servicio getServicio(){
+       
+            em.getTransaction().begin();
+
+            Servicio servicio = new Servicio("Planchado", 10f);
+        
+
+            em.persist(servicio);
+      
+
+            em.getTransaction().commit();
+  
+            return servicio;
+        }
 
     
 }

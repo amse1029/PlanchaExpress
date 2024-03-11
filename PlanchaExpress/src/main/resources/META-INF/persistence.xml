@@ -4,7 +4,6 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.itson.dominio.Cliente</class>
     <class>com.itson.dominio.NotaRemision</class>
-    <class>com.itson.dominio.NotaServicio</class>
     <class>com.itson.dominio.Servicio</class>
     <class>com.itson.dominio.Usuario</class>
     <properties>
