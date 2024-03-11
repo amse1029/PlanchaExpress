@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,7 +43,25 @@ public class NotaRemision implements Serializable {
     @Column(name = "total", nullable = false)
     private float total;
     
+    @ManyToOne()
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
     
+    @ManyToOne()
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+
+    public NotaRemision() {
+    }
+
+    public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario) {
+        this.fecha_recepcion = fecha_recepcion;
+        this.fecha_entrega = fecha_entrega;
+        this.total = total;
+        this.cliente = cliente;
+        this.usuario = usuario;
+    }
+   
     public Long getFolio() {
         return folio;
     }

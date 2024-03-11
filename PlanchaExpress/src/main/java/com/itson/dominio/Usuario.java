@@ -38,6 +38,9 @@ public class Usuario implements Serializable {
 //    @OneToMany
 //    (mappedBy = "folio") // Nombre del atributo de la otra clase
 //    private List<NotaRemision> notas;
+    
+     @OneToMany(mappedBy = "usuario")
+    private List<NotaRemision> notaRemision;
 
 
     public Usuario(String nombre, String pass) {

@@ -45,6 +45,22 @@ public class UsuariosDAO implements IUsuariosDAO {
 
         
     }
+    
+    public Usuario getUsuario(){
+       
+            em.getTransaction().begin();
+
+            Usuario persona1 = new Usuario("Raúl Sotooo", "admin");
+        
+
+            em.persist(persona1);
+      
+
+            em.getTransaction().commit();
+  
+            return persona1;
+        }
+    
 
     
     }

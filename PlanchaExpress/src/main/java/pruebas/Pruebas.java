@@ -5,9 +5,11 @@
 package pruebas;
 
 import com.itson.dao.ClientesDAO;
+import com.itson.dao.NotasRemisionDAO;
 import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
 import com.itson.interfaces.IClientesDAO;
+import com.itson.interfaces.INotasRemisionDAO;
 import com.itson.interfaces.IServiciosDAO;
 import com.itson.interfaces.IUsuariosDAO;
 
@@ -24,10 +26,12 @@ public class Pruebas {
         IUsuariosDAO usuarios = new UsuariosDAO();
         IClientesDAO clientes = new ClientesDAO();
         IServiciosDAO servicios = new ServiciosDAO();
+        INotasRemisionDAO notas = new NotasRemisionDAO();
         
-        usuarios.insertarUsuario();
-        clientes.insertarCliente();
-        servicios.insertarServicio();
+//        usuarios.insertarUsuario();
+//        clientes.insertarCliente();
+//        servicios.insertarServicio();
+        notas.insertarNota();
     }
     
 }

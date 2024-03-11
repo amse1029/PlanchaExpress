@@ -12,6 +12,6 @@ import java.sql.Date;
  */
 public interface INotasRemisionDAO {
     
-    public void insertar(Date fecha_recepcion, Date fecha_entrega, float total);
+    public void insertarNota();
     
 }

@@ -40,6 +40,9 @@ public class Cliente implements Serializable {
 //    @OneToMany
 //    (mappedBy = "folio") // Nombre del atributo de la otra clase
 //    private List<NotaRemision> notas;
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<NotaRemision> notaRemision;
 
     public Cliente() {
     }

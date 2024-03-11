@@ -47,5 +47,20 @@ public class ClientesDAO implements IClientesDAO {
             em.getTransaction().rollback();
         }
     }
+     public Cliente getCliente(){
+       
+            em.getTransaction().begin();
+
+            Cliente cliente = new Cliente("Raúl Sotoo", "123","mx");
+        
+
+            em.persist(cliente);
+      
+
+            em.getTransaction().commit();
+  
+            return cliente;
+      
+    }
 
 }
