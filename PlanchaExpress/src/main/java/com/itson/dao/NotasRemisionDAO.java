@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.swing.JOptionPane;
@@ -88,5 +89,39 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             em.getTransaction().rollback();
         }
     }
+
+    @Override
+    public void eliminarNota(Long folio) {
+        NotaRemision notaRemision = em.find(NotaRemision.class, folio);
+
+        if (notaRemision != null) {
+        
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+
+            try {
+         
+                em.remove(notaRemision);
+
+             
+                transaction.commit();
+
+                System.out.println("Registro eliminado exitosamente.");
+            } catch (Exception e) {
+       
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No se encontró ningún registro con el ID proporcionado.");
+        }
+
+       
+        em.close();
+        emf.close();
+    }
+    }
     
-}
+

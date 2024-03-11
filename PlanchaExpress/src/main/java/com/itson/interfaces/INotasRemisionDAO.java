@@ -20,5 +20,6 @@ public interface INotasRemisionDAO {
     public void insertarNota();
     public void insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, 
             float total, Date fecha_recepcion, Date fecha_entrega) throws PersistenceException;
+    public void eliminarNota(Long folio);
     
 }

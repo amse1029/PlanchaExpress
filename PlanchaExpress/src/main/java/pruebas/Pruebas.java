@@ -49,6 +49,7 @@ public class Pruebas {
         listaServicios.add(servicio);
         notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion);
         notas.insertarNota();
+        notas.eliminarNota(10L);
     }
     
 }
