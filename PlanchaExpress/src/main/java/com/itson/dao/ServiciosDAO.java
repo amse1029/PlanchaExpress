@@ -65,6 +65,16 @@ public class ServiciosDAO implements IServiciosDAO {
   
             return servicio;
         }
+    
+    public Servicio consultaServicio(Long id) {
+        try {
+            //Busca el id en la clase Servicio
+            return em.find(Servicio.class, id);
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar el servicio");
+            return null;
+        }
+    }
 
     
 }

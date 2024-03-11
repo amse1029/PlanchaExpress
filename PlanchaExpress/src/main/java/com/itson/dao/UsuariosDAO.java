@@ -61,6 +61,16 @@ public class UsuariosDAO implements IUsuariosDAO {
             return persona1;
         }
     
+    public Usuario consultaUsuario(Long id){
+        try {
+            //Busca el id en la clase Usuario
+            return em.find(Usuario.class, id);
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar al usuario");
+            return null;
+        }
+    }
+    
 
     
     }

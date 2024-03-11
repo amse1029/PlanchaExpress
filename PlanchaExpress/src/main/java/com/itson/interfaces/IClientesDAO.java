@@ -5,6 +5,7 @@
 package com.itson.interfaces;
 
 import com.itson.dominio.Cliente;
+import java.util.List;
 
 /**
  *
@@ -13,5 +14,7 @@ import com.itson.dominio.Cliente;
 public interface IClientesDAO {
     
     public void insertarCliente();
+    public Cliente consultaCliente(Long id);
+    public List<Cliente> consultarLista(Long id);
     
 }

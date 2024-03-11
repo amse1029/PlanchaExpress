@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -72,6 +73,20 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
         }
 
         
+    }
+
+    @Override
+    public void insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega) throws PersistenceException{
+        try {
+                em.getTransaction().begin();
+                NotaRemision nota = new NotaRemision(fecha_recepcion, fecha_entrega, total, cliente, usuario, servicios);
+                em.persist(nota);
+                em.getTransaction().commit();
+                JOptionPane.showMessageDialog(null, "Se insertó la nota");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al insertar la nota");
+            em.getTransaction().rollback();
+        }
     }
     
 }

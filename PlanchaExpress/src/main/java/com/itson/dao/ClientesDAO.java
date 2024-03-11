@@ -6,11 +6,13 @@ package com.itson.dao;
 
 import com.itson.dominio.Cliente;
 import com.itson.interfaces.IClientesDAO;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 /**
@@ -61,6 +63,31 @@ public class ClientesDAO implements IClientesDAO {
   
             return cliente;
       
+    }
+
+    @Override
+    public Cliente consultaCliente(Long id) {
+        try {
+            //Busca el id en la clase Cliente
+            return em.find(Cliente.class, id);
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar al cliente");
+            return null;
+        }
+    }
+    
+    public List<Cliente> consultarLista(Long id) {
+        try {
+            String codigoJPQL = "SELECT c FROM Cliente p WHERE c.id LIKE :id";
+            TypedQuery<Cliente> query = em.createQuery(codigoJPQL, Cliente.class);
+            query.setParameter("id", id);
+
+            return query.getResultList();
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "No se encontró al cliente");
+            em.getTransaction().rollback();
+        }
+        return null;
     }
 
 }

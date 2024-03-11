@@ -13,5 +13,6 @@ import com.itson.dominio.Usuario;
 public interface IUsuariosDAO {
     
     public void insertarUsuario();
+    public Usuario consultaUsuario(Long id);
     
 }

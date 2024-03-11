@@ -13,5 +13,6 @@ import com.itson.dominio.Servicio;
 public interface IServiciosDAO {
     
     public void insertarServicio();
-    
+    public Servicio consultaServicio(Long id);
+            
 }

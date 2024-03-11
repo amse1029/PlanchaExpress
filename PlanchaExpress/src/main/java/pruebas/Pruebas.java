@@ -8,10 +8,17 @@ import com.itson.dao.ClientesDAO;
 import com.itson.dao.NotasRemisionDAO;
 import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
+import com.itson.dominio.Cliente;
+import com.itson.dominio.Servicio;
+import com.itson.dominio.Usuario;
 import com.itson.interfaces.IClientesDAO;
 import com.itson.interfaces.INotasRemisionDAO;
 import com.itson.interfaces.IServiciosDAO;
 import com.itson.interfaces.IUsuariosDAO;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -31,6 +38,16 @@ public class Pruebas {
         usuarios.insertarUsuario();
         clientes.insertarCliente();
         servicios.insertarServicio();
+        
+        SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
+        Date fecha_recepcion = new Date();
+
+        Cliente cliente = clientes.consultaCliente(4L);
+        Usuario usuario = usuarios.consultaUsuario(2L);
+        List<Servicio> listaServicios = new ArrayList<Servicio>();
+        Servicio servicio = servicios.consultaServicio(10L);
+        listaServicios.add(servicio);
+        notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion);
         notas.insertarNota();
     }
     
