@@ -20,7 +20,7 @@ public class ServiciosDAO implements IServiciosDAO {
     private EntityManagerFactory em = null;
 
     public ServiciosDAO() {
-        em = Persistence.createEntityManagerFactory("notas");
+        em = Persistence.createEntityManagerFactory("com.itson.planchaexpress");
     }
 
     public EntityManager getEntityManager() {
