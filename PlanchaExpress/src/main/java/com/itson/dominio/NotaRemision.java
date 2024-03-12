@@ -69,7 +69,7 @@ public class NotaRemision implements Serializable {
         joinColumns = @JoinColumn(name = "folio"),
         inverseJoinColumns = @JoinColumn(name = "id_servicio")
     )
-     private List<Servicio> servicios;
+     private List<Servicio> servicios  = new ArrayList<>();
 
     public NotaRemision() {
         this.servicios = new ArrayList<>();

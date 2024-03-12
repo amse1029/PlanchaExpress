@@ -38,21 +38,24 @@ public class Pruebas {
         INotasRemisionDAO notas = new NotasRemisionDAO();
 
         
-        usuarios.insertarUsuario();
-        clientes.insertarCliente();
-        servicios.insertarServicio();
-        
+//        usuarios.insertarUsuario();
+//        clientes.insertarCliente();
+//        servicios.insertarServicio();
+//        
         SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
         Date fecha_recepcion = new Date();
 
-        Cliente cliente = clientes.consultaCliente(3L);
-        Usuario usuario = usuarios.consultaUsuario(2L);
+        Cliente cliente = clientes.consultaCliente(5L);
+        Usuario usuario = usuarios.consultaUsuario(201L);
 
-        Servicio servicio = servicios.consultaServicio(57L);
+        Servicio servicio = servicios.consultaServicio(8L);
         List<Servicio> listaServicios = new ArrayList<>();
         listaServicios.add(servicio);
-        notas.insertarNota(usuario, cliente,listaServicios,0, fecha_recepcion, fecha_recepcion,Estado.PENDIENTE);
-        notas.cancelarNota(12L);
+//        notas.insertarNota(usuario, cliente,listaServicios,0, fecha_recepcion, fecha_recepcion,Estado.PENDIENTE);
+//        notas.cancelarNota(412L);
+
+//notas.buscarNota(412L);
+notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
     }
     
 }

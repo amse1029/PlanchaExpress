@@ -11,6 +11,8 @@ import com.itson.dominio.Usuario;
 import com.itson.interfaces.INotasRemisionDAO;
 import enumeradores.Estado;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -32,46 +34,46 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.itson.planchaexpress");
     EntityManager em = emf.createEntityManager();
 
-    @Override
-    public void insertarNota() {
-
-        UsuariosDAO usuarios = new UsuariosDAO();
-        ClientesDAO clientes = new ClientesDAO();
-        ServiciosDAO servicios = new ServiciosDAO();
-        try {
-            em.getTransaction().begin();
-
-            Date fechaActual = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fechaActual);
-
-            int minutosAAgregar = 60;
-
-            calendar.add(Calendar.MINUTE, minutosAAgregar);
-
-            Date entrega = calendar.getTime();
-
-            NotaRemision nota1 = new NotaRemision();
-            nota1.setFecha_entrega(entrega);
-            nota1.setFecha_recepcion(fechaActual);
-            nota1.setUsuario(usuarios.getUsuario());
-            nota1.setTotal(50);
-            nota1.setCliente(clientes.getCliente());
-            Servicio servicio = servicios.getServicio();
-            nota1.getServicios().add(servicio);
-            nota1.setEstado(Estado.CANCELADA);
-
-            em.persist(nota1);
-//            em.persist(servicio);
-
-            em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se ha insertado 1 nota con éxito");
-        } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "Error al insertar");
-            em.getTransaction().rollback();
-        }
-
-    }
+//    @Override
+//    public void insertarNota() {
+//
+//        UsuariosDAO usuarios = new UsuariosDAO();
+//        ClientesDAO clientes = new ClientesDAO();
+//        ServiciosDAO servicios = new ServiciosDAO();
+//        try {
+//            em.getTransaction().begin();
+//
+//            Date fechaActual = new Date();
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(fechaActual);
+//
+//            int minutosAAgregar = 60;
+//
+//            calendar.add(Calendar.MINUTE, minutosAAgregar);
+//
+//            Date entrega = calendar.getTime();
+//
+//            NotaRemision nota1 = new NotaRemision();
+//            nota1.setFecha_entrega(entrega);
+//            nota1.setFecha_recepcion(fechaActual);
+//            nota1.setUsuario(usuarios.getUsuario());
+//            nota1.setTotal(50);
+//            nota1.setCliente(clientes.getCliente());
+//            Servicio servicio = servicios.getServicio();
+//            nota1.getServicios().add(servicio);
+//            nota1.setEstado(Estado.CANCELADA);
+//
+//            em.persist(nota1);
+////            em.persist(servicio);
+//
+//            em.getTransaction().commit();
+//            JOptionPane.showMessageDialog(null, "Se ha insertado 1 nota con éxito");
+//        } catch (PersistenceException ex) {
+//            JOptionPane.showMessageDialog(null, "Error al insertar");
+//            em.getTransaction().rollback();
+//        }
+//
+//    }
 
 
     @Override
@@ -111,7 +113,36 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
 
     @Override
     public NotaRemision buscarNota(Long folio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            em.getTransaction().begin();
+            NotaRemision nota = em.find(NotaRemision.class, folio);
+            if (nota == null) {
+                System.out.println("No se encontró la nota");
+                return null;
+            } else {
+                System.out.println("Detalles de la nota: ");
+                System.out.println("Folio: " + nota.getFolio());
+                System.out.println("Estado: " + nota.getEstado());
+                System.out.println("Fecha entrega: " + nota.getFecha_entrega());
+                System.out.println("Fecha recepcion: " + nota.getFecha_recepcion());
+                List<Servicio> servicios = nota.getServicios();
+                for (Servicio servicioI : servicios) {
+                    System.out.println(servicioI.getDescripcion());
+                }
+                System.out.println("Servicios: " + servicios);
+                System.out.println("Total: " + nota.getTotal());
+                System.out.println("Usuario: " + nota.getUsuario());
+
+                return nota;
+            }
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("Error al buscar la nota.");
+        return null;
+    } finally {
+        em.getTransaction().commit();
+    }
+        
     }
 
     @Override
@@ -170,4 +201,41 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     
 
     }
+
+    @Override
+public void editarNota(Long folio, Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) {
+    em.getTransaction().begin();
+    NotaRemision nota = em.find(NotaRemision.class, folio);
+    if (nota == null) {
+        System.out.println("No se encontró la nota");
+    } else {
+        
+        System.out.println("Nota a editar: ");
+        System.out.println("Folio: " + nota.getFolio());
+        System.out.println("Estado: " + nota.getEstado());
+        System.out.println("Fecha entrega: " + nota.getFecha_entrega());
+        System.out.println("Fecha recepcion: " + nota.getFecha_recepcion());
+        System.out.println("---------------------------");
+        System.out.println("Servicios: ");
+                for (Servicio servicioI : servicios) {
+            System.out.println(servicioI.toString());
+        }
+        System.out.println("---------------------------");
+        System.out.println("Total: " + nota.getTotal());
+        System.out.println("Usuario: " + nota.getUsuario());
+
+        
+        nota.setFecha_entrega(fecha_entrega);
+        nota.setFecha_recepcion(fecha_recepcion);
+        nota.setUsuario(usuario);
+        nota.setTotal(total);
+        nota.setCliente(cliente);
+        nota.getServicios().clear(); 
+        nota.getServicios().addAll(servicios);
+        nota.setEstado(estado);
+
+        em.merge(nota);
+    }
+    em.getTransaction().commit();
+}
 }
