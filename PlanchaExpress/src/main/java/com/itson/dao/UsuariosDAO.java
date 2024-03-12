@@ -27,7 +27,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public boolean insertarUsuario(Usuario usuario) {
+    public boolean insertarUsuario(/*Usuario usuario*/) {
         try {
             em.getTransaction().begin();
 

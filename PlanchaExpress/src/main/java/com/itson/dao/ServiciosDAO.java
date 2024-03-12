@@ -28,7 +28,7 @@ public class ServiciosDAO implements IServiciosDAO {
     }
 
     @Override
-    public boolean insertarServicio(Servicio servicio) {
+    public boolean insertarServicio(/*Servicio servicio*/) {
         try {
             em.getTransaction().begin();
 

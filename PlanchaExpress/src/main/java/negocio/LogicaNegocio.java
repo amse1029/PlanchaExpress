@@ -32,22 +32,22 @@ public class LogicaNegocio implements ILogica{
     
     @Override
     public boolean registrarCliente(Cliente cliente) {
-        return this.clientes.insertarCliente(cliente);
+        return this.clientes.insertarCliente(/*cliente*/);
     }
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {
-        return this.usuarios.insertarUsuario(usuario);
+        return this.usuarios.insertarUsuario(/*usuario*/);
     }
 
     @Override
     public boolean registrarServicio(Servicio servicio) {
-        return this.servicios.insertarServicio(servicio);
+        return this.servicios.insertarServicio(/*servicio*/);
     }
 
     @Override
     public boolean crearNotaRemision(NotaRemision notaRemision) {
-        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getServicios(), 0, notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega());
+        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getServicios(), 0, notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega(),notaRemision.getEstado());
     }
 
     @Override

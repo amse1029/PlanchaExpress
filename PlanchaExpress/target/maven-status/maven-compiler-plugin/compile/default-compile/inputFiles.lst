@@ -8,10 +8,13 @@ C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dominio\NotaRemision.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dao\ClientesDAO.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dao\UsuariosDAO.java
+C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\negocio\ILogica.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\pruebas\Pruebas.java
+C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\enumeradores\Estado.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dao\ConexionBD.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dao\ServiciosDAO.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dominio\Usuario.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\interfaces\IConexionBD.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\interfaces\INotasRemisionDAO.java
+C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\negocio\LogicaNegocio.java
 C:\Users\Cristian\Documents\GitHub\PlanchaExpress\PlanchaExpress\PlanchaExpress\src\main\java\com\itson\dominio\Cliente.java

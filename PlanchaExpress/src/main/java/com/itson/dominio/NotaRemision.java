@@ -5,6 +5,7 @@
 package com.itson.dominio;
 
 import com.itson.dao.NotasRemisionDAO;
+import enumeradores.Estado;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,6 +51,10 @@ public class NotaRemision implements Serializable {
     @Column(name = "total", nullable = false)
     private float total;
     
+      @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false)
+    private Estado estado;
+    
     @ManyToOne()
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
@@ -68,16 +75,16 @@ public class NotaRemision implements Serializable {
         this.servicios = new ArrayList<>();
     }
 
-    public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario, List<Servicio> servicios) {
+    public NotaRemision(Usuario usuario,Cliente cliente, List<Servicio> servicios,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
         this.fecha_recepcion = fecha_recepcion;
         this.fecha_entrega = fecha_entrega;
         this.total = total;
+        this.estado = estado;
         this.cliente = cliente;
         this.usuario = usuario;
         this.servicios = servicios;
         this.servicios = new ArrayList<>();
     }
-
 
     public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario) {
         this.fecha_recepcion = fecha_recepcion;
@@ -87,6 +94,14 @@ public class NotaRemision implements Serializable {
         this.usuario = usuario;
         this.servicios = new ArrayList<>();
         
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     public Cliente getCliente() {

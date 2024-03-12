@@ -28,7 +28,7 @@ public class ClientesDAO implements IClientesDAO {
     }
 
     @Override
-    public boolean insertarCliente(Cliente cliente) {
+    public boolean insertarCliente(/*Cliente cliente*/) {
         try {
             em.getTransaction().begin();
 
