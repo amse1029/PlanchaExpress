@@ -64,12 +64,12 @@ public class NotaRemision implements Serializable {
     private Usuario usuario;
     
      @ManyToMany
-     @JoinTable(
+    @JoinTable(
         name = "notaservicio",
         joinColumns = @JoinColumn(name = "folio"),
         inverseJoinColumns = @JoinColumn(name = "id_servicio")
     )
-     private List<Servicio> servicios  = new ArrayList<>();
+    private List<Servicio> servicios = new ArrayList<>();
 
     public NotaRemision() {
         this.servicios = new ArrayList<>();

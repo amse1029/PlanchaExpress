@@ -6,6 +6,7 @@ com\itson\interfaces\INotasRemisionDAO.class
 pruebas\Pruebas.class
 com\itson\planchaexpress\PlanchaExpress.class
 com\itson\dao\ServiciosDAO.class
+com\itson\dominio\NotaServicio.class
 com\itson\dao\ConexionBD.class
 com\itson\interfaces\IServiciosDAO.class
 com\itson\interfaces\IClientesDAO.class
@@ -13,6 +14,7 @@ negocio\LogicaNegocio.class
 com\itson\dominio\Cliente_.class
 com\itson\dao\ClientesDAO.class
 com\itson\dao\NotasRemisionDAO.class
+com\itson\dominio\NotaServicio_.class
 com\itson\interfaces\IUsuariosDAO.class
 com\itson\dominio\Servicio.class
 negocio\ILogica.class

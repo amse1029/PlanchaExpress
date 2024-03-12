@@ -42,19 +42,19 @@ public class Pruebas {
 //        clientes.insertarCliente();
 //        servicios.insertarServicio();
 //        
-        SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
-        Date fecha_recepcion = new Date();
-
+//        SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
+//        Date fecha_recepcion = new Date();
+//
         Cliente cliente = clientes.consultaCliente(3L);
-        Usuario usuario = usuarios.consultaUsuario(201L);
-
-        Servicio servicio = servicios.consultaServicio(8L);
-        List<Servicio> listaServicios = new ArrayList<>();
-        listaServicios.add(servicio);
+//        Usuario usuario = usuarios.consultaUsuario(2L);
+//
+//        Servicio servicio = servicios.consultaServicio(7L);
+//        List<Servicio> listaServicios = new ArrayList<>();
+//        listaServicios.add(servicio);
 //        notas.insertarNota(usuario, cliente,listaServicios,0, fecha_recepcion, fecha_recepcion,Estado.PENDIENTE);
-//        notas.cancelarNota(412L);
+//        notas.cancelarNota(62L);
 
-//notas.buscarNota(412L);
+//notas.buscarNota(62L);
 //notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
 
 String informacionNotas = notas.buscarNotasCliente(cliente);
