@@ -59,6 +59,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             nota1.setCliente(clientes.getCliente());
             Servicio servicio = servicios.getServicio();
             nota1.getServicios().add(servicio);
+            nota1.setEstado(Estado.CANCELADA);
 
             em.persist(nota1);
 //            em.persist(servicio);
@@ -119,10 +120,13 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     }
 
     @Override
-    public boolean insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) throws PersistenceException {
+    public boolean insertarNota(Usuario usuario, Cliente cliente,List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) throws PersistenceException {
        try {
             em.getTransaction().begin();
-            NotaRemision nota = new NotaRemision(usuario,cliente,servicios,total,fecha_recepcion,fecha_entrega,estado);
+            NotaRemision nota = new NotaRemision(usuario,cliente,total,fecha_recepcion,fecha_entrega,estado);
+            for (Servicio servicio : servicios) {
+               nota.getServicios().add(servicio);
+           }
             em.persist(nota);
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se insertó la nota");

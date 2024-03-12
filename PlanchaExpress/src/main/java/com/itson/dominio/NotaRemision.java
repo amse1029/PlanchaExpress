@@ -75,7 +75,18 @@ public class NotaRemision implements Serializable {
         this.servicios = new ArrayList<>();
     }
 
-    public NotaRemision(Usuario usuario,Cliente cliente, List<Servicio> servicios,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
+//    public NotaRemision(Usuario usuario,Cliente cliente, List<Servicio> servicios,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
+//        this.fecha_recepcion = fecha_recepcion;
+//        this.fecha_entrega = fecha_entrega;
+//        this.total = total;
+//        this.estado = estado;
+//        this.cliente = cliente;
+//        this.usuario = usuario;
+//        this.servicios = servicios;
+//        this.servicios = new ArrayList<>();
+//    }
+    
+    public NotaRemision(Usuario usuario,Cliente cliente,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
         this.fecha_recepcion = fecha_recepcion;
         this.fecha_entrega = fecha_entrega;
         this.total = total;

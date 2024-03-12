@@ -9,6 +9,7 @@ import com.itson.dao.NotasRemisionDAO;
 import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Cliente;
+import com.itson.dominio.NotaRemision;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IClientesDAO;
@@ -35,6 +36,7 @@ public class Pruebas {
         IClientesDAO clientes = new ClientesDAO();
         IServiciosDAO servicios = new ServiciosDAO();
         INotasRemisionDAO notas = new NotasRemisionDAO();
+
         
         usuarios.insertarUsuario();
         clientes.insertarCliente();
@@ -45,10 +47,11 @@ public class Pruebas {
 
         Cliente cliente = clientes.consultaCliente(3L);
         Usuario usuario = usuarios.consultaUsuario(2L);
-        List<Servicio> listaServicios = new ArrayList<Servicio>();
+
         Servicio servicio = servicios.consultaServicio(57L);
+        List<Servicio> listaServicios = new ArrayList<>();
         listaServicios.add(servicio);
-        notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion,Estado.PENDIENTE);
+        notas.insertarNota(usuario, cliente,listaServicios,0, fecha_recepcion, fecha_recepcion,Estado.PENDIENTE);
         notas.cancelarNota(12L);
     }
     
