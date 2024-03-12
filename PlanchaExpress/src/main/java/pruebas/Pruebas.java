@@ -45,7 +45,7 @@ public class Pruebas {
         SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
         Date fecha_recepcion = new Date();
 
-        Cliente cliente = clientes.consultaCliente(5L);
+        Cliente cliente = clientes.consultaCliente(3L);
         Usuario usuario = usuarios.consultaUsuario(201L);
 
         Servicio servicio = servicios.consultaServicio(8L);
@@ -55,7 +55,11 @@ public class Pruebas {
 //        notas.cancelarNota(412L);
 
 //notas.buscarNota(412L);
-notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
+//notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
+
+String informacionNotas = notas.buscarNotasCliente(cliente);
+System.out.println(informacionNotas);
+
     }
     
 }

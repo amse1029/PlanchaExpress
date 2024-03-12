@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -145,10 +146,30 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
         
     }
 
-    @Override
-    public List<NotaRemision> buscarNotasCliente(Cliente cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  @Override
+public String buscarNotasCliente(Cliente cliente) {
+    try {
+        String consulta = "SELECT n FROM NotaRemision n WHERE n.cliente = :cliente";
+        List<NotaRemision> notas = em.createQuery(consulta, NotaRemision.class)
+                                     .setParameter("cliente", cliente)
+                                     .getResultList();
+        
+        StringBuilder resultado = new StringBuilder();
+        resultado.append("Notas de remisión para el cliente ").append(cliente.getNombre()).append(":\n");
+        for (NotaRemision nota : notas) {
+            resultado.append("Folio: ").append(nota.getFolio()).append("\n");
+            resultado.append("Fecha de Recepción: ").append(nota.getFecha_recepcion()).append("\n");
+            resultado.append("Fecha de Entrega: ").append(nota.getFecha_entrega()).append("\n");
+            resultado.append("Total: ").append(nota.getTotal()).append("\n");
+            resultado.append("Estado: ").append(nota.getEstado()).append("\n");
+            resultado.append("--------------------------------------\n");
+        }
+        return resultado.toString();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Error al buscar las notas de remisión para el cliente.";
     }
+}
 
     @Override
     public boolean insertarNota(Usuario usuario, Cliente cliente,List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) throws PersistenceException {

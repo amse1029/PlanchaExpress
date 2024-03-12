@@ -71,7 +71,7 @@ public class LogicaNegocio implements ILogica{
     }
 
     @Override
-    public List<NotaRemision> buscarNotasCliente(Cliente cliente) {
+    public String buscarNotasCliente(Cliente cliente) {
         return this.notas.buscarNotasCliente(cliente);
     }
 
