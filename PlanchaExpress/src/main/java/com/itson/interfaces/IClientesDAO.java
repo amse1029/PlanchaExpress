@@ -13,8 +13,8 @@ import java.util.List;
  */
 public interface IClientesDAO {
     
-    public void insertarCliente();
+    public boolean insertarCliente(Cliente cliente);
     public Cliente consultaCliente(Long id);
-    public List<Cliente> consultarLista(Long id);
-    
+    public List<Cliente> consultarLista();
+    public boolean eliminarCliente(Long id);
 }

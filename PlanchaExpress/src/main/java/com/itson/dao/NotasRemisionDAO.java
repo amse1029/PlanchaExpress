@@ -26,20 +26,19 @@ import javax.swing.JOptionPane;
  * @author alexasoto
  */
 public class NotasRemisionDAO implements INotasRemisionDAO {
-    
+
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.itson.planchaexpress");
     EntityManager em = emf.createEntityManager();
 
     @Override
-     public void insertarNota() {
-         
-         UsuariosDAO usuarios = new UsuariosDAO();
-         ClientesDAO clientes = new ClientesDAO();
-         ServiciosDAO servicios = new ServiciosDAO();
+    public void insertarNota() {
+
+        UsuariosDAO usuarios = new UsuariosDAO();
+        ClientesDAO clientes = new ClientesDAO();
+        ServiciosDAO servicios = new ServiciosDAO();
         try {
             em.getTransaction().begin();
 
-            
             Date fechaActual = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(fechaActual);
@@ -58,13 +57,9 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             nota1.setCliente(clientes.getCliente());
             Servicio servicio = servicios.getServicio();
             nota1.getServicios().add(servicio);
-            
-
-            
 
             em.persist(nota1);
 //            em.persist(servicio);
-          
 
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se ha insertado 1 nota con éxito");
@@ -73,55 +68,66 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             em.getTransaction().rollback();
         }
 
-        
     }
 
     @Override
-    public void insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega) throws PersistenceException{
+    public boolean insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega) throws PersistenceException {
         try {
-                em.getTransaction().begin();
-                NotaRemision nota = new NotaRemision(fecha_recepcion, fecha_entrega, total, cliente, usuario, servicios);
-                em.persist(nota);
-                em.getTransaction().commit();
-                JOptionPane.showMessageDialog(null, "Se insertó la nota");
+            em.getTransaction().begin();
+            NotaRemision nota = new NotaRemision(fecha_recepcion, fecha_entrega, total, cliente, usuario, servicios);
+            em.persist(nota);
+            em.getTransaction().commit();
+            JOptionPane.showMessageDialog(null, "Se insertó la nota");
+            return true;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar la nota");
             em.getTransaction().rollback();
+            return false;
         }
     }
 
     @Override
-    public void eliminarNota(Long folio) {
+    public boolean eliminarNota(Long folio) {
         NotaRemision notaRemision = em.find(NotaRemision.class, folio);
 
         if (notaRemision != null) {
-        
+
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
 
             try {
-         
+
                 em.remove(notaRemision);
 
-             
                 transaction.commit();
 
                 System.out.println("Registro eliminado exitosamente.");
+                return true;
             } catch (Exception e) {
-       
+
                 if (transaction != null && transaction.isActive()) {
                     transaction.rollback();
                 }
                 e.printStackTrace();
+                return false;
             }
         } else {
             System.out.println("No se encontró ningún registro con el ID proporcionado.");
+            
         }
 
-       
         em.close();
         emf.close();
+        return false;
     }
-    }
-    
 
+    @Override
+    public NotaRemision buscarNota(Long folio) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<NotaRemision> buscarNotasCliente(Cliente cliente) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}

@@ -7,6 +7,7 @@ package com.itson.dao;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IServiciosDAO;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -27,7 +28,7 @@ public class ServiciosDAO implements IServiciosDAO {
     }
 
     @Override
-    public void insertarServicio() {
+    public boolean insertarServicio(Servicio servicio) {
         try {
             em.getTransaction().begin();
 
@@ -45,9 +46,11 @@ public class ServiciosDAO implements IServiciosDAO {
 
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se han insertado los servicios con éxito");
+            return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
             em.getTransaction().rollback();
+            return false;
         }
     }
     
@@ -74,6 +77,16 @@ public class ServiciosDAO implements IServiciosDAO {
             JOptionPane.showMessageDialog(null, "Error al consultar el servicio");
             return null;
         }
+    }
+
+    @Override
+    public boolean eliminarServicio(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Servicio> buscarServicios() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

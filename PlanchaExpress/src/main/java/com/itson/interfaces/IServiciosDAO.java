@@ -5,6 +5,7 @@
 package com.itson.interfaces;
 
 import com.itson.dominio.Servicio;
+import java.util.List;
 
 /**
  *
@@ -12,7 +13,8 @@ import com.itson.dominio.Servicio;
  */
 public interface IServiciosDAO {
     
-    public void insertarServicio();
+    public boolean insertarServicio(Servicio servicio);
     public Servicio consultaServicio(Long id);
-            
+    public boolean eliminarServicio(Long id);
+    public List<Servicio> buscarServicios();
 }

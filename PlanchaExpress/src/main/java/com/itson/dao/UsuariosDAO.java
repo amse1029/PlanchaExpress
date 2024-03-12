@@ -6,6 +6,7 @@ package com.itson.dao;
 
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IUsuariosDAO;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -26,7 +27,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public void insertarUsuario() {
+    public boolean insertarUsuario(Usuario usuario) {
         try {
             em.getTransaction().begin();
 
@@ -38,9 +39,11 @@ public class UsuariosDAO implements IUsuariosDAO {
 
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se han insertado 2 personas con éxito");
+            return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
             em.getTransaction().rollback();
+            return false;
         }
 
         
@@ -69,6 +72,21 @@ public class UsuariosDAO implements IUsuariosDAO {
             JOptionPane.showMessageDialog(null, "Error al consultar al usuario");
             return null;
         }
+    }
+
+    @Override
+    public boolean eliminarUsuario(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean autenticarUsuario(String nombre, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Usuario> buscarUsuarios() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 

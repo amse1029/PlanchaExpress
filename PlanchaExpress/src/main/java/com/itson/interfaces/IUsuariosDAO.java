@@ -5,6 +5,7 @@
 package com.itson.interfaces;
 
 import com.itson.dominio.Usuario;
+import java.util.List;
 
 /**
  *
@@ -12,7 +13,9 @@ import com.itson.dominio.Usuario;
  */
 public interface IUsuariosDAO {
     
-    public void insertarUsuario();
+    public boolean insertarUsuario(Usuario usuario);
     public Usuario consultaUsuario(Long id);
-    
+    public boolean eliminarUsuario(Long id);
+    public boolean autenticarUsuario(String nombre, String pass);
+    public List<Usuario> buscarUsuarios();
 }

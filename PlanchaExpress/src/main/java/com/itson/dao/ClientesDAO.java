@@ -28,7 +28,7 @@ public class ClientesDAO implements IClientesDAO {
     }
 
     @Override
-    public void insertarCliente() {
+    public boolean insertarCliente(Cliente cliente) {
         try {
             em.getTransaction().begin();
 
@@ -44,9 +44,11 @@ public class ClientesDAO implements IClientesDAO {
 
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "Se han insertado 4 clientes con éxito");
+            return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
             em.getTransaction().rollback();
+            return false;
         }
     }
      public Cliente getCliente(){
@@ -76,11 +78,11 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
     
-    public List<Cliente> consultarLista(Long id) {
+    public List<Cliente> consultarLista() {
         try {
             String codigoJPQL = "SELECT c FROM Cliente p WHERE c.id LIKE :id";
             TypedQuery<Cliente> query = em.createQuery(codigoJPQL, Cliente.class);
-            query.setParameter("id", id);
+            query.setParameter("id", 1);
 
             return query.getResultList();
         } catch (PersistenceException ex) {
@@ -88,6 +90,11 @@ public class ClientesDAO implements IClientesDAO {
             em.getTransaction().rollback();
         }
         return null;
+    }
+
+    @Override
+    public boolean eliminarCliente(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
