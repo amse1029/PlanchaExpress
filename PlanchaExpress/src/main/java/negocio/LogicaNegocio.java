@@ -31,17 +31,17 @@ public class LogicaNegocio implements ILogica{
     INotasRemisionDAO notas=new NotasRemisionDAO();
     
     @Override
-    public boolean registrarCliente(Cliente cliente) {
+    public boolean registrarCliente() {
         return this.clientes.insertarCliente(/*cliente*/);
     }
 
     @Override
-    public boolean registrarUsuario(Usuario usuario) {
+    public boolean registrarUsuario() {
         return this.usuarios.insertarUsuario(/*usuario*/);
     }
 
     @Override
-    public boolean registrarServicio(Servicio servicio) {
+    public boolean registrarServicio() {
         return this.servicios.insertarServicio(/*servicio*/);
     }
 

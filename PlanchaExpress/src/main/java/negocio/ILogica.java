@@ -16,9 +16,9 @@ import java.util.List;
  * @author kingu
  */
 public interface ILogica {
-    public boolean registrarCliente(Cliente cliente);
-    public boolean registrarUsuario(Usuario usuario);
-    public boolean registrarServicio(Servicio servicio);
+    public boolean registrarCliente();
+    public boolean registrarUsuario();
+    public boolean registrarServicio();
     public boolean crearNotaRemision(NotaRemision notaRemision);
     public boolean eliminarCliente(Long id);
     public boolean eliminarUsuario(Long id);
