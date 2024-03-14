@@ -4,6 +4,8 @@
  */
 package com.itson.presentacion;
 
+import com.itson.dominio.NotaRemision;
+import javax.swing.JOptionPane;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -14,6 +16,7 @@ import negocio.LogicaNegocio;
 public class FrmNotasRemision extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    NotaRemision nota;
     
     /**
      * Creates new form FrmNotasRemision
@@ -84,7 +87,7 @@ public class FrmNotasRemision extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, -1, -1));
+        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, -1, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
 
@@ -92,8 +95,10 @@ public class FrmNotasRemision extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        // TODO add your handling code here: 
-        FrmUsuarios frm = new FrmUsuarios();
+        // TODO add your handling code here:
+        String folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
+        nota = logica.buscarNota(Long.parseLong(folio));
+        FrmConsulNota frm = new FrmConsulNota(nota);
         frm.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 

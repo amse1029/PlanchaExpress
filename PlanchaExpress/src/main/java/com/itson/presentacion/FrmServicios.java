@@ -36,6 +36,7 @@ public class FrmServicios extends javax.swing.JFrame {
         lblUsuarios = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -54,7 +55,7 @@ public class FrmServicios extends javax.swing.JFrame {
                 btnConsultarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, -1, -1));
+        pnlFondo.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, -1));
 
         lblUsuarios.setFont(new java.awt.Font("Kannada MN", 0, 36)); // NOI18N
         lblUsuarios.setText("Servicios");
@@ -71,7 +72,7 @@ public class FrmServicios extends javax.swing.JFrame {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, -1, -1));
+        pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 100, -1, -1));
 
         btnEditar.setBackground(new java.awt.Color(153, 204, 255));
         btnEditar.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N
@@ -84,9 +85,22 @@ public class FrmServicios extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, -1, -1));
+        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, -1, -1));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+        btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
+        btnRegresar.setFont(new java.awt.Font("Kannada MN", 1, 12)); // NOI18N
+        btnRegresar.setText("Regresar");
+        btnRegresar.setFocusable(false);
+        btnRegresar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRegresar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, -1));
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 350));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -106,11 +120,19 @@ public class FrmServicios extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here: 
+        this.dispose();
+        FrmPrincipal frmPrin = new FrmPrincipal();
+        frmPrin.setVisible(true);
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel lblUsuarios;
     private javax.swing.JPanel pnlFondo;
     // End of variables declaration//GEN-END:variables

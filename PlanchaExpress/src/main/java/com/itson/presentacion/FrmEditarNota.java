@@ -5,21 +5,17 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.Cliente;
-import negocio.ILogica;
-import negocio.LogicaNegocio;
 
 /**
  *
  * @author alexasoto
  */
-public class FrmCrearNota extends javax.swing.JFrame {
+public class FrmEditarNota extends javax.swing.JFrame {
 
-    ILogica logica = new LogicaNegocio();
-    
     /**
-     * Creates new form FrmCrearNota
+     * Creates new form FrmEditarNota
      */
-    public FrmCrearNota() {
+    public FrmEditarNota() {
         initComponents();
     }
 
@@ -33,7 +29,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
-        lblUsuarios = new javax.swing.JLabel();
+        lblNota = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
         lblTelefono = new javax.swing.JLabel();
         cbxClientes = new javax.swing.JComboBox<>();
@@ -57,9 +53,9 @@ public class FrmCrearNota extends javax.swing.JFrame {
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblUsuarios.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
-        lblUsuarios.setText("Crear nota de remisión");
-        pnlFondo.add(lblUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        lblNota.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
+        lblNota.setText("Editar nota de remisión");
+        pnlFondo.add(lblNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
         btnRegresar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
@@ -179,7 +175,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     private void btnAggServicio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggServicio1ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_btnAggServicio1ActionPerformed
 
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
@@ -196,10 +192,10 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private javax.swing.JLabel lblCliente1;
     private javax.swing.JLabel lblDireccion;
     private javax.swing.JLabel lblEntrega1;
+    private javax.swing.JLabel lblNota;
     private javax.swing.JLabel lblServicios1;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblUsuarios;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtAnticipo;
     private javax.swing.JTextField txtDireccion1;
