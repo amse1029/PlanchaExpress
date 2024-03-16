@@ -17,6 +17,8 @@ public class FrmConsulNota extends javax.swing.JFrame {
      */
     public FrmConsulNota(NotaRemision nota) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**

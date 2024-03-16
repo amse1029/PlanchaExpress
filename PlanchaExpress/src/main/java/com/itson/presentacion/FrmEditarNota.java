@@ -17,6 +17,8 @@ public class FrmEditarNota extends javax.swing.JFrame {
      */
     public FrmEditarNota() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**

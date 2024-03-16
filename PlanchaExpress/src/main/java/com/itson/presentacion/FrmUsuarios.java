@@ -20,6 +20,8 @@ public class FrmUsuarios extends javax.swing.JFrame {
      */
     public FrmUsuarios() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**

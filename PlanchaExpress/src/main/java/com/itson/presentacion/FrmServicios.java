@@ -20,6 +20,8 @@ public class FrmServicios extends javax.swing.JFrame {
      */
     public FrmServicios() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**

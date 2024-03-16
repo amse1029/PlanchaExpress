@@ -21,6 +21,8 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
      */
     public FrmRegistrarCliente() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -116,7 +118,7 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         logica.registrarCliente();
         this.dispose();
-        frm.setVisible(true);
+//        frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

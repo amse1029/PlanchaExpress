@@ -27,6 +27,8 @@ public class FrmCrearNota extends javax.swing.JFrame {
      */
     public FrmCrearNota() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
 

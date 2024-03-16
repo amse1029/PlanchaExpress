@@ -23,6 +23,8 @@ public class FrmNotasRemision extends javax.swing.JFrame {
      */
     public FrmNotasRemision() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
