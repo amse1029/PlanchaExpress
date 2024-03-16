@@ -46,10 +46,11 @@ public class FrmConsulNota extends javax.swing.JFrame {
         txtDireccion = new javax.swing.JTextField();
         lblRecep = new javax.swing.JLabel();
         txtFechaRecep = new javax.swing.JTextField();
-        tblServicios = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        scrlServicios = new javax.swing.JScrollPane();
+        tblServicios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Consultar nota de remisión");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
@@ -70,7 +71,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 500, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, 100, -1));
 
         lblTelefono.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblTelefono.setText("Teléfono:");
@@ -132,7 +133,10 @@ public class FrmConsulNota extends javax.swing.JFrame {
         txtFechaRecep.setEnabled(false);
         pnlFondo.add(txtFechaRecep, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, 190, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        scrlServicios.setEnabled(false);
+        scrlServicios.setFont(new java.awt.Font("Kannada Sangam MN", 0, 13)); // NOI18N
+
+        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -140,12 +144,27 @@ public class FrmConsulNota extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Descripción", "Cantidad", "Precio unitario", "Total"
             }
-        ));
-        tblServicios.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        pnlFondo.add(tblServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 290, 210));
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrlServicios.setViewportView(tblServicios);
+
+        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 360, 210));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 570));
 
@@ -161,7 +180,6 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAnticipo;
     private javax.swing.JLabel lblCliente1;
     private javax.swing.JLabel lblDireccion;
@@ -172,7 +190,8 @@ public class FrmConsulNota extends javax.swing.JFrame {
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JPanel pnlFondo;
-    private javax.swing.JScrollPane tblServicios;
+    private javax.swing.JScrollPane scrlServicios;
+    private javax.swing.JTable tblServicios;
     private javax.swing.JTextField txtAnticipo;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtDireccion;

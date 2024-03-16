@@ -78,15 +78,13 @@ public class ClientesDAO implements IClientesDAO {
         }
     }
     
+    @Override
     public List<Cliente> consultarLista() {
         try {
-            String codigoJPQL = "SELECT c FROM Cliente p WHERE c.id LIKE :id";
-            TypedQuery<Cliente> query = em.createQuery(codigoJPQL, Cliente.class);
-            query.setParameter("id", 1);
-
-            return query.getResultList();
+            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
+        return query.getResultList();
         } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "No se encontró al cliente");
+            JOptionPane.showMessageDialog(null, "No hay clientes registrados");
             em.getTransaction().rollback();
         }
         return null;

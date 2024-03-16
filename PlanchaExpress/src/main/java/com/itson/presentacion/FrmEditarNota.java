@@ -48,6 +48,7 @@ public class FrmEditarNota extends javax.swing.JFrame {
         txtTotal1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editar nota de remisión");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

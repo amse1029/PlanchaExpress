@@ -5,14 +5,13 @@
 package com.itson.dao;
 
 import com.itson.dominio.Servicio;
-import com.itson.dominio.Usuario;
 import com.itson.interfaces.IServiciosDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 /**
@@ -86,7 +85,14 @@ public class ServiciosDAO implements IServiciosDAO {
 
     @Override
     public List<Servicio> buscarServicios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            TypedQuery<Servicio> query = em.createQuery("SELECT s FROM Servicio s", Servicio.class);
+        return query.getResultList();
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "No hay servicios registrados");
+            em.getTransaction().rollback();
+        }
+        return null;
     }
 
     

@@ -37,16 +37,11 @@ public class Cliente implements Serializable {
     @Column(name = "direccion", nullable = false)
     private String direccion;
     
-//    @OneToMany
-//    (mappedBy = "folio") // Nombre del atributo de la otra clase
-//    private List<NotaRemision> notas;
-    
     @OneToMany(mappedBy = "cliente")
     private List<NotaRemision> notaRemision;
 
     public Cliente() {
     }
-
     
     public Cliente(String nombre, String telefono, String direccion) {
         this.nombre = nombre;
@@ -54,20 +49,6 @@ public class Cliente implements Serializable {
         this.direccion = direccion;
     }
 
-
-    
-//    /**
-//     * Rfc de la persona dueña del vehículo
-//     */
-//    @ManyToOne
-//    @JoinColumn(name = "rfc", referencedColumnName = "rfc", nullable = false)
-//    private Persona persona;
-//
-//    /**
-//     * Placas que ha tenido un vehículo
-//     */
-//    @OneToMany(mappedBy = "vehiculo") // Nombre del atributo de la otra clase
-//    private List<Placa> placas;
 
     public Long getId() {
         return id;
@@ -123,7 +104,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "com.itson.dominio.Cliente[ id=" + id + " ]";
+        return nombre;
     }
     
 }

@@ -39,6 +39,7 @@ public class FrmUsuarios extends javax.swing.JFrame {
         btnConsultar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Administrar usuarios");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

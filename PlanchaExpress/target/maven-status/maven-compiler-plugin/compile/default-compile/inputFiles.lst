@@ -6,6 +6,7 @@
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/interfaces/IClientesDAO.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/planchaexpress/PlanchaExpress.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/dao/ConexionBD.java
+/Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/presentacion/FrmConsulNota.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/enumeradores/Estado.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/dao/UsuariosDAO.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/presentacion/FrmClientes.java
@@ -22,6 +23,7 @@
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/dao/ClientesDAO.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/presentacion/FrmRegistrarCliente.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/presentacion/FrmServicios.java
+/Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/presentacion/FrmEditarNota.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/dao/NotasRemisionDAO.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/negocio/ILogica.java
 /Users/alexasoto/Documents/PSI/GitHub/PlanchaExpress/PlanchaExpress/src/main/java/com/itson/dominio/Cliente.java

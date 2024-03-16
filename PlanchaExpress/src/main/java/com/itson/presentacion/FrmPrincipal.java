@@ -35,12 +35,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnReportes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Principal");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jToolBar1.setBackground(new java.awt.Color(153, 204, 255));
+        jToolBar1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jToolBar1.setRollover(true);
 
         btnUsuarios.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N
@@ -72,6 +74,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnServicios.setFocusable(false);
         btnServicios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnServicios.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnServicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServiciosActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnServicios);
 
         btnNotas.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N
@@ -79,6 +86,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnNotas.setFocusable(false);
         btnNotas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNotas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotasActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnNotas);
 
         btnReportes.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N
@@ -88,9 +100,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnReportes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btnReportes);
 
-        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 90));
+        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 170));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 350));
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 170));
 
         pack();
         setLocationRelativeTo(null);
@@ -98,13 +110,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        FrmClientes frm = new FrmClientes();
+        frm.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         // TODO add your handling code here: 
+        this.dispose();
         FrmUsuarios frm = new FrmUsuarios();
         frm.setVisible(true);
     }//GEN-LAST:event_btnUsuariosActionPerformed
+
+    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        FrmServicios frm = new FrmServicios();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnServiciosActionPerformed
+
+    private void btnNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotasActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        FrmNotasRemision frm = new FrmNotasRemision();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnNotasActionPerformed
 
     /**
      * @param args the command line arguments

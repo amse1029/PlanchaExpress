@@ -5,6 +5,10 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.Cliente;
+import com.itson.dominio.Servicio;
+import java.awt.Color;
+import java.util.List;
+import javax.swing.JButton;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -15,12 +19,17 @@ import negocio.LogicaNegocio;
 public class FrmCrearNota extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    List<Servicio> listaServicios = logica.recuperarServicios();
+    
     
     /**
      * Creates new form FrmCrearNota
      */
     public FrmCrearNota() {
         initComponents();
+        llenarListaClientes();
+        agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
+
     }
 
     /**
@@ -46,12 +55,15 @@ public class FrmCrearNota extends javax.swing.JFrame {
         lblAnticipo = new javax.swing.JLabel();
         lblEntrega1 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
-        btnAggServicio1 = new javax.swing.JButton();
         btnCrear1 = new javax.swing.JButton();
         txtTelefono1 = new javax.swing.JTextField();
         txtTotal1 = new javax.swing.JTextField();
+        scrlServicios = new javax.swing.JScrollPane();
+        tblServicios = new javax.swing.JTable();
+        pnlServicios = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Crear nota de remisión");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
@@ -72,13 +84,18 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 410, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 620, 100, -1));
 
         lblTelefono.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblTelefono.setText("Teléfono:");
         pnlFondo.add(lblTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
 
         cbxClientes.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
+        cbxClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxClientesActionPerformed(evt);
+            }
+        });
         pnlFondo.add(cbxClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 200, -1));
 
         btnRegistrar1.setBackground(new java.awt.Color(153, 204, 255));
@@ -103,7 +120,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         pnlFondo.add(lblDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
 
         txtAnticipo.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
-        pnlFondo.add(txtAnticipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 350, 190, -1));
+        pnlFondo.add(txtAnticipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 550, 190, -1));
 
         txtDireccion1.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
         txtDireccion1.setEnabled(false);
@@ -115,7 +132,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
         lblAnticipo.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblAnticipo.setText("Anticipo:");
-        pnlFondo.add(lblAnticipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, -1, -1));
+        pnlFondo.add(lblAnticipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 560, -1, -1));
 
         lblEntrega1.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblEntrega1.setText("Fecha de entrega:");
@@ -123,20 +140,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
         lblTotal.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblTotal.setText("Total:");
-        pnlFondo.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, -1, -1));
-
-        btnAggServicio1.setBackground(new java.awt.Color(153, 204, 255));
-        btnAggServicio1.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
-        btnAggServicio1.setText("Agregar servicio");
-        btnAggServicio1.setFocusable(false);
-        btnAggServicio1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAggServicio1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAggServicio1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAggServicio1ActionPerformed(evt);
-            }
-        });
-        pnlFondo.add(btnAggServicio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 150, -1));
+        pnlFondo.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 520, -1, -1));
 
         btnCrear1.setBackground(new java.awt.Color(153, 204, 255));
         btnCrear1.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
@@ -149,7 +153,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 btnCrear1ActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnCrear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 410, 80, -1));
+        pnlFondo.add(btnCrear1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 620, 80, -1));
 
         txtTelefono1.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
         txtTelefono1.setEnabled(false);
@@ -157,11 +161,46 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
         txtTotal1.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
         txtTotal1.setEnabled(false);
-        pnlFondo.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 190, -1));
+        pnlFondo.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 510, 190, -1));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 570));
+        scrlServicios.setEnabled(false);
+        scrlServicios.setFont(new java.awt.Font("Kannada Sangam MN", 0, 13)); // NOI18N
+
+        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Descripción", "Cantidad", "Precio unitario", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrlServicios.setViewportView(tblServicios);
+
+        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, 430, 210));
+        pnlFondo.add(pnlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 410, 410));
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 670));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -177,17 +216,51 @@ public class FrmCrearNota extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
-    private void btnAggServicio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggServicio1ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_btnAggServicio1ActionPerformed
-
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
+    private void cbxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxClientesActionPerformed
+        // TODO add your handling code here:
+        mostrarAtributosClienteSeleccionado();
+    }//GEN-LAST:event_cbxClientesActionPerformed
+
+    public void llenarListaClientes() {
+        List<Cliente> listaClientes = logica.recuperarClientes();
+        for (Cliente cliente : listaClientes) {
+            cbxClientes.addItem(cliente);
+        }
+    }
+    
+    public void mostrarAtributosClienteSeleccionado() {
+    // Obtener el cliente seleccionado del ComboBox
+    Cliente clienteSeleccionado = (Cliente) cbxClientes.getSelectedItem();
+
+    // Mostrar los atributos del cliente en el TextArea
+    if (clienteSeleccionado != null) {
+        txtDireccion1.setText(clienteSeleccionado.getDireccion());
+        txtTelefono1.setText(clienteSeleccionado.getTelefono());
+    }
+    }
+    
+    private void agregarBotonesServicios(List<Servicio> servicios) {
+        for (Servicio servicio : servicios) {
+            JButton botonServicio = new JButton(servicio.getDescripcion()); // Utiliza el nombre del servicio como texto del botón
+            botonServicio.setSize(100, 50); // Establece el tamaño del botón a 100x50 píxeles
+            botonServicio.setBackground(new Color(153, 204, 255)); // Establece el color de fondo del botón a rojo
+            botonServicio.setForeground(Color.BLACK); // Establece el color del texto del botón a blanco
+
+            pnlServicios.add(botonServicio);
+        }
+        pnlServicios.revalidate(); // Actualiza el panel para reflejar los cambios
+}
+    
+    private void obtenerListaServicios() {
+        
+    }
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAggServicio1;
     private javax.swing.JButton btnCrear1;
     private javax.swing.JButton btnRegistrar1;
     private javax.swing.JButton btnRegresar;
@@ -201,6 +274,9 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblUsuarios;
     private javax.swing.JPanel pnlFondo;
+    private javax.swing.JPanel pnlServicios;
+    private javax.swing.JScrollPane scrlServicios;
+    private javax.swing.JTable tblServicios;
     private javax.swing.JTextField txtAnticipo;
     private javax.swing.JTextField txtDireccion1;
     private javax.swing.JTextField txtTelefono1;
