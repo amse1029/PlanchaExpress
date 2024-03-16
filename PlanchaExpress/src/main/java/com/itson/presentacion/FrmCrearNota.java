@@ -9,6 +9,7 @@ import com.itson.dominio.Servicio;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -31,6 +32,8 @@ public class FrmCrearNota extends javax.swing.JFrame {
         setResizable(false);
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
+        detallesServicios();
+        
 
     }
 
@@ -259,6 +262,19 @@ public class FrmCrearNota extends javax.swing.JFrame {
     
     private void obtenerListaServicios() {
         
+    }
+    
+    private void detallesServicios(){
+        
+ 
+        if (listaServicios != null) {
+            DefaultTableModel modeloTablaReporte = (DefaultTableModel) this.tblServicios.getModel();
+            modeloTablaReporte.setRowCount(0);
+            for (Servicio servicios : listaServicios) {
+                Object[] filaNueva = {servicios.getDescripcion(),0, servicios.getPrecio(),0};
+                modeloTablaReporte.addRow(filaNueva);
+            }
+        }
     }
     
 
