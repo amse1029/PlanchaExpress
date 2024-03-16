@@ -4,6 +4,8 @@
  */
 package com.itson.presentacion;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author alexasoto
@@ -15,6 +17,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        setResizable(false);
+        ImageIcon iconoLogo = new ImageIcon(getClass().getResource("/img/logo.jpg"));
+        lblLogo.setIcon(iconoLogo);
+        ImageIcon iconoUsuarios = new ImageIcon(getClass().getResource("/img/usuarios.png"));
+        btnUsuarios.setIcon(iconoUsuarios);
+        ImageIcon iconoClientes = new ImageIcon(getClass().getResource("/img/clientes.png"));
+        btnClientes.setIcon(iconoClientes);
+        ImageIcon iconoServicios = new ImageIcon(getClass().getResource("/img/servicios.png"));
+        btnServicios.setIcon(iconoServicios);
+        ImageIcon iconoNotas = new ImageIcon(getClass().getResource("/img/notas.png"));
+        btnNotas.setIcon(iconoNotas);
+        ImageIcon iconoReportes = new ImageIcon(getClass().getResource("/img/reportes.png"));
+        btnReportes.setIcon(iconoReportes);
+        
+        
     }
 
     /**
@@ -33,9 +51,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnServicios = new javax.swing.JButton();
         btnNotas = new javax.swing.JButton();
         btnReportes = new javax.swing.JButton();
+        lblLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
+        setSize(new java.awt.Dimension(500, 450));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
@@ -100,9 +120,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnReportes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btnReportes);
 
-        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 170));
+        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 450));
+        pnlFondo.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 170));
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 450));
 
         pack();
         setLocationRelativeTo(null);
@@ -178,6 +199,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnServicios;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lblLogo;
     private javax.swing.JPanel pnlFondo;
     // End of variables declaration//GEN-END:variables
 }
