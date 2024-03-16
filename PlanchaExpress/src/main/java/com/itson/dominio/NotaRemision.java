@@ -51,6 +51,9 @@ public class NotaRemision implements Serializable {
     @Column(name = "total", nullable = false)
     private float total;
     
+    @Column(name = "anticipo", nullable = false)
+    private float anticipo;
+    
       @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
     private Estado estado;
@@ -173,7 +176,15 @@ public class NotaRemision implements Serializable {
         this.total = total;
     }
 
-    
+    public float getAnticipo() {
+        return anticipo;
+    }
+
+    public void setAnticipo(float anticipo) {
+        this.anticipo = anticipo;
+    }
+
+
     
     @Override
     public int hashCode() {
@@ -199,8 +210,9 @@ public class NotaRemision implements Serializable {
 
     @Override
     public String toString() {
-        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", total=" + total + '}';
+        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", total=" + total + ", anticipo=" + anticipo + ", estado=" + estado + ", cliente=" + cliente + ", usuario=" + usuario + '}';
     }
 
+    
 
 }
