@@ -52,7 +52,7 @@ public class NotaRemision implements Serializable {
     private float total;
     
     @Column(name = "anticipo", nullable = false)
-    private float anticipo;
+    private float anticipo = 0;
     
       @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
