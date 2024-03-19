@@ -7,8 +7,11 @@ package com.itson.presentacion;
 import com.itson.dominio.Cliente;
 import com.itson.dominio.Servicio;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -21,6 +24,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     List<Servicio> listaServicios = logica.recuperarServicios();
+    private DefaultTableModel modeloTabla;
     
     
     /**
@@ -32,10 +36,11 @@ public class FrmCrearNota extends javax.swing.JFrame {
         setResizable(false);
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
-        detallesServicios();
-        
+//        detallesServicios();
+//        txtAnticipo.setText(String.valueOf(0.00));
 
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -250,32 +255,56 @@ public class FrmCrearNota extends javax.swing.JFrame {
     
     private void agregarBotonesServicios(List<Servicio> servicios) {
         for (Servicio servicio : servicios) {
-            JButton botonServicio = new JButton(servicio.getDescripcion()); // Utiliza el nombre del servicio como texto del botón
-            botonServicio.setSize(100, 50); // Establece el tamaño del botón a 100x50 píxeles
-            botonServicio.setBackground(new Color(153, 204, 255)); // Establece el color de fondo del botón a rojo
-            botonServicio.setForeground(Color.BLACK); // Establece el color del texto del botón a blanco
+            JButton botonServicio = new JButton(servicio.getDescripcion());
+            botonServicio.setSize(100, 50);
+            botonServicio.setBackground(new Color(153, 204, 255));
+            botonServicio.setForeground(Color.BLACK);
+            
+
+            botonServicio.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String nombreServicio = servicio.getDescripcion();
+
+                    FrmCantidad frmCantidad = new FrmCantidad();
+                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
+                    frmCantidad.setVisible(true);
+                }
+                
+            });
 
             pnlServicios.add(botonServicio);
         }
-        pnlServicios.revalidate(); // Actualiza el panel para reflejar los cambios
-}
+        
+        pnlServicios.revalidate();
+    }
     
     private void obtenerListaServicios() {
         
     }
     
+    public void agregarServicio(String nombreServicio, int cantidad) {
+        modeloTabla.addRow(new Object[]{nombreServicio, cantidad});
+    }
+    
     private void detallesServicios(){
         
  
-        if (listaServicios != null) {
-            DefaultTableModel modeloTablaReporte = (DefaultTableModel) this.tblServicios.getModel();
-            modeloTablaReporte.setRowCount(0);
-            for (Servicio servicios : listaServicios) {
-                Object[] filaNueva = {servicios.getDescripcion(),0, servicios.getPrecio(),0};
-                modeloTablaReporte.addRow(filaNueva);
-            }
-        }
+//        if (listaServicios != null) {
+//            DefaultTableModel modeloTablaReporte = (DefaultTableModel) this.tblServicios.getModel();
+//            modeloTablaReporte.setRowCount(0);
+////            for (Servicio servicios : listaServicios) {
+////                Object[] filaNueva = {servicios.getDescripcion(),0, servicios.getPrecio(),0};
+////                modeloTablaReporte.addRow(filaNueva);
+////            }
+//        }
     }
+    
+    public void detallesServicios(String nombreServicio, int cantidadIngresada) {
+    // Llamar al método que agrega el servicio y la cantidad ingresada a la tabla
+    agregarServicio(nombreServicio, cantidadIngresada);
+}
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
