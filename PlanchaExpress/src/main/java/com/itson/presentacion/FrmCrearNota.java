@@ -25,7 +25,8 @@ public class FrmCrearNota extends javax.swing.JFrame {
     ILogica logica = new LogicaNegocio();
     List<Servicio> listaServicios = logica.recuperarServicios();
     private DefaultTableModel modeloTabla;
-    
+    private int indice=0;
+    private double total=0;
     
     /**
      * Creates new form FrmCrearNota
@@ -266,10 +267,23 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
 
                     String nombreServicio = servicio.getDescripcion();
+                    float precio = servicio.getPrecio();
 
-                    FrmCantidad frmCantidad = new FrmCantidad();
-                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
-                    frmCantidad.setVisible(true);
+                    DlgCantidad cantidad = new DlgCantidad(FrmCrearNota.this, true, nombreServicio);
+                    cantidad.setVisible(true);
+                    int cant = cantidad.getCantidad();
+                    if(cant!=-1){
+                        tblServicios.setValueAt(nombreServicio, indice, 0);
+                        tblServicios.setValueAt(cant, indice, 1);
+                        tblServicios.setValueAt(precio, indice, 2);
+                        tblServicios.setValueAt(precio*cant, indice, 3);
+                        indice++;
+                        total=total+precio*cant;
+                        txtTotal1.setText(String.valueOf(total));
+                    }
+//                    FrmCantidad frmCantidad = new FrmCantidad();
+//                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
+//                    frmCantidad.setVisible(true);
                 }
                 
             });

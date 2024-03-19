@@ -35,7 +35,7 @@ public class NotaServicio implements Serializable {
     private NotaRemision nota;
 
     @Column(name = "cantidad", nullable = false)
-    private int cantidad;
+    private int cant;
 
     @Column(name = "detalles", nullable = false)
     private String detalles;
