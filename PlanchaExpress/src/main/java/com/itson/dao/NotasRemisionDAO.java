@@ -185,7 +185,7 @@ public String buscarNotasCliente(Cliente cliente) {
             return true;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar la nota");
-            em.getTransaction().rollback();
+//            em.getTransaction().rollback();
             return false;
         }
     }

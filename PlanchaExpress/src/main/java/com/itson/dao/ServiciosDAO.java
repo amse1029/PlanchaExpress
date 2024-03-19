@@ -48,7 +48,7 @@ public class ServiciosDAO implements IServiciosDAO {
             return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
-            em.getTransaction().rollback();
+//            em.getTransaction().rollback();
             return false;
         }
     }

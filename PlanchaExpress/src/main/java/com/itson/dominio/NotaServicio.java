@@ -27,15 +27,15 @@ public class NotaServicio implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "servicio_id")
-    Servicio servicio;
+    @JoinColumn(name = "servicio_id", nullable = false)
+    private Servicio servicio;
 
     @ManyToOne
-    @JoinColumn(name = "notaremision_folio")
-    NotaRemision nota;
+    @JoinColumn(name = "nota_folio", nullable = false)
+    private NotaRemision nota;
 
-    @Column(name = "cant", nullable = false)
-    private int cant;
+    @Column(name = "cantidad", nullable = false)
+    private int cantidad;
 
     @Column(name = "detalles", nullable = false)
     private String detalles;

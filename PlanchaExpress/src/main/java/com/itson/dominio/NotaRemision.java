@@ -54,23 +54,23 @@ public class NotaRemision implements Serializable {
     @Column(name = "anticipo", nullable = false)
     private float anticipo = 0;
     
-      @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
     private Estado estado;
     
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
     
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
     
-     @ManyToMany
+    @ManyToMany
     @JoinTable(
         name = "notaservicio",
-        joinColumns = @JoinColumn(name = "folio"),
-        inverseJoinColumns = @JoinColumn(name = "id_servicio")
+        joinColumns = @JoinColumn(name = "nota_folio"),
+        inverseJoinColumns = @JoinColumn(name = "servicio_id")
     )
     private List<Servicio> servicios = new ArrayList<>();
 
