@@ -6,6 +6,6 @@ Equipo Plancha Express
 
 Alexa Soto
 
-Cristian Arreiola
+Cristian Arreola
 
 Abraham Quintana
