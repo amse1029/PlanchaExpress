@@ -5,6 +5,9 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.NotaRemision;
+import javax.swing.JOptionPane;
+import negocio.ILogica;
+import negocio.LogicaNegocio;
 
 /**
  *
@@ -12,10 +15,13 @@ import com.itson.dominio.NotaRemision;
  */
 public class FrmConsulNota extends javax.swing.JFrame {
 
+    ILogica logica = new LogicaNegocio();
+    private NotaRemision nota;
     /**
      * Creates new form FrmConsulNota
      */
     public FrmConsulNota(NotaRemision nota) {
+        this.nota = nota;
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -65,6 +71,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
         txtFechaRecep = new javax.swing.JTextField();
         scrlServicios = new javax.swing.JScrollPane();
         tblServicios = new javax.swing.JTable();
+        btnCancelarNota = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Consultar nota de remisión");
@@ -88,7 +95,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, 100, -1));
 
         lblTelefono.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblTelefono.setText("Teléfono:");
@@ -183,6 +190,16 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
         pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 360, 210));
 
+        btnCancelarNota.setBackground(new java.awt.Color(255, 0, 0));
+        btnCancelarNota.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCancelarNota.setText("Cancelar Nota");
+        btnCancelarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarNotaActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnCancelarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 510, -1, -1));
+
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 570));
 
         pack();
@@ -195,7 +212,21 @@ public class FrmConsulNota extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnCancelarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNotaActionPerformed
+        // TODO add your handling code here:
+        if(logica.cancelarNotaRemision(nota.getFolio())){
+                    JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido cancelada");
+                    this.setVisible(false);
+                    FrmNotasRemision notas=new FrmNotasRemision();
+                    notas.setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Ocurrio un error al cancelar la nota");
+                }
+    }//GEN-LAST:event_btnCancelarNotaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancelarNota;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel lblAnticipo;
     private javax.swing.JLabel lblCliente1;

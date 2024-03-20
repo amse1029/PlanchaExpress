@@ -68,7 +68,7 @@ public class LogicaNegocio implements ILogica{
 
     @Override
     public boolean cancelarNotaRemision(Long id) {
-        return this.notas.eliminarNota(id);
+        return this.notas.cancelarNota(id);
     }
 
     @Override

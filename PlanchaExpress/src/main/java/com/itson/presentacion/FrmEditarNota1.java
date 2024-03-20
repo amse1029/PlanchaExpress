@@ -35,7 +35,6 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
     List<Cliente> listaClientes = logica.recuperarClientes();
     List<Servicio> serviciosSeleccionados = new ArrayList<>();
     List<NotaServicio> referencias = new ArrayList<>();
-    private DefaultTableModel modeloTabla;
     private int indice = 0;
     private float total = 0;
     NotaRemision nota1;
@@ -115,7 +114,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUsuarios.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
-        lblUsuarios.setText("Crear nota de remisión");
+        lblUsuarios.setText("Editar nota de remisión");
         pnlFondo.add(lblUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
@@ -402,30 +401,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         pnlServicios.revalidate();
     }
 
-    private void obtenerListaServicios() {
 
-    }
-
-    public void agregarServicio(String nombreServicio, int cantidad) {
-        modeloTabla.addRow(new Object[]{nombreServicio, cantidad});
-    }
-
-    private void detallesServicios() {
-
-//        if (listaServicios != null) {
-//            DefaultTableModel modeloTablaReporte = (DefaultTableModel) this.tblServicios.getModel();
-//            modeloTablaReporte.setRowCount(0);
-////            for (Servicio servicios : listaServicios) {
-////                Object[] filaNueva = {servicios.getDescripcion(),0, servicios.getPrecio(),0};
-////                modeloTablaReporte.addRow(filaNueva);
-////            }
-//        }
-    }
-
-    public void detallesServicios(String nombreServicio, int cantidadIngresada) {
-        // Llamar al método que agrega el servicio y la cantidad ingresada a la tabla
-        agregarServicio(nombreServicio, cantidadIngresada);
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

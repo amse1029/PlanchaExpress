@@ -181,7 +181,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             nota.setAnticipo(anticipo);
             em.persist(nota);
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se insertó la nota");
+            JOptionPane.showMessageDialog(null, "La nota con folio: " + nota.getFolio() + " se insertó correctamente");
             return true;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar la nota");
@@ -191,7 +191,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     }
 
     @Override
-    public void cancelarNota(Long folio) {
+    public boolean cancelarNota(Long folio) {
         NotaRemision notaRemision = em.find(NotaRemision.class, folio);
 
         if (notaRemision != null) {
@@ -206,6 +206,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
 
                     notaRemision.setEstado(Estado.CANCELADA);
                     transaction.commit();
+                    return true;
                 } catch (Exception e) {
                     if (transaction != null && transaction.isActive()) {
                         transaction.rollback();
@@ -218,7 +219,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
         } else {
             System.out.println("No se encontró la nota con el folio proporcionado.");
         }
-
+return false;
     }
 
     @Override

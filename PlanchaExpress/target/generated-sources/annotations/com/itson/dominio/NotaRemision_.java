@@ -5,12 +5,12 @@ import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import enumeradores.Estado;
 import java.util.Date;
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-03-20T10:55:37")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-03-20T12:41:25", comments="EclipseLink-2.7.12.v20230209-rNA")
 @StaticMetamodel(NotaRemision.class)
 public class NotaRemision_ { 
 

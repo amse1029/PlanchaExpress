@@ -253,7 +253,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 }
                 nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
                 if(logica.crearNotaRemision(nota)){
-                    JOptionPane.showMessageDialog(this, "La nota se inserto correctamente");
+                    JOptionPane.showMessageDialog(this, "La nota se insertó");
                     NotaRemision nota1=logica.buscarNota(13L);
 //                    for(int i=0;i<referencias.size();i++){
 //                        referencias.get(i).setNota(nota1);
@@ -338,32 +338,6 @@ public class FrmCrearNota extends javax.swing.JFrame {
         
         pnlServicios.revalidate();
     }
-    
-    private void obtenerListaServicios() {
-        
-    }
-    
-    public void agregarServicio(String nombreServicio, int cantidad) {
-        modeloTabla.addRow(new Object[]{nombreServicio, cantidad});
-    }
-    
-    private void detallesServicios(){
-        
- 
-//        if (listaServicios != null) {
-//            DefaultTableModel modeloTablaReporte = (DefaultTableModel) this.tblServicios.getModel();
-//            modeloTablaReporte.setRowCount(0);
-////            for (Servicio servicios : listaServicios) {
-////                Object[] filaNueva = {servicios.getDescripcion(),0, servicios.getPrecio(),0};
-////                modeloTablaReporte.addRow(filaNueva);
-////            }
-//        }
-    }
-    
-    public void detallesServicios(String nombreServicio, int cantidadIngresada) {
-    // Llamar al método que agrega el servicio y la cantidad ingresada a la tabla
-    agregarServicio(nombreServicio, cantidadIngresada);
-}
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

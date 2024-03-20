@@ -47,7 +47,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Kannada MN" size="20" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Crear nota de remisi&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Editar nota de remisi&#xf3;n"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
