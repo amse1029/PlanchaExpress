@@ -51,7 +51,7 @@ public class Pruebas {
         Servicio servicio = servicios.consultaServicio(7L);
         List<Servicio> listaServicios = new ArrayList<>();
         listaServicios.add(servicio);
-        notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
+        notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE, 0);
 //        notas.cancelarNota(62L);
 
 //notas.buscarNota(62L);

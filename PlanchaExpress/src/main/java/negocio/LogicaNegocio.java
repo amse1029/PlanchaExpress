@@ -11,6 +11,7 @@ import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IClientesDAO;
@@ -47,7 +48,7 @@ public class LogicaNegocio implements ILogica{
 
     @Override
     public boolean crearNotaRemision(NotaRemision notaRemision) {
-        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getServicios(), 0, notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega(),notaRemision.getEstado());
+        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getServicios(), notaRemision.getTotal(), notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega(),notaRemision.getEstado(), notaRemision.getAnticipo());
     }
 
     @Override
@@ -93,6 +94,16 @@ public class LogicaNegocio implements ILogica{
     @Override
     public boolean autenticarUsuario(String nombre, String pass) {
         return this.usuarios.autenticarUsuario(nombre, pass);
+    }
+    
+    @Override
+    public Usuario buscarUsuario(Long id){
+        return this.usuarios.consultaUsuario(id);
+    }
+
+    @Override
+    public boolean insertarNotaServicio(NotaServicio notaServicio) {
+        return this.notas.insertarNotaServicio(notaServicio);
     }
     
 }

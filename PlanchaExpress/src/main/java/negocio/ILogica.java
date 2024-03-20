@@ -7,6 +7,7 @@ package negocio;
 
 import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface ILogica {
     public List<Servicio> recuperarServicios();
     public List<Cliente> recuperarClientes();
     public boolean autenticarUsuario(String nombre, String pass);
+    public Usuario buscarUsuario(Long id);
+    public boolean insertarNotaServicio(NotaServicio notaServicio);
 }

@@ -6,6 +6,7 @@ package com.itson.interfaces;
 
 import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import enumeradores.Estado;
@@ -21,10 +22,11 @@ public interface INotasRemisionDAO {
     
 //    public void insertarNota();
     public boolean insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, 
-            float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) throws PersistenceException;
+            float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo) throws PersistenceException;
     public boolean eliminarNota(Long folio);
     public void editarNota(Long folio,Usuario usuario, Cliente cliente,List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado);
     public void cancelarNota(Long folio);
     public NotaRemision buscarNota(Long folio);
     public String buscarNotasCliente(Cliente cliente);
+    public boolean insertarNotaServicio(NotaServicio nota);
 }

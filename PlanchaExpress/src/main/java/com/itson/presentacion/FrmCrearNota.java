@@ -5,12 +5,20 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.Cliente;
+import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
+import com.itson.dominio.Usuario;
+import enumeradores.Estado;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
@@ -24,9 +32,12 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     List<Servicio> listaServicios = logica.recuperarServicios();
+    List<Cliente> listaClientes = logica.recuperarClientes();
+    List<Servicio> serviciosSeleccionados = new ArrayList<>();
+    List<NotaServicio> referencias = new ArrayList<>();
     private DefaultTableModel modeloTabla;
     private int indice=0;
-    private double total=0;
+    private float total=0;
     
     /**
      * Creates new form FrmCrearNota
@@ -229,6 +240,34 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
         // TODO add your handling code here:
+        if(tblServicios.getValueAt(0, 0)!=null){
+            if(txtAnticipo!=null&&!"".equals(txtAnticipo.getText())){
+                int pos=this.cbxClientes.getSelectedIndex();
+                Cliente cliente=listaClientes.get(pos);
+                Usuario usuario=logica.buscarUsuario(2L);
+                SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
+                Date fecha_recepcion = new Date();
+                NotaRemision nota=new NotaRemision(usuario, cliente, total, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
+                for(int i=0;i<serviciosSeleccionados.size();i++){
+                    nota.getServicios().add(serviciosSeleccionados.get(i));
+                }
+                nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
+                if(logica.crearNotaRemision(nota)){
+                    JOptionPane.showMessageDialog(this, "La nota se inserto correctamente");
+                    NotaRemision nota1=logica.buscarNota(13L);
+//                    for(int i=0;i<referencias.size();i++){
+//                        referencias.get(i).setNota(nota1);
+//                        this.logica.insertarNotaServicio(referencias.get(i));
+//                    }
+                    this.setVisible(false);
+                    FrmNotasRemision notas=new FrmNotasRemision();
+                    notas.setVisible(true);
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Ocurrio un error al insertar la nota");
+                }
+            }
+        }
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
     private void cbxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxClientesActionPerformed
@@ -237,7 +276,6 @@ public class FrmCrearNota extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxClientesActionPerformed
 
     public void llenarListaClientes() {
-        List<Cliente> listaClientes = logica.recuperarClientes();
         for (Cliente cliente : listaClientes) {
             cbxClientes.addItem(cliente);
         }
@@ -272,7 +310,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                     DlgCantidad cantidad = new DlgCantidad(FrmCrearNota.this, true, nombreServicio);
                     cantidad.setVisible(true);
                     int cant = cantidad.getCantidad();
-                    if(cant!=-1){
+                    if(cant>0){
                         tblServicios.setValueAt(nombreServicio, indice, 0);
                         tblServicios.setValueAt(cant, indice, 1);
                         tblServicios.setValueAt(precio, indice, 2);
@@ -280,6 +318,13 @@ public class FrmCrearNota extends javax.swing.JFrame {
                         indice++;
                         total=total+precio*cant;
                         txtTotal1.setText(String.valueOf(total));
+                        serviciosSeleccionados.add(servicio);
+                        NotaServicio nota=new NotaServicio();
+                        nota.setCant(cant);
+                        nota.setPrecio(precio);
+                        nota.setDetalles(nombreServicio);
+                        nota.setServicio(servicio);
+                        referencias.add(nota);
                     }
 //                    FrmCantidad frmCantidad = new FrmCantidad();
 //                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
