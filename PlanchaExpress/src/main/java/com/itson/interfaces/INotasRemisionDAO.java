@@ -29,4 +29,5 @@ public interface INotasRemisionDAO {
     public NotaRemision buscarNota(Long folio);
     public String buscarNotasCliente(Cliente cliente);
     public boolean insertarNotaServicio(NotaServicio nota);
+    public boolean actualizarNotaRemision(NotaRemision nota);
 }

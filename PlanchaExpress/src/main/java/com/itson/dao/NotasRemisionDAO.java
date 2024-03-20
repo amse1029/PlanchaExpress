@@ -271,4 +271,21 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             return false;
         }
     }
+    
+    
+    @Override
+    public boolean actualizarNotaRemision(NotaRemision nota) {
+        try {
+            // Realiza las operaciones necesarias para actualizar la nota en la base de datos
+            // Por ejemplo:
+            em.getTransaction().begin();
+            em.merge(nota); // Actualiza la entidad en la base de datos
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            // Manejo de excepciones, si es necesario
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }

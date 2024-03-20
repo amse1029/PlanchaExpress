@@ -118,12 +118,18 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
         FrmCrearNota frm = new FrmCrearNota();
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        String folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
+        nota = logica.buscarNota(Long.parseLong(folio));
+        FrmEditarNota1 frm = new FrmEditarNota1(nota);
+        frm.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

@@ -105,5 +105,10 @@ public class LogicaNegocio implements ILogica{
     public boolean insertarNotaServicio(NotaServicio notaServicio) {
         return this.notas.insertarNotaServicio(notaServicio);
     }
+
+    @Override
+    public boolean actualizarNotaRemision(NotaRemision nota) {
+        return this.notas.actualizarNotaRemision(nota);
+    }
     
 }

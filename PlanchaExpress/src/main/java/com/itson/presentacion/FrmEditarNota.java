@@ -5,6 +5,7 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.Cliente;
+import com.itson.dominio.NotaRemision;
 
 /**
  *
@@ -15,10 +16,12 @@ public class FrmEditarNota extends javax.swing.JFrame {
     /**
      * Creates new form FrmEditarNota
      */
-    public FrmEditarNota() {
+    public FrmEditarNota(NotaRemision nota) {
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
+        
+        
     }
 
     /**
