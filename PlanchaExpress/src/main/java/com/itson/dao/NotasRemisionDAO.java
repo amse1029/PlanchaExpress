@@ -106,8 +106,6 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
 
         }
 
-        em.close();
-        emf.close();
         return false;
     }
 
@@ -125,9 +123,9 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
                 System.out.println("Estado: " + nota.getEstado());
                 System.out.println("Fecha entrega: " + nota.getFecha_entrega());
                 System.out.println("Fecha recepcion: " + nota.getFecha_recepcion());
-                List<Servicio> servicios = nota.getServicios();
-                for (Servicio servicioI : servicios) {
-                    System.out.println(servicioI.getDescripcion());
+                List<NotaServicio> servicios = nota.getNotaServicios();
+                for (NotaServicio servicioI : servicios) {
+                    System.out.println(servicioI.getServicio().getDescripcion());
                 }
                 System.out.println("Servicios: " + servicios);
                 System.out.println("Total: " + nota.getTotal());
@@ -171,14 +169,15 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     }
 
     @Override
-    public boolean insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo) throws PersistenceException {
+    public boolean insertarNota(Usuario usuario, Cliente cliente, List<NotaServicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo) throws PersistenceException {
         try {
             em.getTransaction().begin();
             NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fecha_entrega, estado);
-            for (Servicio servicio : servicios) {
-                nota.getServicios().add(servicio);
-            }
             nota.setAnticipo(anticipo);
+            for(int i=0;i<servicios.size();i++){
+                servicios.get(i).setNota(nota);
+            }
+            nota.setNotaServicios(servicios);
             em.persist(nota);
             em.getTransaction().commit();
             JOptionPane.showMessageDialog(null, "La nota con folio: " + nota.getFolio() + " se insertó correctamente");
@@ -189,6 +188,25 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             return false;
         }
     }
+    
+    @Override
+    public Long insertarNota(Usuario usuario, Cliente cliente, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo) throws PersistenceException {
+    Long folio = null;
+    try {
+        em.getTransaction().begin();
+        NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fecha_entrega, estado);
+        nota.setAnticipo(anticipo);
+        em.persist(nota);
+        em.getTransaction().commit();
+        folio = nota.getFolio(); // Obtenemos el folio después de la inserción
+        JOptionPane.showMessageDialog(null, "La nota con folio: " + folio + " se insertó correctamente");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error al insertar la nota");
+        // Si ocurre una excepción, no se asigna ningún folio
+        em.getTransaction().rollback();
+    }
+    return folio;
+}
 
     @Override
     public boolean cancelarNota(Long folio) {
@@ -223,7 +241,7 @@ return false;
     }
 
     @Override
-    public void editarNota(Long folio, Usuario usuario, Cliente cliente, List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) {
+    public void editarNota(Long folio, Usuario usuario, Cliente cliente, List<NotaServicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado) {
         em.getTransaction().begin();
         NotaRemision nota = em.find(NotaRemision.class, folio);
         if (nota == null) {
@@ -237,8 +255,8 @@ return false;
             System.out.println("Fecha recepcion: " + nota.getFecha_recepcion());
             System.out.println("---------------------------");
             System.out.println("Servicios: ");
-            for (Servicio servicioI : servicios) {
-                System.out.println(servicioI.toString());
+            for (NotaServicio servicioI : servicios) {
+                System.out.println(servicioI.getServicio().toString());
             }
             System.out.println("---------------------------");
             System.out.println("Total: " + nota.getTotal());
@@ -249,8 +267,8 @@ return false;
             nota.setUsuario(usuario);
             nota.setTotal(total);
             nota.setCliente(cliente);
-            nota.getServicios().clear();
-            nota.getServicios().addAll(servicios);
+            nota.getNotaServicios().clear();
+            nota.getNotaServicios().addAll(servicios);
             nota.setEstado(estado);
 
             em.merge(nota);

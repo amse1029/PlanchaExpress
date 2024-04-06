@@ -21,13 +21,14 @@ import javax.persistence.PersistenceException;
 public interface INotasRemisionDAO {
     
 //    public void insertarNota();
-    public boolean insertarNota(Usuario usuario, Cliente cliente, List<Servicio> servicios, 
+    public boolean insertarNota(Usuario usuario, Cliente cliente, List<NotaServicio> servicios, 
             float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo) throws PersistenceException;
     public boolean eliminarNota(Long folio);
-    public void editarNota(Long folio,Usuario usuario, Cliente cliente,List<Servicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado);
+    public void editarNota(Long folio,Usuario usuario, Cliente cliente,List<NotaServicio> servicios, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado);
     public boolean cancelarNota(Long folio);
     public NotaRemision buscarNota(Long folio);
     public String buscarNotasCliente(Cliente cliente);
     public boolean insertarNotaServicio(NotaServicio nota);
     public boolean actualizarNotaRemision(NotaRemision nota);
+    public Long insertarNota(Usuario usuario, Cliente cliente, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo);
 }

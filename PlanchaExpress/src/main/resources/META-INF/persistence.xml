@@ -6,6 +6,7 @@
     <class>com.itson.dominio.NotaRemision</class>
     <class>com.itson.dominio.Servicio</class>
     <class>com.itson.dominio.Usuario</class>
+    <class>com.itson.dominio.NotaServicio</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/PLANCHA_EXPRESS?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

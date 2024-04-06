@@ -32,9 +32,6 @@ public class Servicio implements Serializable {
     
     @Column(name = "precio", nullable = false)
     private float precio;
-    
-    @ManyToMany(mappedBy = "servicios")
-    private List<NotaRemision> notasRemisiones;
 
     public Servicio() {
     }
@@ -43,7 +40,6 @@ public class Servicio implements Serializable {
     public Servicio(String descripcion, float precio, List<NotaRemision> notasRemisiones) {
         this.descripcion = descripcion;
         this.precio = precio;
-        this.notasRemisiones = notasRemisiones;
     }
 
     public Servicio(String descripcion, float precio) {

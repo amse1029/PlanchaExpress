@@ -114,6 +114,7 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         nota = logica.buscarNota(Long.parseLong(folio));
         FrmConsulNota frm = new FrmConsulNota(nota);
         frm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed

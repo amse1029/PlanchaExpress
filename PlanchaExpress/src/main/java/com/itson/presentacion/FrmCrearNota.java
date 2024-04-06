@@ -83,6 +83,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         scrlServicios = new javax.swing.JScrollPane();
         tblServicios = new javax.swing.JTable();
         pnlServicios = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crear nota de remisión");
@@ -216,8 +217,21 @@ public class FrmCrearNota extends javax.swing.JFrame {
         });
         scrlServicios.setViewportView(tblServicios);
 
-        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, 430, 210));
+        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, 430, 180));
         pnlFondo.add(pnlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 410, 410));
+
+        btnEliminar.setBackground(new java.awt.Color(153, 204, 255));
+        btnEliminar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setFocusable(false);
+        btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 90, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 670));
 
@@ -248,10 +262,11 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
                 Date fecha_recepcion = new Date();
                 NotaRemision nota=new NotaRemision(usuario, cliente, total, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
-                for(int i=0;i<serviciosSeleccionados.size();i++){
-                    nota.getServicios().add(serviciosSeleccionados.get(i));
-                }
                 nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
+                for(int i=0;i<referencias.size();i++){
+                    referencias.get(i).setNota(nota);
+                }
+                nota.setNotaServicios(referencias);
                 if(logica.crearNotaRemision(nota)){
                     JOptionPane.showMessageDialog(this, "La nota se insertó");
                     NotaRemision nota1=logica.buscarNota(13L);
@@ -274,6 +289,41 @@ public class FrmCrearNota extends javax.swing.JFrame {
         // TODO add your handling code here:
         mostrarAtributosClienteSeleccionado();
     }//GEN-LAST:event_cbxClientesActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tblServicios.getSelectedRow();
+
+        // Verificamos si hay alguna fila seleccionada
+        if (filaSeleccionada != -1) {
+            // Mostramos el mensaje de confirmación
+            int res = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar el servicio de la lista?");
+            if (res == JOptionPane.YES_OPTION) {
+                // Eliminamos la fila seleccionada
+                total=total-Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 3).toString());
+                txtTotal1.setText(String.valueOf(total));
+                DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
+                model.removeRow(filaSeleccionada);
+                referencias.remove(filaSeleccionada);
+                // Recorremos las filas restantes hacia arriba
+                for (int i = filaSeleccionada; i < model.getRowCount(); i++) {
+                    // Por ejemplo, si quieres mantener la información en la columna 1:
+                    Object valorColumna1 = model.getValueAt(i, 0); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    model.setValueAt(valorColumna1, i, 0); // Asigna el valor de la columna 1 en la fila actual
+                    Object valorColumna2 = model.getValueAt(i, 1); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    model.setValueAt(valorColumna2, i, 1); 
+                    Object valorColumna3 =  model.getValueAt(i, 2); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    model.setValueAt(valorColumna3, i, 2); 
+                    Object valorColumna4 = model.getValueAt(i, 3); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    model.setValueAt(valorColumna4, i, 3); 
+                }
+                this.indice--;
+            }
+        } else {
+            // Si no hay fila seleccionada, mostramos un mensaje de error
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     public void llenarListaClientes() {
         for (Cliente cliente : listaClientes) {
@@ -316,15 +366,14 @@ public class FrmCrearNota extends javax.swing.JFrame {
                         tblServicios.setValueAt(precio, indice, 2);
                         tblServicios.setValueAt(precio*cant, indice, 3);
                         indice++;
-                        total=total+precio*cant;
+                        total = total + precio * cant;
                         txtTotal1.setText(String.valueOf(total));
-                        serviciosSeleccionados.add(servicio);
-                        NotaServicio nota=new NotaServicio();
-                        nota.setCant(cant);
-                        nota.setPrecio(precio);
-                        nota.setDetalles(nombreServicio);
-                        nota.setServicio(servicio);
-                        referencias.add(nota);
+                        NotaServicio notaS=new NotaServicio();
+                        notaS.setCant(cant);
+                        notaS.setDetalles(nombreServicio);
+                        notaS.setPrecio(precio*cant);
+                        notaS.setServicio(servicio);
+                        referencias.add(notaS);
                     }
 //                    FrmCantidad frmCantidad = new FrmCantidad();
 //                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
@@ -342,6 +391,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear1;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar1;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<Cliente> cbxClientes;

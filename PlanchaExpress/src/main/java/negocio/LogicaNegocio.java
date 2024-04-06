@@ -48,7 +48,7 @@ public class LogicaNegocio implements ILogica{
 
     @Override
     public boolean crearNotaRemision(NotaRemision notaRemision) {
-        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getServicios(), notaRemision.getTotal(), notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega(),notaRemision.getEstado(), notaRemision.getAnticipo());
+        return this.notas.insertarNota(notaRemision.getUsuario(), notaRemision.getCliente(), notaRemision.getNotaServicios(), notaRemision.getTotal(), notaRemision.getFecha_recepcion(), notaRemision.getFecha_entrega(),notaRemision.getEstado(), notaRemision.getAnticipo());
     }
 
     @Override

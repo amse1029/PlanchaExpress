@@ -66,16 +66,11 @@ public class NotaRemision implements Serializable {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
     
-    @ManyToMany
-    @JoinTable(
-        name = "notaservicio",
-        joinColumns = @JoinColumn(name = "nota_folio"),
-        inverseJoinColumns = @JoinColumn(name = "servicio_id")
-    )
-    private List<Servicio> servicios = new ArrayList<>();
+    @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL)
+    private List<NotaServicio> notaServicios = new ArrayList<>();
 
     public NotaRemision() {
-        this.servicios = new ArrayList<>();
+        this.notaServicios = new ArrayList<>();
     }
 
 //    public NotaRemision(Usuario usuario,Cliente cliente, List<Servicio> servicios,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
@@ -96,8 +91,6 @@ public class NotaRemision implements Serializable {
         this.estado = estado;
         this.cliente = cliente;
         this.usuario = usuario;
-        this.servicios = servicios;
-        this.servicios = new ArrayList<>();
     }
 
     public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario) {
@@ -106,7 +99,7 @@ public class NotaRemision implements Serializable {
         this.total = total;
         this.cliente = cliente;
         this.usuario = usuario;
-        this.servicios = new ArrayList<>();
+        this.notaServicios = new ArrayList<>();
         
     }
 
@@ -134,13 +127,15 @@ public class NotaRemision implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<Servicio> getServicios() {
-        return servicios;
+    public List<NotaServicio> getNotaServicios() {
+        return notaServicios;
     }
 
-    public void setServicios(List<Servicio> servicios) {
-        this.servicios = servicios;
+    public void setNotaServicios(List<NotaServicio> notaServicios) {
+        this.notaServicios = notaServicios;
     }
+
+    
 
    
     

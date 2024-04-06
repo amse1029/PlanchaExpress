@@ -34,9 +34,11 @@ public class FrmConsulNota extends javax.swing.JFrame {
             this.txtFechaEnt.setText(nota.getFecha_entrega().toString());
             this.txtTotal.setText(String.valueOf(nota.getTotal()));
             this.txtAnticipo.setText(String.valueOf(nota.getAnticipo()));
-            for(int i=0;i<nota.getServicios().size();i++){
-                this.tblServicios.setValueAt(nota.getServicios().get(i).getDescripcion(), i, 0);
-                this.tblServicios.setValueAt(nota.getServicios().get(i).getPrecio(), i, 2);
+            for(int i=0;i<nota.getNotaServicios().size();i++){
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getServicio().getDescripcion(), i, 0);
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getCant(), i, 1);
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getServicio().getPrecio(), i, 2);
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getPrecio(), i, 3);
             }
         }
         

@@ -48,8 +48,10 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         setResizable(false);
         this.nota1 = nota1;
-        serviciosSeleccionados=nota1.getServicios();
+        referencias=nota1.getNotaServicios();
+        indice=referencias.size();
         nota2=nota1;
+        total=nota1.getTotal();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
 //        detallesServicios();
 //        txtAnticipo.setText(String.valueOf(0.00));
@@ -65,10 +67,11 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             this.fechaEntrega.setDate(nota2.getFecha_entrega());
             this.txtTotal.setText(String.valueOf(nota2.getTotal()));
             this.txtAnticipo.setText(String.valueOf(nota2.getAnticipo()));
-            for (int i = 0; i < nota2.getServicios().size(); i++) {
-                this.tblServicios.setValueAt(nota2.getServicios().get(i).getDescripcion(), i, 0);
-                this.tblServicios.setValueAt(nota2.getServicios().get(i).getPrecio(), i, 2);
-                this.indice++;
+            for(int i=0;i<nota2.getNotaServicios().size();i++){
+                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getDescripcion(), i, 0);
+                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getCant(), i, 1);
+                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getPrecio(), i, 2);
+                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getPrecio(), i, 3);
             }
         }
     }
@@ -298,14 +301,14 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                 Date fecha_recepcion = new Date();
                 nota1.setFecha_recepcion(fecha_recepcion);
                 nota1.setFecha_entrega(this.fechaEntrega.getDate());
-                nota1.getServicios().clear();
-                for (int i = 0; i < serviciosSeleccionados.size(); i++) {
-                    nota1.getServicios().add(serviciosSeleccionados.get(i));
-                }
                 nota1.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
+                nota1.setTotal(total);
+                for(int i=0;i<referencias.size();i++){
+                    referencias.get(i).setNota(nota1);
+                }
+                nota1.setNotaServicios(referencias);
                 if (logica.actualizarNotaRemision(nota1)) {
                     JOptionPane.showMessageDialog(this, "La nota se actualizo correctamente");
-                    NotaRemision nota4 = logica.buscarNota(13L);
 //                    for(int i=0;i<referencias.size();i++){
 //                        referencias.get(i).setNota(nota1);
 //                        this.logica.insertarNotaServicio(referencias.get(i));
@@ -333,18 +336,20 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             if (res == JOptionPane.YES_OPTION) {
                 // Eliminamos la fila seleccionada
                 DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
+                total=total-Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 3).toString());
+                txtTotal.setText(String.valueOf(total));
                 model.removeRow(filaSeleccionada);
-                serviciosSeleccionados.remove(filaSeleccionada);
+                referencias.remove(filaSeleccionada);
                 // Recorremos las filas restantes hacia arriba
                 for (int i = filaSeleccionada; i < model.getRowCount(); i++) {
                     // Por ejemplo, si quieres mantener la información en la columna 1:
-                    String valorColumna1 = (String) model.getValueAt(i, 0); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    Object valorColumna1 = model.getValueAt(i, 0); // Obtén el valor de la columna 1 antes de eliminar la fila
                     model.setValueAt(valorColumna1, i, 0); // Asigna el valor de la columna 1 en la fila actual
-                    String valorColumna2 = (String) model.getValueAt(i, 1); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    Object valorColumna2 = model.getValueAt(i, 1); // Obtén el valor de la columna 1 antes de eliminar la fila
                     model.setValueAt(valorColumna2, i, 1); 
-                    String valorColumna3 = (String) model.getValueAt(i, 2); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    Object valorColumna3 = model.getValueAt(i, 2); // Obtén el valor de la columna 1 antes de eliminar la fila
                     model.setValueAt(valorColumna3, i, 2); 
-                    String valorColumna4 = (String) model.getValueAt(i, 3); // Obtén el valor de la columna 1 antes de eliminar la fila
+                    Object valorColumna4 = model.getValueAt(i, 3); // Obtén el valor de la columna 1 antes de eliminar la fila
                     model.setValueAt(valorColumna4, i, 3); 
                 }
                 this.indice--;
@@ -380,13 +385,12 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                         indice++;
                         total = total + precio * cant;
                         txtTotal.setText(String.valueOf(total));
-                        serviciosSeleccionados.add(servicio);
-                        NotaServicio nota = new NotaServicio();
-                        nota.setCant(cant);
-                        nota.setPrecio(precio);
-                        nota.setDetalles(nombreServicio);
-                        nota.setServicio(servicio);
-                        referencias.add(nota);
+                        NotaServicio notaS=new NotaServicio();
+                        notaS.setCant(cant);
+                        notaS.setDetalles(nombreServicio);
+                        notaS.setPrecio(precio*cant);
+                        notaS.setServicio(servicio);
+                        referencias.add(notaS);
                     }
 //                    FrmCantidad frmCantidad = new FrmCantidad();
 //                    frmCantidad.getLblNombreServicio().setText(nombreServicio);

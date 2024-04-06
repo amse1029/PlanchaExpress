@@ -10,6 +10,7 @@ import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Cliente;
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IClientesDAO;
@@ -22,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import negocio.LogicaNegocio;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Pruebas {
         IClientesDAO clientes = new ClientesDAO();
         IServiciosDAO servicios = new ServiciosDAO();
         INotasRemisionDAO notas = new NotasRemisionDAO();
+        LogicaNegocio logica=new LogicaNegocio();
         
         usuarios.insertarUsuario();
         clientes.insertarCliente();
@@ -49,9 +52,19 @@ public class Pruebas {
         Usuario usuario = usuarios.consultaUsuario(2L);
         
         Servicio servicio = servicios.consultaServicio(7L);
-        List<Servicio> listaServicios = new ArrayList<>();
-        listaServicios.add(servicio);
-        notas.insertarNota(usuario, cliente, listaServicios, 0, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE, 0);
+        List<NotaServicio> notaServicios = new ArrayList<>();
+        NotaServicio notaS=new NotaServicio();
+        notaS.setCant(3);
+        notaS.setDetalles(servicio.getDescripcion());
+        notaS.setServicio(servicio);
+        notaS.setPrecio(servicio.getPrecio()*notaS.getCant());
+       
+        NotaRemision nota=new NotaRemision(usuario, cliente, notaS.getPrecio(), fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
+//        Long fol=notas.insertarNota(usuario, cliente, 0, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE, 0);
+        notaS.setNota(nota);
+        notaServicios.add(notaS);
+        nota.setNotaServicios(notaServicios);
+        logica.crearNotaRemision(nota);
 //        notas.cancelarNota(62L);
 
 //notas.buscarNota(62L);
