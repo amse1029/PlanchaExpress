@@ -127,15 +127,20 @@ public class FrmNotasRemision extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        String folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
-        if(folio != null){
-            nota = logica.buscarNota(Long.parseLong(folio));
+        String folio = "";
+        do {
+            folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
+            if (folio == null) {
+                this.setVisible(true);
+                return;
+            } else if (folio.equals("")) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
+            }
+        } while (folio.equals(""));
+        nota = logica.buscarNota(Long.parseLong(folio));
         FrmEditarNota1 frm = new FrmEditarNota1(nota);
         frm.setVisible(true);
-        } else {
-            new FrmNotasRemision().setVisible(true);
-        }
-      
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
