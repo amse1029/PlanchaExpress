@@ -285,6 +285,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 }
             }
         }
+        JOptionPane.showMessageDialog(this, "Seleccione los servicios");
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
     private void cbxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxClientesActionPerformed

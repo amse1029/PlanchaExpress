@@ -294,7 +294,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (tblServicios.getValueAt(0, 0) != null) {
-            if (txtAnticipo != null && !"".equals(txtAnticipo.getText())) {
+            if (txtAnticipo != null && !"".equals(txtAnticipo.getText()) && Double.parseDouble(txtAnticipo.getText()) >= 0) {
                 Cliente cliente = nota1.getCliente();
                 Usuario usuario = nota1.getUsuario();
                 SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
@@ -321,6 +321,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Ocurrio un error al actualizar la nota");
                 }
             }
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
