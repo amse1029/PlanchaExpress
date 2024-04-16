@@ -110,11 +110,25 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
-        String folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
-        nota = logica.buscarNota(Long.parseLong(folio));
+        this.dispose();
+        String folio = "";
+        do {
+            folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
+            if (folio == null) {
+                this.setVisible(true);
+                return;
+            } else if (folio.equals("")) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
+            } else {
+
+                nota = logica.buscarNota(Long.parseLong(folio));
+                if (nota == null) {
+                    JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                }
+            }
+        } while (folio.equals("") || nota == null);
         FrmConsulNota frm = new FrmConsulNota(nota);
         frm.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -135,9 +149,15 @@ public class FrmNotasRemision extends javax.swing.JFrame {
                 return;
             } else if (folio.equals("")) {
                 JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
+            } else {
+
+                nota = logica.buscarNota(Long.parseLong(folio));
+                if (nota == null) {
+                    JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                }
             }
-        } while (folio.equals(""));
-        nota = logica.buscarNota(Long.parseLong(folio));
+        } while (folio.equals("") || nota == null);
+
         FrmEditarNota1 frm = new FrmEditarNota1(nota);
         frm.setVisible(true);
 
