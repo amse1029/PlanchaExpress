@@ -110,7 +110,7 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+          this.dispose();
         String folio = "";
         do {
             folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
@@ -120,10 +120,14 @@ public class FrmNotasRemision extends javax.swing.JFrame {
             } else if (folio.equals("")) {
                 JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
             } else {
-
-                nota = logica.buscarNota(Long.parseLong(folio));
-                if (nota == null) {
-                    JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                try {
+                    long folioNum = Long.parseLong(folio);
+                    nota = logica.buscarNota(folioNum);
+                    if (nota == null) {
+                        JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Ingrese un número");
                 }
             }
         } while (folio.equals("") || nota == null);
@@ -150,10 +154,14 @@ public class FrmNotasRemision extends javax.swing.JFrame {
             } else if (folio.equals("")) {
                 JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
             } else {
-
-                nota = logica.buscarNota(Long.parseLong(folio));
-                if (nota == null) {
-                    JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                try {
+                    long folioNum = Long.parseLong(folio);
+                    nota = logica.buscarNota(folioNum);
+                    if (nota == null) {
+                        JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Ingrese un número");
                 }
             }
         } while (folio.equals("") || nota == null);
