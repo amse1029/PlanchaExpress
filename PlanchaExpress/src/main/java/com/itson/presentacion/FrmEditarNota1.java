@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
@@ -293,12 +294,37 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        Calendar calendario = Calendar.getInstance();
+        Date fechaActual = calendario.getTime();
+
+        calendario.add(Calendar.DAY_OF_MONTH, -1);
+        Date fechaCalendar = calendario.getTime();
         if (fechaEntrega.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Debe llenar correctamente la fecha de entrega");
             return;
         }
-        if (txtAnticipo == null || "".equals(txtAnticipo.getText()) || Float.parseFloat(txtAnticipo.getText()) < 0) {
+        if (fechaEntrega.getDate().before(fechaCalendar)) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrega no puede ser anterior a la fecha actual");
+            return;
+        }
+        String anticipoText = txtAnticipo.getText().trim();
+        String totalText = txtTotal.getText().trim();
+
+        if (!anticipoText.matches("[-]?\\d*\\.?\\d+") || !totalText.matches("\\d*\\.?\\d+")) {
+            JOptionPane.showMessageDialog(this, "Ingrese valores numéricos");
+            return;
+        }
+
+        float anticipo = Float.parseFloat(anticipoText);
+        float total = Float.parseFloat(totalText);
+
+        if (anticipo < 0) {
             JOptionPane.showMessageDialog(this, "El anticipo debe ser un valor numérico mayor o igual a 0");
+            return;
+        }
+
+        if (anticipo > total) {
+            JOptionPane.showMessageDialog(this, "El anticipo no debe ser mayor al monto total");
             return;
         }
 

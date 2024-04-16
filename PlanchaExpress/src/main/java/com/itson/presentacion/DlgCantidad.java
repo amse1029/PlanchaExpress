@@ -5,6 +5,8 @@
  */
 package com.itson.presentacion;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kingu
@@ -107,8 +109,15 @@ public class DlgCantidad extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        cantidad=sfCantidad.getValue();
-        dispose();
+        if (sfCantidad.getValue() > 0) {
+            cantidad = sfCantidad.getValue();
+            dispose();
+
+        } else {
+             JOptionPane.showMessageDialog(this, "Ingrese un número válido");
+             sfCantidad.setValue(0);
+        }
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
