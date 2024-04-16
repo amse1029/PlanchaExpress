@@ -216,15 +216,26 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
     private void btnCancelarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarNotaActionPerformed
         // TODO add your handling code here:
-        if(logica.cancelarNotaRemision(nota.getFolio())){
-                    JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido cancelada");
-                    this.setVisible(false);
-                    FrmNotasRemision notas=new FrmNotasRemision();
-                    notas.setVisible(true);
-                    this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error al cancelar la nota");
-                }
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de cancelar la nota?",
+                "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            // Si el usuario selecciona "Sí"
+            System.out.println("El usuario ha seleccionado Sí.");
+            if (logica.cancelarNotaRemision(nota.getFolio())) {
+                JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido cancelada");
+                this.setVisible(false);
+                FrmNotasRemision notas = new FrmNotasRemision();
+                notas.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al cancelar la nota");
+            }
+        } else {
+            // Si el usuario selecciona "No" o cierra el cuadro de diálogo
+            System.out.println("El usuario ha seleccionado No o ha cerrado el cuadro de diálogo.");
+        }
+
     }//GEN-LAST:event_btnCancelarNotaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
