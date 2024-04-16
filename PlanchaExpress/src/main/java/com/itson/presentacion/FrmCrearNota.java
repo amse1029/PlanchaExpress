@@ -264,33 +264,33 @@ public class FrmCrearNota extends javax.swing.JFrame {
             return;
         }
 
- if(tblServicios.getValueAt(0, 0)!=null){
-                int pos=this.cbxClientes.getSelectedIndex();
-                Cliente cliente=listaClientes.get(pos);
-                Usuario usuario=logica.buscarUsuario(2L);
-                SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
-                Date fecha_recepcion = new Date();
-                NotaRemision nota=new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaEntrega.getDate(), Estado.PENDIENTE);
-                nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
-                for(int i=0;i<referencias.size();i++){
-                    referencias.get(i).setNota(nota);
-                }
-                nota.setNotaServicios(referencias);
-                if(logica.crearNotaRemision(nota)){
-                    JOptionPane.showMessageDialog(this, "La nota se insertó");
-                    NotaRemision nota1=logica.buscarNota(13L);
-                    this.setVisible(false);
-                    FrmNotasRemision notas=new FrmNotasRemision();
-                    notas.setVisible(true);
-                    this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error al insertar la nota");
-                }
-            
+        if (tblServicios.getValueAt(0, 0) != null) {
+            int pos = this.cbxClientes.getSelectedIndex();
+            Cliente cliente = listaClientes.get(pos);
+            Usuario usuario = logica.buscarUsuario(2L);
+            SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
+            Date fecha_recepcion = new Date();
+            NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaEntrega.getDate(), Estado.PENDIENTE);
+            nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
+            for (int i = 0; i < referencias.size(); i++) {
+                referencias.get(i).setNota(nota);
+            }
+            nota.setNotaServicios(referencias);
+            if (logica.crearNotaRemision(nota)) {
+                JOptionPane.showMessageDialog(this, "La nota se insertó");
+                NotaRemision nota1 = logica.buscarNota(13L);
+                this.setVisible(false);
+                FrmNotasRemision notas = new FrmNotasRemision();
+                notas.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al insertar la nota");
+            }
+
         } else {
-     JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un servicio");
- }
-        
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un servicio");
+        }
+
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
     private void cbxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxClientesActionPerformed

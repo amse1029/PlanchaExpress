@@ -293,9 +293,17 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if (fechaEntrega.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debe llenar correctamente la fecha de entrega");
+            return;
+        }
+        if (txtAnticipo == null || "".equals(txtAnticipo.getText()) || Float.parseFloat(txtAnticipo.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "El anticipo debe ser un valor numérico mayor o igual a 0");
+            return;
+        }
+
         if (tblServicios.getValueAt(0, 0) != null) {
-            if (txtAnticipo != null && !"".equals(txtAnticipo.getText()) && Double.parseDouble(txtAnticipo.getText()) >= 0) {
-                Cliente cliente = nota1.getCliente();
+             Cliente cliente = nota1.getCliente();
                 Usuario usuario = nota1.getUsuario();
                 SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
                 Date fecha_recepcion = new Date();
@@ -309,20 +317,19 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                 nota1.setNotaServicios(referencias);
                 if (logica.actualizarNotaRemision(nota1)) {
                     JOptionPane.showMessageDialog(this, "La nota se actualizo correctamente");
-//                    for(int i=0;i<referencias.size();i++){
-//                        referencias.get(i).setNota(nota1);
-//                        this.logica.insertarNotaServicio(referencias.get(i));
-//                    }
                     this.setVisible(false);
                     FrmNotasRemision notas = new FrmNotasRemision();
                     notas.setVisible(true);
                     this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Ocurrio un error al actualizar la nota");
-                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al editar la nota");
             }
-            JOptionPane.showMessageDialog(this, "Ingrese un número válido");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un servicio");
         }
+        
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
