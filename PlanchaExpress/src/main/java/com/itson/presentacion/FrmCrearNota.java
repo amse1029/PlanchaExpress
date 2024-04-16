@@ -84,6 +84,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         tblServicios = new javax.swing.JTable();
         pnlServicios = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
+        fechaEntrega = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crear nota de remisión");
@@ -232,6 +233,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 90, -1));
+        pnlFondo.add(fechaEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 150, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 670));
 
@@ -261,7 +263,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 Usuario usuario=logica.buscarUsuario(2L);
                 SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
                 Date fecha_recepcion = new Date();
-                NotaRemision nota=new NotaRemision(usuario, cliente, total, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
+                NotaRemision nota=new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaEntrega.getDate(), Estado.PENDIENTE);
                 nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
                 for(int i=0;i<referencias.size();i++){
                     referencias.get(i).setNota(nota);
@@ -395,6 +397,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrar1;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JComboBox<Cliente> cbxClientes;
+    private com.toedter.calendar.JDateChooser fechaEntrega;
     private javax.swing.JLabel lblAnticipo;
     private javax.swing.JLabel lblCliente1;
     private javax.swing.JLabel lblDireccion;
