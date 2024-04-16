@@ -128,9 +128,14 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
         String folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
-        nota = logica.buscarNota(Long.parseLong(folio));
+        if(folio != null){
+            nota = logica.buscarNota(Long.parseLong(folio));
         FrmEditarNota1 frm = new FrmEditarNota1(nota);
         frm.setVisible(true);
+        } else {
+            new FrmNotasRemision().setVisible(true);
+        }
+      
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
