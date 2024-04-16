@@ -48,8 +48,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         setResizable(false);
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
-//        detallesServicios();
-//        txtAnticipo.setText(String.valueOf(0.00));
+        txtAnticipo.setText(String.valueOf(0.00));
 
     }
 
@@ -256,8 +255,16 @@ public class FrmCrearNota extends javax.swing.JFrame {
 
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
         // TODO add your handling code here:
-        if(tblServicios.getValueAt(0, 0)!=null){
-            if(txtAnticipo!=null&&!"".equals(txtAnticipo.getText())){
+        if (fechaEntrega.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debe llenar correctamente la fecha de entrega");
+            return;
+        }
+        if (txtAnticipo == null || "".equals(txtAnticipo.getText()) || Float.parseFloat(txtAnticipo.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "El anticipo debe ser un valor numérico mayor o igual a 0");
+            return;
+        }
+
+ if(tblServicios.getValueAt(0, 0)!=null){
                 int pos=this.cbxClientes.getSelectedIndex();
                 Cliente cliente=listaClientes.get(pos);
                 Usuario usuario=logica.buscarUsuario(2L);
@@ -272,10 +279,6 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 if(logica.crearNotaRemision(nota)){
                     JOptionPane.showMessageDialog(this, "La nota se insertó");
                     NotaRemision nota1=logica.buscarNota(13L);
-//                    for(int i=0;i<referencias.size();i++){
-//                        referencias.get(i).setNota(nota1);
-//                        this.logica.insertarNotaServicio(referencias.get(i));
-//                    }
                     this.setVisible(false);
                     FrmNotasRemision notas=new FrmNotasRemision();
                     notas.setVisible(true);
@@ -283,9 +286,11 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 }else{
                     JOptionPane.showMessageDialog(this, "Ocurrio un error al insertar la nota");
                 }
-            }
-        }
-        JOptionPane.showMessageDialog(this, "Seleccione los servicios");
+            
+        } else {
+     JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un servicio");
+ }
+        
     }//GEN-LAST:event_btnCrear1ActionPerformed
 
     private void cbxClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxClientesActionPerformed
