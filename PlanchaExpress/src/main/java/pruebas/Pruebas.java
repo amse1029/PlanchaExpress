@@ -30,12 +30,9 @@ import negocio.LogicaNegocio;
  * @author alexasoto
  */
 public class Pruebas {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        IUsuariosDAO usuarios = new UsuariosDAO();
+    
+    public void ejecutarNotasRemision(){
+                IUsuariosDAO usuarios = new UsuariosDAO();
         IClientesDAO clientes = new ClientesDAO();
         IServiciosDAO servicios = new ServiciosDAO();
         INotasRemisionDAO notas = new NotasRemisionDAO();
@@ -71,9 +68,9 @@ public class Pruebas {
 //notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
         String informacionNotas = notas.buscarNotasCliente(cliente);
         System.out.println(informacionNotas);
-        
-        FrmPrincipal principal = new FrmPrincipal();
-        principal.setVisible(true);
+//        
+//        FrmPrincipal principal = new FrmPrincipal();
+//        principal.setVisible(true);
     }
     
 }
