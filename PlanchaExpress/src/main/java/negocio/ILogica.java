@@ -25,6 +25,7 @@ public interface ILogica {
     public boolean eliminarUsuario(Long id);
     public boolean eliminarServicio(Long id);
     public boolean cancelarNotaRemision(Long id);
+    public boolean realizarEntrega(Long id);
     public String buscarNotasCliente(Cliente cliente);
     public NotaRemision buscarNota(Long folio);
     public List<Servicio> recuperarServicios();

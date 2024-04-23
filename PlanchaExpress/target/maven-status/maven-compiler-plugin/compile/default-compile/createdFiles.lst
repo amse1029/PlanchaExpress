@@ -1,5 +1,5 @@
+com\itson\presentacion\FrmConsulNota$4.class
 com\itson\presentacion\FrmNotasRemision$4.class
-com\itson\presentacion\FrmCantidad$2.class
 com\itson\presentacion\FrmEditarNota1.class
 com\itson\presentacion\DlgCantidad.class
 com\itson\presentacion\FrmPrincipal$1.class
@@ -13,16 +13,12 @@ com\itson\presentacion\FrmConsulNota$1.class
 com\itson\presentacion\FrmNotasRemision.class
 com\itson\presentacion\FrmPrincipal$5.class
 com\itson\planchaexpress\PlanchaExpress.class
-com\itson\presentacion\FrmEditarNota$2.class
 com\itson\presentacion\FrmUsuarios$2.class
 com\itson\interfaces\IServiciosDAO.class
 com\itson\presentacion\FrmConsulNota$3.class
 com\itson\presentacion\FrmServicios$3.class
-com\itson\presentacion\FrmEditarNota.class
 com\itson\presentacion\FrmCrearNota$5.class
 com\itson\presentacion\DlgCantidad$1.class
-com\itson\presentacion\FrmEditarNota$4.class
-com\itson\presentacion\FrmCantidad$1.class
 com\itson\presentacion\FrmPrincipal$2.class
 com\itson\presentacion\FrmCrearNota.class
 negocio\ILogica.class
@@ -30,7 +26,6 @@ com\itson\presentacion\FrmClientes$4.class
 com\itson\dominio\Usuario.class
 com\itson\presentacion\FrmEditarNota1$1.class
 com\itson\presentacion\FrmNotasRemision$2.class
-com\itson\presentacion\FrmEditarNota$1.class
 com\itson\presentacion\FrmEditarNota1$7.class
 com\itson\dao\UsuariosDAO.class
 com\itson\interfaces\IConexionBD.class
@@ -39,7 +34,6 @@ com\itson\dominio\Servicio_.class
 enumeradores\Estado.class
 com\itson\presentacion\FrmEditarNota1$4.class
 com\itson\presentacion\FrmClientes$1.class
-com\itson\presentacion\FrmEditarNota$3.class
 com\itson\presentacion\FrmClientes$2.class
 com\itson\presentacion\FrmRegistrarCliente.class
 com\itson\dominio\Cliente.class
@@ -83,4 +77,3 @@ com\itson\presentacion\FrmRegistrarCliente$2.class
 com\itson\dominio\NotaRemision.class
 com\itson\presentacion\DlgCantidad$2.class
 com\itson\presentacion\FrmPrincipal$4.class
-com\itson\presentacion\FrmCantidad.class

@@ -74,6 +74,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
         scrlServicios = new javax.swing.JScrollPane();
         tblServicios = new javax.swing.JTable();
         btnCancelarNota = new javax.swing.JButton();
+        btnEntregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Consultar nota de remisión");
@@ -97,7 +98,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 100, -1));
 
         lblTelefono.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblTelefono.setText("Teléfono:");
@@ -202,6 +203,16 @@ public class FrmConsulNota extends javax.swing.JFrame {
         });
         pnlFondo.add(btnCancelarNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 510, -1, -1));
 
+        btnEntregar.setBackground(new java.awt.Color(153, 255, 153));
+        btnEntregar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEntregar.setText("Realizar Entrega");
+        btnEntregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntregarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnEntregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 510, -1, -1));
+
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 570));
 
         pack();
@@ -238,8 +249,32 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCancelarNotaActionPerformed
 
+    private void btnEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarActionPerformed
+        // TODO add your handling code here:
+         int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de realizar la entrega de la nota?",
+                "Confirmación", JOptionPane.YES_NO_OPTION);
+
+        if (respuesta == JOptionPane.YES_OPTION) {
+            // Si el usuario selecciona "Sí"
+            System.out.println("El usuario ha seleccionado Sí.");
+            if (logica.realizarEntrega(nota.getFolio())) {
+                JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido entregada");
+                this.setVisible(false);
+                FrmNotasRemision notas = new FrmNotasRemision();
+                notas.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al entregar la nota");
+            }
+        } else {
+            // Si el usuario selecciona "No" o cierra el cuadro de diálogo
+            System.out.println("El usuario ha seleccionado No o ha cerrado el cuadro de diálogo.");
+        }
+    }//GEN-LAST:event_btnEntregarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarNota;
+    private javax.swing.JButton btnEntregar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel lblAnticipo;
     private javax.swing.JLabel lblCliente1;

@@ -11,5 +11,5 @@ package enumeradores;
 public enum Estado {
      PENDIENTE,
     CANCELADA,
-    COMPLETADA
+    ENTREGADA
 }
