@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IServiciosDAO {
     
-    public boolean insertarServicio(/*Servicio servicio*/);
+    public boolean insertarServicio(String descripcion, float precio);
     public Servicio consultaServicio(Long id);
     public boolean eliminarServicio(Long id);
     public List<Servicio> buscarServicios();

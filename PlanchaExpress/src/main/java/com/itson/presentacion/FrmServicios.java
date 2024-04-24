@@ -111,13 +111,15 @@ public class FrmServicios extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here: 
-        FrmUsuarios frm = new FrmUsuarios();
+        FrmConsulServicios frm = new FrmConsulServicios();
         frm.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        logica.registrarServicio();
+        FrmRegistrarServ frm = new FrmRegistrarServ();
+        frm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed

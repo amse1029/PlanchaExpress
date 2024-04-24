@@ -27,27 +27,16 @@ public class ServiciosDAO implements IServiciosDAO {
     }
 
     @Override
-    public boolean insertarServicio(/*Servicio servicio*/) {
+    public boolean insertarServicio(String descripcion, float precio) {
         try {
             em.getTransaction().begin();
-
-            Servicio servicio1 = new Servicio("Lavado de cobijas", 100f);
-            Servicio servicio2 = new Servicio("Camsisa planchada", 10f);
-            Servicio servicio3 = new Servicio("Pantalón planchado", 10f);
-            Servicio servicio4 = new Servicio("Vestido planchado", 12f);
-            Servicio servicio5 = new Servicio("Lavado de camisas", 50f);
-
-            em.persist(servicio1);
-            em.persist(servicio2);
-            em.persist(servicio3);
-            em.persist(servicio4);
-            em.persist(servicio5);
-
+            Servicio servicio = new Servicio(descripcion, precio);
+            em.persist(servicio);
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se han insertado los servicios con éxito");
+            JOptionPane.showMessageDialog(null, "El servicio: " + servicio.getDescripcion() + " se insertó correctamente");
             return true;
-        } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "Error al insertar");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al insertar el servicio");
 //            em.getTransaction().rollback();
             return false;
         }

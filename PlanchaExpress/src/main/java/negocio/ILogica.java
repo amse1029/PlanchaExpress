@@ -19,7 +19,7 @@ import java.util.List;
 public interface ILogica {
     public boolean registrarCliente();
     public boolean registrarUsuario();
-    public boolean registrarServicio();
+    public boolean registrarServicio(Servicio servicio);
     public boolean crearNotaRemision(NotaRemision notaRemision);
     public boolean eliminarCliente(Long id);
     public boolean eliminarUsuario(Long id);

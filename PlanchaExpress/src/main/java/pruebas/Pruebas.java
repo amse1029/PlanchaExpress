@@ -40,7 +40,9 @@ public class Pruebas {
         
         usuarios.insertarUsuario();
         clientes.insertarCliente();
-        servicios.insertarServicio();
+        
+        
+        servicios.insertarServicio("Lavado", 100);
         
         SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
         Date fecha_recepcion = new Date();

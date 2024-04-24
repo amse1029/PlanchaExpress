@@ -42,8 +42,8 @@ public class LogicaNegocio implements ILogica{
     }
 
     @Override
-    public boolean registrarServicio() {
-        return this.servicios.insertarServicio(/*servicio*/);
+    public boolean registrarServicio(Servicio servicio) {
+        return this.servicios.insertarServicio(servicio.getDescripcion(), servicio.getPrecio());
     }
 
     @Override
