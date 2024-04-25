@@ -21,6 +21,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     
+    
     /**
      * Creates new form FrmConsulServicios
      */
@@ -79,16 +80,9 @@ public class FrmConsulServicios extends javax.swing.JFrame {
                 "ID", "Descripción", "Precio"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Float.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -96,7 +90,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         });
         scrlServicios.setViewportView(tblServicios);
 
-        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 280, 180));
+        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 280, 210));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 380));
 
@@ -114,14 +108,15 @@ public class FrmConsulServicios extends javax.swing.JFrame {
 
     public void llenarTablaServ() {
         List<Servicio> servicios = logica.recuperarServicios();
-        DefaultTableModel model = new DefaultTableModel();
-        
+        tblServicios = new JTable();
+        DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
+
+        // Agregar filas al modelo
         for (Servicio servicio : servicios) {
             model.addRow(new Object[]{servicio.getId(), servicio.getDescripcion(), servicio.getPrecio()});
         }
-        
-        tblServicios.setModel(model);
-        
+
+        this.scrlServicios = new JScrollPane(tblServicios);
         
     }
     
