@@ -1,6 +1,13 @@
-com\itson\presentacion\FrmRegistrarServ$1.class
-com\itson\presentacion\FrmConsulServicios$1.class
+com\itson\presentacion\FrmEditarServicio.class
+com\itson\presentacion\FrmEditarServicio$1.class
 com\itson\presentacion\FrmConsulServicios$2.class
 com\itson\presentacion\FrmConsulServicios.class
+com\itson\presentacion\FrmEditarServicio$2.class
 com\itson\presentacion\FrmRegistrarServ.class
 com\itson\presentacion\FrmRegistrarServ$2.class
+com\itson\presentacion\DlgEditarServicio.class
+com\itson\presentacion\FrmEditarServicio$3.class
+com\itson\presentacion\FrmRegistrarServ$1.class
+com\itson\presentacion\FrmConsulServicios$1.class
+com\itson\presentacion\DlgEditarServicio$1.class
+com\itson\presentacion\DlgEditarServicio$2.class

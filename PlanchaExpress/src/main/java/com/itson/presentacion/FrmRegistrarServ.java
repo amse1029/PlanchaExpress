@@ -65,7 +65,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 100, -1));
 
         btnRegistrar1.setBackground(new java.awt.Color(153, 204, 255));
         btnRegistrar1.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
@@ -78,7 +78,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
                 btnRegistrar1ActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegistrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, 100, -1));
+        pnlFondo.add(btnRegistrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 100, -1));
 
         lblDescripcion.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblDescripcion.setText("Descripción:");
@@ -113,7 +113,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
         String precioStr = this.txtPrecio.getText();
 
         if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z]+")) {
-            JOptionPane.showMessageDialog(this, "Ingrese una descripción válida no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese una descripción válida y no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
 

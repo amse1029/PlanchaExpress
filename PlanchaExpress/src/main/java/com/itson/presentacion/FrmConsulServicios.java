@@ -27,6 +27,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
      */
     public FrmConsulServicios() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.llenarTablaServ();
     }
 
