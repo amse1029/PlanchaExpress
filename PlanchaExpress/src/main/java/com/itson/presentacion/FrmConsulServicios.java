@@ -26,8 +26,8 @@ public class FrmConsulServicios extends javax.swing.JFrame {
      * Creates new form FrmConsulServicios
      */
     public FrmConsulServicios() {
-        this.llenarTablaServ();
         initComponents();
+        this.llenarTablaServ();
     }
 
     /**
@@ -108,15 +108,13 @@ public class FrmConsulServicios extends javax.swing.JFrame {
 
     public void llenarTablaServ() {
         List<Servicio> servicios = logica.recuperarServicios();
-        tblServicios = new JTable();
-        DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
-
-        // Agregar filas al modelo
+        DefaultTableModel modelo = (DefaultTableModel) this.tblServicios.getModel();
+        modelo.setRowCount(0);
         for (Servicio servicio : servicios) {
-            model.addRow(new Object[]{servicio.getId(), servicio.getDescripcion(), servicio.getPrecio()});
+            Object[] filaNueva = {servicio.getId(),servicio.getDescripcion() , servicio.getPrecio()};
+            modelo.addRow(filaNueva);
         }
-
-        this.scrlServicios = new JScrollPane(tblServicios);
+        
         
     }
     

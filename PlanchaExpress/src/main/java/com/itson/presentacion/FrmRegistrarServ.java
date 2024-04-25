@@ -6,6 +6,7 @@ package com.itson.presentacion;
 
 import com.itson.dominio.Servicio;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -64,7 +65,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 100, -1));
 
         btnRegistrar1.setBackground(new java.awt.Color(153, 204, 255));
         btnRegistrar1.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
@@ -77,7 +78,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
                 btnRegistrar1ActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegistrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 100, -1));
+        pnlFondo.add(btnRegistrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, 100, -1));
 
         lblDescripcion.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         lblDescripcion.setText("Descripción:");
@@ -101,20 +102,35 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        FrmServicios frm = new FrmServicios();
         this.dispose();
+        FrmServicios frm = new FrmServicios();
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
         // TODO add your handling code here:
         String descripcion = this.txtDescripcion.getText();
-        float precio = Float.parseFloat(this.txtPrecio.getText());
-        
+        String precioStr = this.txtPrecio.getText();
+
+        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(this, "Ingrese una descripción válida no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
+
+        float precio;
+        try {
+            precio = Float.parseFloat(precioStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser un valor numérico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
         Servicio servicio = new Servicio(descripcion, precio);
-        
         logica.registrarServicio(servicio);
-        //        frm.setVisible(true);
+
+        this.dispose();
+        FrmServicios servicios = new FrmServicios();
+        servicios.setVisible(true);
+
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
     
