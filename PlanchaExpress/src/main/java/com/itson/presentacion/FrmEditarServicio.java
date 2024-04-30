@@ -28,17 +28,8 @@ public class FrmEditarServicio extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.servicio1=servicio1;
         this.servicio2=servicio1;
-        this.llenarTablaServ();
     }
     
-     public void llenarTablaServ() {
-        if (servicio2 != null) {
-            this.txtDescripcion.setText(servicio2.getDescripcion());
-            this.txtPrecio.setText(String.valueOf(servicio2.getPrecio()));
-        }
-        
-        
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,84 +41,108 @@ public class FrmEditarServicio extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
-        lblEditarServicio = new javax.swing.JLabel();
-        btnAceptar = new javax.swing.JButton();
+        lblServicio = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         lblDescripcion = new javax.swing.JLabel();
-        lblPrecio = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
+        lblPrecio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblEditarServicio.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        lblEditarServicio.setText("Editar Servicio");
-        pnlFondo.add(lblEditarServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        lblServicio.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
+        lblServicio.setText("Editar servicio");
+        pnlFondo.add(lblServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        btnAceptar.setText("Aceptar");
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
-            }
-        });
-        pnlFondo.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, -1, -1));
-
+        btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
+        btnRegresar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         btnRegresar.setText("Regresar");
+        btnRegresar.setFocusable(false);
+        btnRegresar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRegresar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, -1, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 100, -1));
 
-        lblDescripcion.setText("Descripcion");
-        pnlFondo.add(lblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
+        btnActualizar.setBackground(new java.awt.Color(153, 204, 255));
+        btnActualizar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.setFocusable(false);
+        btnActualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnActualizar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 100, -1));
 
-        lblPrecio.setText("Precio");
-        pnlFondo.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
-        pnlFondo.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 140, -1));
-        pnlFondo.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 140, -1));
+        lblDescripcion.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
+        lblDescripcion.setText("Descripción:");
+        pnlFondo.add(lblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        txtDescripcion.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
+        pnlFondo.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, 190, -1));
+
+        txtPrecio.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
+        pnlFondo.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 190, -1));
+
+        lblPrecio.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
+        lblPrecio.setText("Precio:");
+        pnlFondo.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, -1, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-                servicio1.setDescripcion(txtDescripcion.getText());
-                String precioStr = txtPrecio.getText();
-                float precio = Float.parseFloat(precioStr);
-                servicio1.setPrecio(precio);
-                if (logica.actualizarServicio(servicio1)) {
-                    JOptionPane.showMessageDialog(this, "El servicio se actualizó correctamente");
-                    this.setVisible(false);
-                    FrmConsulServicios notas = new FrmConsulServicios();
-                    notas.setVisible(true);
-                    this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Ocurrio un error al editar el servicio");
-            }
-
-    }//GEN-LAST:event_btnAceptarActionPerformed
-
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        FrmServicios frm = new FrmServicios();
         this.dispose();
+        FrmServicios frm = new FrmServicios();
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        String descripcion = this.txtDescripcion.getText();
+        String precioStr = this.txtPrecio.getText();
+
+        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(this, "Ingrese una descripción válida y no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        float precio;
+        try {
+            precio = Float.parseFloat(precioStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser un valor numérico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Servicio servicio = new Servicio(descripcion, precio);
+        logica.registrarServicio(servicio);
+
+        this.dispose();
+        FrmServicios servicios = new FrmServicios();
+        servicios.setVisible(true);
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel lblDescripcion;
-    private javax.swing.JLabel lblEditarServicio;
     private javax.swing.JLabel lblPrecio;
+    private javax.swing.JLabel lblServicio;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtPrecio;

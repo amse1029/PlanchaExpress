@@ -36,6 +36,7 @@ public class DlgCantidad extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlFondo = new javax.swing.JPanel();
         sfCantidad = new com.toedter.components.JSpinField();
         jLabel1 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
@@ -43,69 +44,53 @@ public class DlgCantidad extends javax.swing.JDialog {
         lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
+        pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        sfCantidad.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
+        pnlFondo.add(sfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 83, -1));
+
+        jLabel1.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         jLabel1.setText("Cantidad:");
+        pnlFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(105, 119, -1, -1));
 
+        btnAceptar.setBackground(new java.awt.Color(153, 204, 255));
+        btnAceptar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
+        pnlFondo.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
 
+        btnCancelar.setBackground(new java.awt.Color(153, 204, 255));
+        btnCancelar.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
+        pnlFondo.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
 
-        lblTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Kannada MN", 1, 24)); // NOI18N
         lblTitulo.setText("Titulo");
+        pnlFondo.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 36, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(btnAceptar))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(sfCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(btnCancelar))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(lblTitulo)))
-                .addContainerGap(113, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(lblTitulo)
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(sfCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar))
-                .addGap(58, 58, 58))
-        );
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 240));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        cantidad=-1;
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
@@ -114,17 +99,10 @@ public class DlgCantidad extends javax.swing.JDialog {
             dispose();
 
         } else {
-             JOptionPane.showMessageDialog(this, "Ingrese un número válido");
-             sfCantidad.setValue(0);
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido");
+            sfCantidad.setValue(0);
         }
-        
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        cantidad=-1;
-        dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,6 +114,7 @@ public class DlgCantidad extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlFondo;
     private com.toedter.components.JSpinField sfCantidad;
     // End of variables declaration//GEN-END:variables
 }
