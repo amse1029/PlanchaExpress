@@ -115,5 +115,15 @@ public class LogicaNegocio implements ILogica{
     public boolean actualizarNotaRemision(NotaRemision nota) {
         return this.notas.actualizarNotaRemision(nota);
     }
+
+    @Override
+    public List<NotaRemision> recuperarnotas() {
+        return this.notas.consultarLista();
+    }
+
+    @Override
+    public Servicio buscarServicio(Long folio) {
+        return this.servicios.consultaServicio(folio);
+    }
     
 }

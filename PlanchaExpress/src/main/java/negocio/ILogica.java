@@ -30,8 +30,11 @@ public interface ILogica {
     public NotaRemision buscarNota(Long folio);
     public List<Servicio> recuperarServicios();
     public List<Cliente> recuperarClientes();
+    public List<NotaRemision> recuperarnotas();
+    public Servicio buscarServicio(Long folio);
     public boolean autenticarUsuario(String nombre, String pass);
     public Usuario buscarUsuario(Long id);
     public boolean insertarNotaServicio(NotaServicio notaServicio);
     public boolean actualizarNotaRemision(NotaRemision nota);
+    
 }

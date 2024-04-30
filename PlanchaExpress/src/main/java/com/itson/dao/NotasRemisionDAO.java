@@ -25,6 +25,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 /**
@@ -303,5 +304,18 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<NotaRemision> consultarLista() {
+
+        try {
+            TypedQuery<NotaRemision> query = em.createQuery("SELECT n FROM NotaRemision n", NotaRemision.class);
+            return query.getResultList();
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "No hay notas registradas");
+            em.getTransaction().rollback();
+        }
+        return null;
     }
 }

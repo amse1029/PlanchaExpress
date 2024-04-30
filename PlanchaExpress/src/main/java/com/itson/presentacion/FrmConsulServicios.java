@@ -7,6 +7,7 @@ package com.itson.presentacion;
 import com.itson.dominio.Servicio;
 import java.awt.BorderLayout;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +21,7 @@ import negocio.LogicaNegocio;
 public class FrmConsulServicios extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    Servicio servicio;
     
     
     /**
@@ -45,6 +47,9 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         scrlServicios = new javax.swing.JScrollPane();
         tblServicios = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        btnEditar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -67,7 +72,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 320, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 100, -1));
 
         tblServicios.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblServicios.setModel(new javax.swing.table.DefaultTableModel(
@@ -91,9 +96,38 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         });
         scrlServicios.setViewportView(tblServicios);
 
-        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 280, 210));
+        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 400, 210));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 380));
+        jToolBar1.setBackground(new java.awt.Color(153, 204, 255));
+        jToolBar1.setRollover(true);
+
+        btnEditar.setFont(new java.awt.Font("Kannada MN", 0, 18)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.setFocusable(false);
+        btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnEditar);
+
+        btnEliminar.setFont(new java.awt.Font("Kannada MN", 0, 18)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.setFocusable(false);
+        btnEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnEliminar);
+
+        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 520, 60));
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 490));
 
         pack();
         setLocationRelativeTo(null);
@@ -106,6 +140,16 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        servicio = logica.buscarServicio(this.obtenerFolio());
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
 
     public void llenarTablaServ() {
         List<Servicio> servicios = logica.recuperarServicios();
@@ -115,12 +159,24 @@ public class FrmConsulServicios extends javax.swing.JFrame {
             Object[] filaNueva = {servicio.getId(),servicio.getDescripcion() , servicio.getPrecio()};
             modelo.addRow(filaNueva);
         }
+}
         
-        
+        public Long obtenerFolio() {
+        Long folio = 0L;
+        int fila = this.tblServicios.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningún servicio");
+        } else {
+            folio = (Long) this.tblServicios.getValueAt(fila, 0); // Primera columna
+        }
+        return folio;
     }
-    
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lblServicio;
     private javax.swing.JPanel pnlFondo;
     private javax.swing.JScrollPane scrlServicios;

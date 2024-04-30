@@ -32,4 +32,5 @@ public interface INotasRemisionDAO {
     public boolean insertarNotaServicio(NotaServicio nota);
     public boolean actualizarNotaRemision(NotaRemision nota);
     public Long insertarNota(Usuario usuario, Cliente cliente, float total, Date fecha_recepcion, Date fecha_entrega, Estado estado, float anticipo);
+    public List<NotaRemision> consultarLista();
 }

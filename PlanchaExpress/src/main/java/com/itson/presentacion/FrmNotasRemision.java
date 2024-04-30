@@ -111,27 +111,8 @@ public class FrmNotasRemision extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
           this.dispose();
-        String folio = "";
-        do {
-            folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
-            if (folio == null) {
-                this.setVisible(true);
-                return;
-            } else if (folio.equals("")) {
-                JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
-            } else {
-                try {
-                    long folioNum = Long.parseLong(folio);
-                    nota = logica.buscarNota(folioNum);
-                    if (nota == null) {
-                        JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Ingrese un número");
-                }
-            }
-        } while (folio.equals("") || nota == null);
-        FrmConsulNota frm = new FrmConsulNota(nota);
+//        
+        FrmConsulNotas frm = new FrmConsulNotas();
         frm.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
