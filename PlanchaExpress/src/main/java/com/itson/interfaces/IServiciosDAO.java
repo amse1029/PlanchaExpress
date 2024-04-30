@@ -16,5 +16,6 @@ public interface IServiciosDAO {
     public boolean insertarServicio(String descripcion, float precio);
     public Servicio consultaServicio(Long id);
     public boolean eliminarServicio(Long id);
+    public boolean editarServicio(Servicio servicio);
     public List<Servicio> buscarServicios();
 }

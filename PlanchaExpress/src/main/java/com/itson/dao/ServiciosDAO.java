@@ -69,7 +69,27 @@ public class ServiciosDAO implements IServiciosDAO {
 
     @Override
     public boolean eliminarServicio(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            em.getTransaction().begin();
+           
+            Servicio servicio = em.find(Servicio.class, id);
+            
+            if (servicio != null) {
+                em.remove(servicio);
+                em.getTransaction().commit();
+                return true;
+            } else {
+                em.getTransaction().rollback();
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+            return false;
+        } finally {
+            em.close();
+        }
+    
     }
 
     @Override
@@ -82,6 +102,36 @@ public class ServiciosDAO implements IServiciosDAO {
             em.getTransaction().rollback();
         }
         return null;
+    }
+
+    @Override
+    public boolean editarServicio(Servicio servicio) {
+//        em.getTransaction().begin();
+//        Servicio servicio = em.find(Servicio.class, id);
+//        if (servicio == null) {
+//            System.out.println("No se encontró el servicio");
+//        } else {
+//
+//            servicio.setDescripcion(descripcion);
+//            servicio.setPrecio(precio);
+//            em.merge(servicio);
+//        }
+//        em.getTransaction().commit();
+
+
+
+try {
+            // Realiza las operaciones necesarias para actualizar la nota en la base de datos
+            // Por ejemplo:
+            em.getTransaction().begin();
+            em.merge(servicio); // Actualiza la entidad en la base de datos
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            // Manejo de excepciones, si es necesario
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     

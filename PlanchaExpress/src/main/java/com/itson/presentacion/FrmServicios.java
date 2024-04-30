@@ -125,9 +125,9 @@ public class FrmServicios extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        FrmEditarServicio frm = new FrmEditarServicio();
-        frm.setVisible(true);
+//        this.dispose();
+//        FrmEditarServicio frm = new FrmEditarServicio();
+//        frm.setVisible(true);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

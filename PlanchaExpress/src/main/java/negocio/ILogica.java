@@ -36,5 +36,6 @@ public interface ILogica {
     public Usuario buscarUsuario(Long id);
     public boolean insertarNotaServicio(NotaServicio notaServicio);
     public boolean actualizarNotaRemision(NotaRemision nota);
+    public boolean actualizarServicio(Servicio servicio);
     
 }

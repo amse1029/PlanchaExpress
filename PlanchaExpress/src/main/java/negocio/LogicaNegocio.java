@@ -125,5 +125,10 @@ public class LogicaNegocio implements ILogica{
     public Servicio buscarServicio(Long folio) {
         return this.servicios.consultaServicio(folio);
     }
+
+    @Override
+    public boolean actualizarServicio(Servicio servicio) {
+       return this.servicios.editarServicio(servicio);
+    }
     
 }

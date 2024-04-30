@@ -18,22 +18,23 @@ import negocio.LogicaNegocio;
 public class FrmEditarServicio extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    Servicio servicio1;
+    Servicio servicio2;
     /**
      * Creates new form FrmEditarServicio
      */
-    public FrmEditarServicio() {
+    public FrmEditarServicio(Servicio servicio1) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.servicio1=servicio1;
+        this.servicio2=servicio1;
         this.llenarTablaServ();
     }
     
      public void llenarTablaServ() {
-        List<Servicio> servicios = logica.recuperarServicios();
-        DefaultTableModel modelo = (DefaultTableModel) this.tblServicios.getModel();
-        modelo.setRowCount(0);
-        for (Servicio servicio : servicios) {
-            Object[] filaNueva = {servicio.getId(),servicio.getDescripcion() , servicio.getPrecio()};
-            modelo.addRow(filaNueva);
+        if (servicio2 != null) {
+            this.txtDescripcion.setText(servicio2.getDescripcion());
+            this.txtPrecio.setText(String.valueOf(servicio2.getPrecio()));
         }
         
         
@@ -50,10 +51,12 @@ public class FrmEditarServicio extends javax.swing.JFrame {
 
         pnlFondo = new javax.swing.JPanel();
         lblEditarServicio = new javax.swing.JLabel();
-        scrlServicios = new javax.swing.JScrollPane();
-        tblServicios = new javax.swing.JTable();
-        btnEditar = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
+        lblDescripcion = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
+        txtDescripcion = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -64,37 +67,13 @@ public class FrmEditarServicio extends javax.swing.JFrame {
         lblEditarServicio.setText("Editar Servicio");
         pnlFondo.add(lblEditarServicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        tblServicios.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
-        tblServicios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "ID", "Descripción", "Precio"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        scrlServicios.setViewportView(tblServicios);
-
-        pnlFondo.add(scrlServicios, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 280, 210));
-
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnAceptarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, -1, -1));
+        pnlFondo.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, -1, -1));
 
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -104,27 +83,36 @@ public class FrmEditarServicio extends javax.swing.JFrame {
         });
         pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, -1, -1));
 
+        lblDescripcion.setText("Descripcion");
+        pnlFondo.add(lblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
+
+        lblPrecio.setText("Precio");
+        pnlFondo.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
+        pnlFondo.add(txtDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 140, -1));
+        pnlFondo.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 140, -1));
+
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-           // Obtenemos el índice de la fila seleccionada
-           List<Servicio> listaServicios = logica.recuperarServicios();
-        int filaSeleccionada = tblServicios.getSelectedRow();
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
+                servicio1.setDescripcion(txtDescripcion.getText());
+                String precioStr = txtPrecio.getText();
+                float precio = Float.parseFloat(precioStr);
+                servicio1.setPrecio(precio);
+                if (logica.actualizarServicio(servicio1)) {
+                    JOptionPane.showMessageDialog(this, "El servicio se actualizó correctamente");
+                    this.setVisible(false);
+                    FrmConsulServicios notas = new FrmConsulServicios();
+                    notas.setVisible(true);
+                    this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al editar el servicio");
+            }
 
-        // Verificamos si hay alguna fila seleccionada
-        if (filaSeleccionada != -1) {
-//            DlgEditarServicio editarServicio = new DlgEditarServicio(this, true,servicio);
-            
-        } else {
-            // Si no hay fila seleccionada, mostramos un mensaje de error
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un servicio a editar.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnEditarActionPerformed
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
@@ -135,11 +123,13 @@ public class FrmEditarServicio extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JLabel lblDescripcion;
     private javax.swing.JLabel lblEditarServicio;
+    private javax.swing.JLabel lblPrecio;
     private javax.swing.JPanel pnlFondo;
-    private javax.swing.JScrollPane scrlServicios;
-    private javax.swing.JTable tblServicios;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

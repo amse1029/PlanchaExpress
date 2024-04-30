@@ -141,13 +141,39 @@ public class FrmConsulServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        servicio = logica.buscarServicio(this.obtenerFolio());
+        int filaSeleccionada = tblServicios.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            servicio = logica.buscarServicio(this.obtenerFolio());
+            dispose();
+            FrmEditarServicio frm = new FrmEditarServicio(servicio);
+            frm.setVisible(true);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        int filaSeleccionada = tblServicios.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            Object id = tblServicios.getValueAt(filaSeleccionada, 0);
+            
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el servicio?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                boolean eliminado = logica.eliminarServicio((Long) id);
+                System.out.println((Long) id);
+
+                if (eliminado) {
+                    DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
+                    model.removeRow(filaSeleccionada);
+                    JOptionPane.showMessageDialog(this, "Registro eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al eliminar el registro.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 

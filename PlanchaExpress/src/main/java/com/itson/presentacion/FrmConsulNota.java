@@ -220,8 +220,8 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        FrmNotasRemision frm = new FrmNotasRemision();
+        dispose();
+        FrmConsulNotas frm = new FrmConsulNotas();
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 

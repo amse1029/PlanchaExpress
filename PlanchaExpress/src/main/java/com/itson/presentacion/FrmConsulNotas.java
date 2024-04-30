@@ -146,30 +146,45 @@ public class FrmConsulNotas extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        FrmServicios frm = new FrmServicios();
-        this.dispose();
-        frm.setVisible(true);
+        dispose();
+        FrmNotasRemision frmRemision = new FrmNotasRemision();
+        frmRemision.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetallesActionPerformed
         // TODO add your handling code here: 
-        this.dispose();
-        nota = logica.buscarNota(this.obtenerFolio());
-        FrmConsulNota frm = new FrmConsulNota(nota);
-        frm.setVisible(true);
+        int filaSeleccionada = tblNotas.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            nota = logica.buscarNota(this.obtenerFolio());
+            dispose();
+            FrmConsulNota frm = new FrmConsulNota(nota);
+            frm.setVisible(true);
+        }
     }//GEN-LAST:event_btnDetallesActionPerformed
 
     private void btnEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarActionPerformed
         // TODO add your handling code here:
-        this.entregarNota();
+        int filaSeleccionada = tblNotas.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de entregar la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            entregarNota();
+        }
     }//GEN-LAST:event_btnEntregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        nota = logica.buscarNota(this.obtenerFolio());
-        FrmEditarNota1 frm = new FrmEditarNota1(nota);
-        frm.setVisible(true);
+        int filaSeleccionada = tblNotas.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } else {
+            nota = logica.buscarNota(this.obtenerFolio());
+            dispose();
+            FrmEditarNota1 frm = new FrmEditarNota1(nota);
+            frm.setVisible(true);
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     public void llenarTablaNotas() {
