@@ -240,6 +240,8 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         txtDireccion.setFont(new java.awt.Font("Kannada Sangam MN", 0, 14)); // NOI18N
         txtDireccion.setEnabled(false);
         pnlFondo.add(txtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 190, -1));
+
+        fechaEntrega.setDateFormatString("yyyy-MM-dd HH:mm");
         pnlFondo.add(fechaEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 60, 150, -1));
 
         btnGuardar.setBackground(new java.awt.Color(153, 204, 255));
@@ -294,17 +296,18 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        Calendar calendario = Calendar.getInstance();
-        Date fechaActual = calendario.getTime();
+         Calendar calendarioActual = Calendar.getInstance();
+        Date fechaActual = calendarioActual.getTime();
 
-        calendario.add(Calendar.DAY_OF_MONTH, -1);
-        Date fechaCalendar = calendario.getTime();
-        if (fechaEntrega.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Debe llenar correctamente la fecha de entrega");
+        Date fechaSeleccionada = fechaEntrega.getDate();
+
+        if (fechaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrega no puede estar vacía");
             return;
         }
-        if (fechaEntrega.getDate().before(fechaCalendar)) {
-            JOptionPane.showMessageDialog(this, "La fecha de entrega no puede ser anterior a la fecha actual");
+
+        if (fechaSeleccionada.compareTo(fechaActual) <= 0) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrega debe ser posterior a la fecha y hora actual");
             return;
         }
         String anticipoText = txtAnticipo.getText().trim();

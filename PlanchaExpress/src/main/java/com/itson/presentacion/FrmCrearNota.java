@@ -9,6 +9,7 @@ import com.itson.dominio.NotaRemision;
 import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
+import com.toedter.calendar.JDateChooser;
 import enumeradores.Estado;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -39,6 +40,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     private int indice=0;
     private float total=0;
+
     
     /**
      * Creates new form FrmCrearNota
@@ -50,7 +52,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
         txtAnticipo.setText(String.valueOf(0.00));
-
+        
     }
 
 
@@ -233,6 +235,8 @@ public class FrmCrearNota extends javax.swing.JFrame {
             }
         });
         pnlFondo.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 90, -1));
+
+        fechaEntrega.setDateFormatString("yyyy-MM-dd HH:mm");
         pnlFondo.add(fechaEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 150, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 670));
@@ -255,18 +259,20 @@ public class FrmCrearNota extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
     private void btnCrear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrear1ActionPerformed
-        // TODO add your handling code here:
-        Calendar calendario = Calendar.getInstance();
-        Date fechaActual = calendario.getTime();
 
-        calendario.add(Calendar.DAY_OF_MONTH, -1);
-        Date fechaCalendar = calendario.getTime();
-        if (fechaEntrega.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Debe llenar correctamente la fecha de entrega");
+
+        Calendar calendarioActual = Calendar.getInstance();
+        Date fechaActual = calendarioActual.getTime();
+
+        Date fechaSeleccionada = fechaEntrega.getDate();
+
+        if (fechaSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrega no puede estar vacía");
             return;
         }
-        if (fechaEntrega.getDate().before(fechaCalendar)) {
-            JOptionPane.showMessageDialog(this, "La fecha de entrega no puede ser anterior a la fecha actual");
+
+        if (fechaSeleccionada.compareTo(fechaActual) <= 0) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrega debe ser posterior a la fecha y hora actual");
             return;
         }
         String anticipoText = txtAnticipo.getText().trim();
@@ -294,7 +300,6 @@ public class FrmCrearNota extends javax.swing.JFrame {
             int pos = this.cbxClientes.getSelectedIndex();
             Cliente cliente = listaClientes.get(pos);
             Usuario usuario = logica.buscarUsuario(2L);
-            SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
             Date fecha_recepcion = new Date();
             NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaEntrega.getDate(), Estado.PENDIENTE);
             nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
