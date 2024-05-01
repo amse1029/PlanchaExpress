@@ -347,7 +347,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
             Cliente cliente = listaClientes.get(pos);
             Usuario usuario = logica.buscarUsuario(2L);
             Date fecha_recepcion = new Date();
-            NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaEntrega.getDate(), Estado.PENDIENTE);
+            NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaSeleccionada, Estado.PENDIENTE);
             nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
             
             for (int i = 0; i < referencias.size(); i++) {

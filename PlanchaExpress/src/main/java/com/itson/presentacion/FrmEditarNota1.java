@@ -374,7 +374,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                 SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
                 Date fecha_recepcion = new Date();
                 nota1.setFecha_recepcion(fecha_recepcion);
-                nota1.setFecha_entrega(this.fechaEntrega.getDate());
+                nota1.setFecha_entrega(fechaSeleccionada);
                 nota1.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
                 nota1.setTotal(total);
                 for(int i=0;i<referencias.size();i++){
