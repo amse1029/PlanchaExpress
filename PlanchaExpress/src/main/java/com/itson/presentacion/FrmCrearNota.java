@@ -14,6 +14,7 @@ import enumeradores.Estado;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -32,6 +36,7 @@ import negocio.LogicaNegocio;
  */
 public class FrmCrearNota extends javax.swing.JFrame {
 
+    private Date fechaSelec;
     ILogica logica = new LogicaNegocio();
     List<Servicio> listaServicios = logica.recuperarServicios();
     List<Cliente> listaClientes = logica.recuperarClientes();
@@ -40,7 +45,6 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     private int indice=0;
     private float total=0;
-
     
     /**
      * Creates new form FrmCrearNota
@@ -53,6 +57,38 @@ public class FrmCrearNota extends javax.swing.JFrame {
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
         txtAnticipo.setText(String.valueOf(0.00));
         
+        JTextField dateTextField = (JTextField) fechaEntrega.getDateEditor().getUiComponent();
+        dateTextField.getDocument().addDocumentListener(new DocumentListener() {
+            
+
+            private void updateValue() {
+                String text = dateTextField.getText();
+                System.out.println("Valor editado en el JDateChooser: " + text);
+                
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    fechaSelec = dateFormat.parse(text);
+                    System.out.println("Fecha convertida: " + fechaSelec);
+                } catch (ParseException ex) {
+                    System.out.println("Formato de fecha inválido");
+                }
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateValue();
+            }
+        });
     }
 
 
@@ -237,6 +273,16 @@ public class FrmCrearNota extends javax.swing.JFrame {
         pnlFondo.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 90, -1));
 
         fechaEntrega.setDateFormatString("yyyy-MM-dd HH:mm");
+        fechaEntrega.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fechaEntregaFocusLost(evt);
+            }
+        });
+        fechaEntrega.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                fechaEntregaKeyTyped(evt);
+            }
+        });
         pnlFondo.add(fechaEntrega, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 60, 150, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 670));
@@ -264,7 +310,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         Calendar calendarioActual = Calendar.getInstance();
         Date fechaActual = calendarioActual.getTime();
 
-        Date fechaSeleccionada = fechaEntrega.getDate();
+        Date fechaSeleccionada = fechaSelec;
 
         if (fechaSeleccionada == null) {
             JOptionPane.showMessageDialog(this, "La fecha de entrega no puede estar vacía");
@@ -364,6 +410,15 @@ public class FrmCrearNota extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void fechaEntregaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fechaEntregaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaEntregaKeyTyped
+
+    private void fechaEntregaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fechaEntregaFocusLost
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_fechaEntregaFocusLost
 
     public void llenarListaClientes() {
         for (Cliente cliente : listaClientes) {

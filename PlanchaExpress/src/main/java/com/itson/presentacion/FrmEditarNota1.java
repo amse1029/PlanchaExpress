@@ -13,6 +13,7 @@ import enumeradores.Estado;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -40,6 +44,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
     private float total = 0;
     NotaRemision nota1;
     NotaRemision nota2;
+    private Date fechaSelec;
 
     /**
      * Creates new form FrmCrearNota
@@ -58,6 +63,38 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 //        txtAnticipo.setText(String.valueOf(0.00));
         this.llenarDatos();
 
+        JTextField dateTextField = (JTextField) fechaEntrega.getDateEditor().getUiComponent();
+        dateTextField.getDocument().addDocumentListener(new DocumentListener() {
+            
+
+            private void updateValue() {
+                String text = dateTextField.getText();
+                System.out.println("Valor editado en el JDateChooser: " + text);
+                
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    fechaSelec = dateFormat.parse(text);
+                    System.out.println("Fecha convertida: " + fechaSelec);
+                } catch (ParseException ex) {
+                    System.out.println("Formato de fecha inválido");
+                }
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateValue();
+            }
+        });
     }
 
     private void llenarDatos() {
@@ -299,7 +336,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
          Calendar calendarioActual = Calendar.getInstance();
         Date fechaActual = calendarioActual.getTime();
 
-        Date fechaSeleccionada = fechaEntrega.getDate();
+        Date fechaSeleccionada = fechaSelec;
 
         if (fechaSeleccionada == null) {
             JOptionPane.showMessageDialog(this, "La fecha de entrega no puede estar vacía");
