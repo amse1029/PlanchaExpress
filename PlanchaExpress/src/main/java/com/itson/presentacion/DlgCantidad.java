@@ -6,7 +6,8 @@
 package com.itson.presentacion;
 
 import javax.swing.JOptionPane;
-
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 /**
  *
  * @author kingu
@@ -21,7 +22,22 @@ public class DlgCantidad extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.lblTitulo.setText(titulo);
+        
+        sfCantidad.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int value = (int) sfCantidad.getValue();
+                if (value < 0) {
+                    sfCantidad.setValue(0);
+                }
+            }
+        });
+        
+
+         
     }
+    
+ 
     
     public int getCantidad(){
         return cantidad;
@@ -37,20 +53,17 @@ public class DlgCantidad extends javax.swing.JDialog {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
-        sfCantidad = new com.toedter.components.JSpinField();
         jLabel1 = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
+        sfCantidad = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        sfCantidad.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
-        pnlFondo.add(sfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 83, -1));
 
         jLabel1.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         jLabel1.setText("Cantidad:");
@@ -79,6 +92,7 @@ public class DlgCantidad extends javax.swing.JDialog {
         lblTitulo.setFont(new java.awt.Font("Kannada MN", 1, 24)); // NOI18N
         lblTitulo.setText("Titulo");
         pnlFondo.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 36, -1, -1));
+        pnlFondo.add(sfCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 115, 90, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 240));
 
@@ -94,10 +108,9 @@ public class DlgCantidad extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        if (sfCantidad.getValue() > 0) {
-            cantidad = sfCantidad.getValue();
+        if ((int) sfCantidad.getValue() > 0) {
+            cantidad = (int) sfCantidad.getValue(); // Obtienes el valor y lo asignas a cantidad
             dispose();
-
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese un número válido");
             sfCantidad.setValue(0);
@@ -115,6 +128,6 @@ public class DlgCantidad extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlFondo;
-    private com.toedter.components.JSpinField sfCantidad;
+    private javax.swing.JSpinner sfCantidad;
     // End of variables declaration//GEN-END:variables
 }
