@@ -54,8 +54,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnReportes = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Principal");
+        setResizable(false);
         setSize(new java.awt.Dimension(500, 450));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

@@ -25,6 +25,20 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        //Listener para el evento de cierre
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Abre la ventana principal
+                FrmPrincipal principal = new FrmPrincipal();
+                principal.setVisible(true);
+            }
+        });
+        
+        pack();
     }
 
     /**
@@ -45,6 +59,7 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrar notas de remisión");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

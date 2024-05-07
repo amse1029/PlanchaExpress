@@ -29,6 +29,19 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.llenarTablaNotas();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        //Listener para el evento de cierre
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                FrmNotasRemision notas = new FrmNotasRemision();
+                notas.setVisible(true);
+            }
+        });
+        
+        pack();
     }
 
     /**
@@ -51,6 +64,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         btnEntregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

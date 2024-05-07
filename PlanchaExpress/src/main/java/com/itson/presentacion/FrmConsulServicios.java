@@ -31,6 +31,20 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.llenarTablaServ();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        //Listener para el evento de cierre
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+   
+                FrmServicios servicios = new FrmServicios();
+                servicios.setVisible(true);
+            }
+        });
+        
+        pack();
     }
 
     /**
@@ -52,6 +66,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

@@ -24,6 +24,20 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
      */
     public FrmRegistrarServ() {
         initComponents();
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        //Listener para el evento de cierre
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Abre la ventana principal
+                FrmServicios servicios = new FrmServicios();
+                servicios.setVisible(true);
+            }
+        });
+        
+        pack();
     }
 
     /**
@@ -45,6 +59,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
         lblPrecio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));

@@ -42,6 +42,20 @@ public class FrmConsulNota extends javax.swing.JFrame {
             }
         }
         
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        
+        //Listener para el evento de cierre
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+ 
+                FrmPrincipal notas = new FrmPrincipal();
+                notas.setVisible(true);
+            }
+        });
+        
+        pack();
+        
     }
 
     /**
@@ -78,6 +92,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Consultar nota de remisión");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
