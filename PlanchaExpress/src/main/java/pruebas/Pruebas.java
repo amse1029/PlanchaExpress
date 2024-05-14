@@ -31,48 +31,18 @@ import negocio.LogicaNegocio;
  */
 public class Pruebas {
     
-    public void ejecutarNotasRemision(){
-                IUsuariosDAO usuarios = new UsuariosDAO();
+    public static void main(String[] args) {
+        IUsuariosDAO usuarios = new UsuariosDAO();
         IClientesDAO clientes = new ClientesDAO();
-        IServiciosDAO servicios = new ServiciosDAO();
-        INotasRemisionDAO notas = new NotasRemisionDAO();
-        LogicaNegocio logica=new LogicaNegocio();
-        
+        LogicaNegocio logica = new LogicaNegocio();
+
         usuarios.insertarUsuario();
         clientes.insertarCliente();
-        
-        
-        servicios.insertarServicio("Lavado", 100);
-        
-        SimpleDateFormat fecha = new SimpleDateFormat("dd/mm/yy");
-        Date fecha_recepcion = new Date();
-        
-        Cliente cliente = clientes.consultaCliente(3L);
-        Usuario usuario = usuarios.consultaUsuario(2L);
-        
-        Servicio servicio = servicios.consultaServicio(7L);
-        List<NotaServicio> notaServicios = new ArrayList<>();
-        NotaServicio notaS=new NotaServicio();
-        notaS.setCant(3);
-        notaS.setDetalles(servicio.getDescripcion());
-        notaS.setServicio(servicio);
-        notaS.setPrecio(servicio.getPrecio()*notaS.getCant());
-       
-        NotaRemision nota=new NotaRemision(usuario, cliente, notaS.getPrecio(), fecha_recepcion, fecha_recepcion, Estado.PENDIENTE);
-//        Long fol=notas.insertarNota(usuario, cliente, 0, fecha_recepcion, fecha_recepcion, Estado.PENDIENTE, 0);
-        notaS.setNota(nota);
-        notaServicios.add(notaS);
-        nota.setNotaServicios(notaServicios);
-        logica.crearNotaRemision(nota);
-//        notas.cancelarNota(62L);
 
-//notas.buscarNota(62L);
-//notas.editarNota(412L, usuario, cliente, listaServicios, 80, fecha_recepcion, fecha_recepcion, Estado.CANCELADA);
-        String informacionNotas = notas.buscarNotasCliente(cliente);
-        System.out.println(informacionNotas);
-//        
-//        FrmPrincipal principal = new FrmPrincipal();
-//        principal.setVisible(true);
+        SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yy");
+
+        FrmPrincipal principal = new FrmPrincipal();
+        principal.setVisible(true);
     }
     
 }

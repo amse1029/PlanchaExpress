@@ -106,25 +106,10 @@ public class ServiciosDAO implements IServiciosDAO {
 
     @Override
     public boolean editarServicio(Servicio servicio) {
-//        em.getTransaction().begin();
-//        Servicio servicio = em.find(Servicio.class, id);
-//        if (servicio == null) {
-//            System.out.println("No se encontró el servicio");
-//        } else {
-//
-//            servicio.setDescripcion(descripcion);
-//            servicio.setPrecio(precio);
-//            em.merge(servicio);
-//        }
-//        em.getTransaction().commit();
-
-
-
-try {
-            // Realiza las operaciones necesarias para actualizar la nota en la base de datos
-            // Por ejemplo:
+        try {
             em.getTransaction().begin();
             em.merge(servicio); // Actualiza la entidad en la base de datos
+            JOptionPane.showMessageDialog(null, "Servicio actualizado");
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {

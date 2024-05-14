@@ -5,9 +5,7 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.Servicio;
-import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -19,18 +17,21 @@ public class FrmEditarServicio extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     Servicio servicio1;
-    Servicio servicio2;
     /**
      * Creates new form FrmEditarServicio
      */
     public FrmEditarServicio(Servicio servicio1) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.servicio1=servicio1;
-        this.servicio2=servicio1;
-        
+        this.servicio1 = servicio1;
+
+        this.txtDescripcion.setText(this.servicio1.getDescripcion());
+        float precio = this.servicio1.getPrecio();
+        this.txtPrecio.setText(String.valueOf(precio));
+
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        
+
         //Listener para el evento de cierre
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -130,7 +131,7 @@ public class FrmEditarServicio extends javax.swing.JFrame {
         String descripcion = this.txtDescripcion.getText();
         String precioStr = this.txtPrecio.getText();
 
-        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z]+")) {
+        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z\\s]+")) {
             JOptionPane.showMessageDialog(this, "Ingrese una descripción válida y no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -142,8 +143,10 @@ public class FrmEditarServicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "El precio debe ser un valor numérico válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        Servicio servicio = new Servicio(descripcion, precio);
-        logica.registrarServicio(servicio);
+        servicio1.setDescripcion(descripcion);
+        servicio1.setPrecio(precio);
+        
+        logica.actualizarServicio(servicio1);
 
         this.dispose();
         FrmServicios servicios = new FrmServicios();

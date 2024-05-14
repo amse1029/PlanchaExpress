@@ -127,7 +127,7 @@ public class FrmRegistrarServ extends javax.swing.JFrame {
         String descripcion = this.txtDescripcion.getText();
         String precioStr = this.txtPrecio.getText();
 
-        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z]+")) {
+        if (descripcion.length() > 200 || !descripcion.matches("[a-zA-Z\\s]+")) {
             JOptionPane.showMessageDialog(this, "Ingrese una descripción válida y no mayor a 200 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }

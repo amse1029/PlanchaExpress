@@ -54,7 +54,6 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         btnConsultar = new javax.swing.JButton();
         lblUsuarios = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,7 +75,7 @@ public class FrmNotasRemision extends javax.swing.JFrame {
                 btnConsultarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, -1, -1));
+        pnlFondo.add(btnConsultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, -1, -1));
 
         lblUsuarios.setFont(new java.awt.Font("Kannada MN", 0, 36)); // NOI18N
         lblUsuarios.setText("Notas de remisión");
@@ -95,27 +94,15 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         });
         pnlFondo.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, -1, -1));
 
-        btnEditar.setBackground(new java.awt.Color(153, 204, 255));
-        btnEditar.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.setFocusable(false);
-        btnEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-        pnlFondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, -1, -1));
-
         btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
+        btnRegresar.setFont(new java.awt.Font("Kannada MN", 1, 13)); // NOI18N
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, -1, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, -1, -1));
 
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
 
@@ -138,35 +125,6 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        String folio = "";
-        do {
-            folio = JOptionPane.showInputDialog(null, "Ingrese el folio:", "Solicitud de folio", JOptionPane.QUESTION_MESSAGE);
-            if (folio == null) {
-                this.setVisible(true);
-                return;
-            } else if (folio.equals("")) {
-                JOptionPane.showMessageDialog(this, "Ingrese un número de folio");
-            } else {
-                try {
-                    long folioNum = Long.parseLong(folio);
-                    nota = logica.buscarNota(folioNum);
-                    if (nota == null) {
-                        JOptionPane.showMessageDialog(this, "El folio ingresado no existe");
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Ingrese un número");
-                }
-            }
-        } while (folio.equals("") || nota == null);
-
-        FrmEditarNota1 frm = new FrmEditarNota1(nota);
-        frm.setVisible(true);
-
-    }//GEN-LAST:event_btnEditarActionPerformed
-
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         
@@ -177,7 +135,6 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel lblUsuarios;
