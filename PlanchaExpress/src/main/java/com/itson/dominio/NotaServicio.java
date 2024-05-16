@@ -111,11 +111,7 @@ public class NotaServicio implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "NotaServicio{" + "id=" + id + ", servicio=" + servicio + ", nota=" + nota + ", cant=" + cant + ", detalles=" + detalles + ", precio=" + precio + '}';
-    }
-
+  
     
 
 }

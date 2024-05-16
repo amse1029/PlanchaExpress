@@ -208,10 +208,7 @@ public class NotaRemision implements Serializable {
         return Objects.equals(this.folio, other.folio);
     }
 
-    @Override
-    public String toString() {
-        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", fecha_entregada=" + fecha_entregada + ", total=" + total + ", anticipo=" + anticipo + ", estado=" + estado + ", cliente=" + cliente + ", usuario=" + usuario + ", notaServicios=" + notaServicios + '}';
-    }
+   
 
     
     

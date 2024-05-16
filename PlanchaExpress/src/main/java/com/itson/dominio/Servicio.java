@@ -92,9 +92,6 @@ public class Servicio implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Servicio{" + "id=" + id + ", descripcion=" + descripcion + ", precio=" + precio + '}';
-    }
+   
 
 }

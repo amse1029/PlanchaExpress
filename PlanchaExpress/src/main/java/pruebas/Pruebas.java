@@ -34,12 +34,12 @@ public class Pruebas {
     public static void main(String[] args) {
         IUsuariosDAO usuarios = new UsuariosDAO();
         IClientesDAO clientes = new ClientesDAO();
+        
         LogicaNegocio logica = new LogicaNegocio();
 
         usuarios.insertarUsuario();
         clientes.insertarCliente();
 
-        SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yy");
 
         FrmPrincipal principal = new FrmPrincipal();
         principal.setVisible(true);

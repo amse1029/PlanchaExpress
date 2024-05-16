@@ -6,6 +6,7 @@ package com.itson.presentacion;
 
 import com.itson.dominio.NotaRemision;
 import com.itson.dominio.Servicio;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -87,22 +88,22 @@ public class FrmConsulNotas extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, 100, -1));
 
         tblNotas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Total", "Anticipo", "Estado"
+                "Folio", "Cliente", "Total", "Anticipo", "Estado", "Fecha de recepción", "Fecha de entrega", "Fecha entregada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -111,7 +112,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         });
         scrlNotas.setViewportView(tblNotas);
 
-        pnlFondo.add(scrlNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 430, 210));
+        pnlFondo.add(scrlNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 860, 210));
 
         jToolBar1.setBackground(new java.awt.Color(153, 204, 255));
         jToolBar1.setRollover(true);
@@ -152,9 +153,9 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         });
         jToolBar1.add(btnEntregar);
 
-        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 520, 60));
+        pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 940, 60));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 440));
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 440));
 
         pack();
         setLocationRelativeTo(null);
@@ -206,10 +207,17 @@ public class FrmConsulNotas extends javax.swing.JFrame {
     public void llenarTablaNotas() {
         List<NotaRemision> notas = logica.recuperarnotas();
         DefaultTableModel modelo = (DefaultTableModel) this.tblNotas.getModel();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         modelo.setRowCount(0);
+        
         for (NotaRemision nota : notas) {
-            Object[] filaNueva = {nota.getFolio(), nota.getCliente(), nota.getTotal(), 
-                nota.getAnticipo(), nota.getEstado()};
+
+            String fechaRecepcion = nota.getFecha_recepcion() != null ? dateFormat.format(nota.getFecha_recepcion()) : "";
+            String fechaEntrega = nota.getFecha_entrega() != null ? dateFormat.format(nota.getFecha_entrega()) : "";
+            String fechaEntregada = nota.getFecha_entregada() != null ? dateFormat.format(nota.getFecha_entregada()) : "";
+
+            Object[] filaNueva = {nota.getFolio(), nota.getCliente(), nota.getTotal(),
+                nota.getAnticipo(), nota.getEstado(), fechaRecepcion, fechaEntrega, fechaEntregada};
             modelo.addRow(filaNueva);
         }
     }
