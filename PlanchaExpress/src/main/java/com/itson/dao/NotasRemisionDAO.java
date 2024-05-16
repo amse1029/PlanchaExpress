@@ -203,7 +203,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
     }
     
     @Override
-    public boolean realizarEntrega(Long folio) {
+    public boolean realizarEntrega(Long folio, Date fecha_entregada) {
         NotaRemision notaRemision = em.find(NotaRemision.class, folio);
 
         if (notaRemision != null) {
@@ -223,6 +223,7 @@ public class NotasRemisionDAO implements INotasRemisionDAO {
 
             try {
 
+                notaRemision.setFecha_entregada(fecha_entregada);
                 notaRemision.setEstado(Estado.ENTREGADA);
                 transaction.commit();
                 return true;

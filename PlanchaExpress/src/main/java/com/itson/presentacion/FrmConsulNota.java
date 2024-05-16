@@ -5,6 +5,8 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.NotaRemision;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -272,7 +274,9 @@ public class FrmConsulNota extends javax.swing.JFrame {
         if (respuesta == JOptionPane.YES_OPTION) {
             // Si el usuario selecciona "Sí"
             System.out.println("El usuario ha seleccionado Sí.");
-            if (logica.realizarEntrega(nota.getFolio())) {
+            Calendar calendarioActual = Calendar.getInstance();
+        Date fechaActual = calendarioActual.getTime();
+            if (logica.realizarEntrega(nota.getFolio(), fechaActual)) {
                 JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido entregada");
                 this.setVisible(false);
                 FrmNotasRemision notas = new FrmNotasRemision();

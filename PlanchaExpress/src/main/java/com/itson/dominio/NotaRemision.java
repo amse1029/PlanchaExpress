@@ -48,6 +48,10 @@ public class NotaRemision implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha_entrega;
     
+    @Column(name = "fecha_entregada", nullable = true)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fecha_entregada;
+    
     @Column(name = "total", nullable = false)
     private float total;
     
@@ -73,17 +77,6 @@ public class NotaRemision implements Serializable {
         this.notaServicios = new ArrayList<>();
     }
 
-//    public NotaRemision(Usuario usuario,Cliente cliente, List<Servicio> servicios,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
-//        this.fecha_recepcion = fecha_recepcion;
-//        this.fecha_entrega = fecha_entrega;
-//        this.total = total;
-//        this.estado = estado;
-//        this.cliente = cliente;
-//        this.usuario = usuario;
-//        this.servicios = servicios;
-//        this.servicios = new ArrayList<>();
-//    }
-    
     public NotaRemision(Usuario usuario,Cliente cliente,float total,Date fecha_recepcion, Date fecha_entrega, Estado estado) {
         this.fecha_recepcion = fecha_recepcion;
         this.fecha_entrega = fecha_entrega;
@@ -93,6 +86,17 @@ public class NotaRemision implements Serializable {
         this.usuario = usuario;
     }
 
+    public NotaRemision(Date fecha_recepcion, Date fecha_entrega, Date fecha_entregada, float total, Cliente cliente, Usuario usuario) {
+        this.fecha_recepcion = fecha_recepcion;
+        this.fecha_entrega = fecha_entrega;
+        this.fecha_entregada = fecha_entregada;
+        this.total = total;
+        this.cliente = cliente;
+        this.usuario = usuario;
+        this.notaServicios = new ArrayList<>();
+        
+    }
+    
     public NotaRemision(Date fecha_recepcion, Date fecha_entrega, float total, Cliente cliente, Usuario usuario) {
         this.fecha_recepcion = fecha_recepcion;
         this.fecha_entrega = fecha_entrega;
@@ -100,7 +104,6 @@ public class NotaRemision implements Serializable {
         this.cliente = cliente;
         this.usuario = usuario;
         this.notaServicios = new ArrayList<>();
-        
     }
 
     public Estado getEstado() {
@@ -135,10 +138,6 @@ public class NotaRemision implements Serializable {
         this.notaServicios = notaServicios;
     }
 
-    
-
-   
-    
     public Long getFolio() {
         return folio;
     }
@@ -179,8 +178,14 @@ public class NotaRemision implements Serializable {
         this.anticipo = anticipo;
     }
 
+    public Date getFecha_entregada() {
+        return fecha_entregada;
+    }
 
-    
+    public void setFecha_entregada(Date fecha_entregada) {
+        this.fecha_entregada = fecha_entregada;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -205,9 +210,10 @@ public class NotaRemision implements Serializable {
 
     @Override
     public String toString() {
-        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", total=" + total + ", anticipo=" + anticipo + ", estado=" + estado + ", cliente=" + cliente + ", usuario=" + usuario + '}';
+        return "NotaRemision{" + "folio=" + folio + ", fecha_recepcion=" + fecha_recepcion + ", fecha_entrega=" + fecha_entrega + ", fecha_entregada=" + fecha_entregada + ", total=" + total + ", anticipo=" + anticipo + ", estado=" + estado + ", cliente=" + cliente + ", usuario=" + usuario + ", notaServicios=" + notaServicios + '}';
     }
 
+    
     
 
 }

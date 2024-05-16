@@ -18,6 +18,7 @@ import com.itson.interfaces.IClientesDAO;
 import com.itson.interfaces.INotasRemisionDAO;
 import com.itson.interfaces.IServiciosDAO;
 import com.itson.interfaces.IUsuariosDAO;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -72,8 +73,8 @@ public class LogicaNegocio implements ILogica{
     }
     
     @Override
-    public boolean realizarEntrega(Long id) {
-        return this.notas.realizarEntrega(id);
+    public boolean realizarEntrega(Long id, Date fecha_entregada) {
+        return this.notas.realizarEntrega(id, fecha_entregada);
     }
 
     @Override

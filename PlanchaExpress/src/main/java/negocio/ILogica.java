@@ -10,6 +10,7 @@ import com.itson.dominio.NotaRemision;
 import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public interface ILogica {
     public boolean eliminarUsuario(Long id);
     public boolean eliminarServicio(Long id);
     public boolean cancelarNotaRemision(Long id);
-    public boolean realizarEntrega(Long id);
+    public boolean realizarEntrega(Long id, Date fecha_entregada);
     public String buscarNotasCliente(Cliente cliente);
     public NotaRemision buscarNota(Long folio);
     public List<Servicio> recuperarServicios();
