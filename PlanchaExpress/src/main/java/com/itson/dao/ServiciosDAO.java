@@ -42,21 +42,6 @@ public class ServiciosDAO implements IServiciosDAO {
         }
     }
     
-    public Servicio getServicio(){
-       
-            em.getTransaction().begin();
-
-            Servicio servicio = new Servicio("Planchado", 10f);
-        
-
-            em.persist(servicio);
-      
-
-            em.getTransaction().commit();
-  
-            return servicio;
-        }
-    
     public Servicio consultaServicio(Long id) {
         try {
             //Busca el id en la clase Servicio

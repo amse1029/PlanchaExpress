@@ -4,6 +4,8 @@
  */
 package com.itson.presentacion;
 
+import com.itson.dominio.Cliente;
+import javax.swing.JOptionPane;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -131,7 +133,25 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
         // TODO add your handling code here:
-        logica.registrarCliente();
+        
+        String nombre = this.txtNombre.getText();
+        String telefono = this.txtTelefono1.getText();
+        String direccion = this.txtDireccion1.getText();
+        
+        if (nombre.matches("[a-zA-Z]+(\\\\s[a-zA-Z]+)*")) {
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (telefono.matches("\\d{11}")) {
+            JOptionPane.showMessageDialog(this, "Ingrese un teléfono válido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+        Cliente cliente = new Cliente(nombre, telefono, direccion);
+        
+        logica.registrarCliente(cliente);
         this.dispose();
 //        frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrar1ActionPerformed

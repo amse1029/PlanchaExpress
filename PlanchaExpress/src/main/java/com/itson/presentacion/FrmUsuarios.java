@@ -119,11 +119,16 @@ public class FrmUsuarios extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        logica.registrarUsuario();
+        FrmRegisUsuario frm = new FrmRegisUsuario();
+        frm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        FrmConsulUsuarios frm = new FrmConsulUsuarios();
+        frm.setVisible(true);
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,11 +9,7 @@ import com.itson.dao.ClientesDAO;
 import com.itson.dao.NotasRemisionDAO;
 import com.itson.dao.ServiciosDAO;
 import com.itson.dao.UsuariosDAO;
-import com.itson.dominio.Cliente;
-import com.itson.dominio.NotaRemision;
-import com.itson.dominio.NotaServicio;
-import com.itson.dominio.Servicio;
-import com.itson.dominio.Usuario;
+import com.itson.dominio.*;
 import com.itson.interfaces.IClientesDAO;
 import com.itson.interfaces.INotasRemisionDAO;
 import com.itson.interfaces.IServiciosDAO;
@@ -33,13 +29,13 @@ public class LogicaNegocio implements ILogica{
     INotasRemisionDAO notas=new NotasRemisionDAO();
     
     @Override
-    public boolean registrarCliente() {
-        return this.clientes.insertarCliente(/*cliente*/);
+    public boolean registrarCliente(Cliente cliente) {
+        return this.clientes.insertarCliente(cliente);
     }
 
     @Override
-    public boolean registrarUsuario() {
-        return this.usuarios.insertarUsuario(/*usuario*/);
+    public boolean registrarUsuario(Usuario usuario) {
+        return this.usuarios.insertarUsuario(usuario);
     }
 
     @Override
@@ -131,5 +127,26 @@ public class LogicaNegocio implements ILogica{
     public boolean actualizarServicio(Servicio servicio) {
        return this.servicios.editarServicio(servicio);
     }
+
+    @Override
+    public Cliente buscarCliente(Long folio) {
+        return this.clientes.consultaCliente(folio);
+    }
+
+    @Override
+    public boolean actualizaCliente(Cliente cliente) {
+        return this.clientes.editarCliente(cliente);
+    }
+
+    @Override
+    public boolean actualizaUsuario(Usuario usuario) {
+        return this.usuarios.editaUsuario(usuario);
+    }
+
+    @Override
+    public List<Usuario> recuperarUsuarios() {
+        return this.usuarios.buscarUsuarios();
+    }
+
     
 }

@@ -13,8 +13,9 @@ import java.util.List;
  */
 public interface IClientesDAO {
     
-    public boolean insertarCliente(/*Cliente cliente*/);
+    public boolean insertarCliente(Cliente cliente);
     public Cliente consultaCliente(Long id);
     public List<Cliente> consultarLista();
+    public boolean editarCliente(Cliente cliente);
     public boolean eliminarCliente(Long id);
 }

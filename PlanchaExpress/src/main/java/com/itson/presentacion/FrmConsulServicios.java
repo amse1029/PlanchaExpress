@@ -4,6 +4,7 @@
  */
 package com.itson.presentacion;
 
+import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Servicio;
 import java.awt.BorderLayout;
 import java.util.List;
@@ -21,6 +22,7 @@ import negocio.LogicaNegocio;
 public class FrmConsulServicios extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    UsuariosDAO usuarios = new UsuariosDAO();
     Servicio servicio;
     
     
@@ -160,6 +162,13 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+            // Verificar la contraseña del administrador antes de editar el servicio
+        if (!usuarios.solicitarContrasenaAdmin(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            
             servicio = logica.buscarServicio(this.obtenerFolio());
             dispose();
             FrmEditarServicio frm = new FrmEditarServicio(servicio);
@@ -192,6 +201,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 
+    
     public void llenarTablaServ() {
         List<Servicio> servicios = logica.recuperarServicios();
         DefaultTableModel modelo = (DefaultTableModel) this.tblServicios.getModel();

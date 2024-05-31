@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +28,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public boolean insertarUsuario(/*Usuario usuario*/) {
+    public boolean insertarUsuario(Usuario usuario) {
         try {
             em.getTransaction().begin();
 
@@ -48,34 +50,28 @@ public class UsuariosDAO implements IUsuariosDAO {
         
     }
     
-    public Usuario getUsuario(){
-       
-            em.getTransaction().begin();
-
-            Usuario persona1 = new Usuario("Raúl Sotooo", "admin");
-        
-
-            em.persist(persona1);
-      
-
-            em.getTransaction().commit();
-  
-            return persona1;
-        }
-    
-    public Usuario consultaUsuario(Long id){
-        try {
-            //Busca el id en la clase Usuario
-            return em.find(Usuario.class, id);
-        } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar al usuario");
-            return null;
-        }
-    }
-
     @Override
     public boolean eliminarUsuario(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            em.getTransaction().begin();
+
+            Usuario usuario = em.find(Usuario.class, id);
+
+            if (usuario != null) {
+                em.remove(usuario);
+                em.getTransaction().commit();
+                return true;
+            } else {
+                em.getTransaction().rollback();
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+            return false;
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -85,10 +81,62 @@ public class UsuariosDAO implements IUsuariosDAO {
 
     @Override
     public List<Usuario> buscarUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
+        return query.getResultList();
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "No hay usuarios registrados");
+            em.getTransaction().rollback();
+        }
+        return null;
     }
-    
 
+    @Override
+    public Usuario consultaUsuario(Long id) {
+        try {
+            //Busca el id en la clase Cliente
+            return em.find(Usuario.class, id);
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar al usuario");
+            return null;
+        }
+    }
+
+    @Override
+    public boolean editaUsuario(Usuario usuario) {
+        em.getTransaction().begin();
+            em.merge(usuario); // Actualiza la entidad en la base de datos
+            JOptionPane.showMessageDialog(null, "Usuario actualizado");
+            em.getTransaction().commit();
+            return true;
+        }
     
+    // Método para solicitar la contraseña al usuario
+    public boolean solicitarContrasenaAdmin(JFrame frm) {
+        String contrasenaIngresada = JOptionPane.showInputDialog(frm, "Ingrese la contraseña de administrador:", "Autenticación", JOptionPane.PLAIN_MESSAGE);
+
+        // Aquí deberías verificar si la contraseña ingresada coincide con la del administrador en la base de datos
+        String contrasenaAdminRegistrada = obtenerContrasenaAdmin(); // Método ficticio para obtener la contraseña del administrador registrado
+        return contrasenaIngresada.equals(contrasenaAdminRegistrada);
+    }
+
+    private String obtenerContrasenaAdmin() {
+        Usuario admin = this.obtenerUsuarioAdmin();
+        return admin.getPass();
     }
     
+    public Usuario obtenerUsuarioAdmin() {
+        try {
+            TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.nombre = :nombre", Usuario.class);
+            query.setParameter("nombre", "admin");
+            return query.getSingleResult();
+        } catch (PersistenceException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo obtener el usuario administrador");
+            // Realiza aquí alguna acción adecuada en caso de error, como loggear el error o mostrar un mensaje al usuario
+            ex.printStackTrace(); // Esto es solo para propósitos de demostración, podrías manejar el error de otra manera
+        }
+        return null;
+    }
+    
+    }
+

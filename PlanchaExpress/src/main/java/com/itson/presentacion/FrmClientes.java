@@ -112,13 +112,16 @@ public class FrmClientes extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here: 
-        FrmUsuarios frm = new FrmUsuarios();
+        this.dispose();
+        FrmConsulClientes frm = new FrmConsulClientes();
         frm.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        logica.registrarCliente();
+        this.dispose();
+        FrmRegistrarCliente frm = new FrmRegistrarCliente();
+        frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

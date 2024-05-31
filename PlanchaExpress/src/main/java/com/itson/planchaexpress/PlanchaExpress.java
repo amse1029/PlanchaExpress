@@ -4,6 +4,8 @@
 
 package com.itson.planchaexpress;
 
+import com.itson.presentacion.FrmPrincipal;
+
 /**
  *
  * @author alexasoto
@@ -11,6 +13,7 @@ package com.itson.planchaexpress;
 public class PlanchaExpress {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        FrmPrincipal principal = new FrmPrincipal();
+        principal.setVisible(true);
     }
 }

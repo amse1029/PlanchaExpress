@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
@@ -28,22 +27,16 @@ public class ClientesDAO implements IClientesDAO {
     }
 
     @Override
-    public boolean insertarCliente(/*Cliente cliente*/) {
+    public boolean insertarCliente(Cliente cliente) {
         try {
             em.getTransaction().begin();
 
-            Cliente cliente1 = new Cliente("Alexa María Soto Esquer", "6471220381", "Reforma 37");
-            Cliente cliente2 = new Cliente("Abraham Quintana García", "12", "bla");
-            Cliente cliente3 = new Cliente("Cristian Arreola", "12", "bla");
-            Cliente cliente4 = new Cliente("Ivan Tapia Moreno", "12", "bla");
-
+            Cliente cliente1 = new Cliente(cliente.getNombre(), cliente.getDireccion(), cliente.getTelefono());
+            
             em.persist(cliente1);
-            em.persist(cliente2);
-            em.persist(cliente3);
-            em.persist(cliente4);
 
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se han insertado 4 clientes con éxito");
+            JOptionPane.showMessageDialog(null, "Se ha insertado el cliente " + cliente.getNombre() + " con éxito");
             return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
@@ -51,22 +44,7 @@ public class ClientesDAO implements IClientesDAO {
             return false;
         }
     }
-     public Cliente getCliente(){
-       
-            em.getTransaction().begin();
-
-            Cliente cliente = new Cliente("Raúl Sotoo", "123","mx");
-        
-
-            em.persist(cliente);
-      
-
-            em.getTransaction().commit();
-  
-            return cliente;
-      
-    }
-
+    
     @Override
     public Cliente consultaCliente(Long id) {
         try {
@@ -92,7 +70,42 @@ public class ClientesDAO implements IClientesDAO {
 
     @Override
     public boolean eliminarCliente(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            em.getTransaction().begin();
+
+            Cliente cliente = em.find(Cliente.class, id);
+
+            if (cliente != null) {
+                em.remove(cliente);
+                em.getTransaction().commit();
+                return true;
+            } else {
+                em.getTransaction().rollback();
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+            return false;
+        } finally {
+            em.close();
+        }
     }
+
+    @Override
+    public boolean editarCliente(Cliente cliente) {
+        try {
+            em.getTransaction().begin();
+            em.merge(cliente); // Actualiza la entidad en la base de datos
+            JOptionPane.showMessageDialog(null, "Cliente actualizado");
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            // Manejo de excepciones, si es necesario
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
 
 }

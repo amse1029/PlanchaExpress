@@ -18,8 +18,8 @@ import java.util.List;
  * @author kingu
  */
 public interface ILogica {
-    public boolean registrarCliente();
-    public boolean registrarUsuario();
+    public boolean registrarCliente(Cliente cliente);
+    public boolean registrarUsuario(Usuario usuario);
     public boolean registrarServicio(Servicio servicio);
     public boolean crearNotaRemision(NotaRemision notaRemision);
     public boolean eliminarCliente(Long id);
@@ -29,14 +29,18 @@ public interface ILogica {
     public boolean realizarEntrega(Long id, Date fecha_entregada);
     public String buscarNotasCliente(Cliente cliente);
     public NotaRemision buscarNota(Long folio);
+    public Cliente buscarCliente(Long folio);
+        public Servicio buscarServicio(Long folio);
+    public Usuario buscarUsuario(Long id);
     public List<Servicio> recuperarServicios();
     public List<Cliente> recuperarClientes();
     public List<NotaRemision> recuperarnotas();
-    public Servicio buscarServicio(Long folio);
+    public List<Usuario> recuperarUsuarios();
     public boolean autenticarUsuario(String nombre, String pass);
-    public Usuario buscarUsuario(Long id);
     public boolean insertarNotaServicio(NotaServicio notaServicio);
     public boolean actualizarNotaRemision(NotaRemision nota);
     public boolean actualizarServicio(Servicio servicio);
+    public boolean actualizaCliente(Cliente cliente);
+    public boolean actualizaUsuario(Usuario usuario);
     
 }
