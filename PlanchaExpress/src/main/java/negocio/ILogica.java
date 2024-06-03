@@ -12,6 +12,7 @@ import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  *
@@ -42,5 +43,6 @@ public interface ILogica {
     public boolean actualizarServicio(Servicio servicio);
     public boolean actualizaCliente(Cliente cliente);
     public boolean actualizaUsuario(Usuario usuario);
+    public boolean solicitarPass(JFrame frm);
     
 }

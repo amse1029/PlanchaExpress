@@ -4,7 +4,9 @@
  */
 package com.itson.presentacion;
 
+import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Usuario;
+import com.itson.interfaces.IUsuariosDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +20,7 @@ import negocio.LogicaNegocio;
 public class FrmConsulUsuarios extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
+    
     Usuario usuario;
     
     /**
@@ -138,6 +141,13 @@ public class FrmConsulUsuarios extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar el usuario.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             usuario = logica.buscarUsuario(this.obtenerFolio());
             dispose();
             FrmEditarUsuario frm = new FrmEditarUsuario(usuario);
@@ -150,6 +160,13 @@ public class FrmConsulUsuarios extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             Object id = tblUsuarios.getValueAt(filaSeleccionada, 0);
 
             int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el servicio?", "Confirmación", JOptionPane.YES_NO_OPTION);

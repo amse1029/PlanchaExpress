@@ -4,6 +4,7 @@
 
 package com.itson.planchaexpress;
 
+import com.itson.dao.UsuariosDAO;
 import com.itson.presentacion.FrmPrincipal;
 
 /**
@@ -13,6 +14,7 @@ import com.itson.presentacion.FrmPrincipal;
 public class PlanchaExpress {
 
     public static void main(String[] args) {
+        
         FrmPrincipal principal = new FrmPrincipal();
         principal.setVisible(true);
     }

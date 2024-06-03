@@ -154,6 +154,13 @@ public class FrmConsulClientes extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar el cliente.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                   // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             cliente = logica.buscarCliente(this.obtenerFolio());
             dispose();
             FrmEditarCliente frm = new FrmEditarCliente(cliente);
@@ -166,6 +173,13 @@ public class FrmConsulClientes extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                   // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             Object id = tblClientes.getValueAt(filaSeleccionada, 0);
 
             int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el servicio?", "Confirmación", JOptionPane.YES_NO_OPTION);

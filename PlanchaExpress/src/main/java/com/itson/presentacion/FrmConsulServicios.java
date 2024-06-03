@@ -6,6 +6,7 @@ package com.itson.presentacion;
 
 import com.itson.dao.UsuariosDAO;
 import com.itson.dominio.Servicio;
+import com.itson.interfaces.IUsuariosDAO;
 import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -22,7 +23,6 @@ import negocio.LogicaNegocio;
 public class FrmConsulServicios extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
-    UsuariosDAO usuarios = new UsuariosDAO();
     Servicio servicio;
     
     
@@ -164,7 +164,7 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         } else {
             
             // Verificar la contraseña del administrador antes de editar el servicio
-        if (!usuarios.solicitarContrasenaAdmin(this)) {
+        if (!logica.solicitarPass(this)) {
             JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -181,6 +181,13 @@ public class FrmConsulServicios extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             Object id = tblServicios.getValueAt(filaSeleccionada, 0);
             
             int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el servicio?", "Confirmación", JOptionPane.YES_NO_OPTION);

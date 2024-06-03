@@ -16,6 +16,7 @@ import com.itson.interfaces.IServiciosDAO;
 import com.itson.interfaces.IUsuariosDAO;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  *
@@ -146,6 +147,11 @@ public class LogicaNegocio implements ILogica{
     @Override
     public List<Usuario> recuperarUsuarios() {
         return this.usuarios.buscarUsuarios();
+    }
+
+    @Override
+    public boolean solicitarPass(JFrame frm) {
+        return this.usuarios.solicitarContrasenaAdmin(frm);
     }
 
     

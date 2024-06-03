@@ -17,6 +17,7 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     FrmNotasRemision frm = new FrmNotasRemision();
+    FrmClientes clientes = new FrmClientes();
     
     /**
      * Creates new form FrmRegistrarCliente
@@ -33,7 +34,7 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 // Abre la ventana principal
-                FrmClientes clientes = new FrmClientes();
+                
                 clientes.setVisible(true);
             }
         });
@@ -128,7 +129,7 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        frm.setVisible(true);
+        clientes.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnRegistrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrar1ActionPerformed
@@ -138,10 +139,11 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
         String telefono = this.txtTelefono1.getText();
         String direccion = this.txtDireccion1.getText();
         
-        if (nombre.matches("[a-zA-Z]+(\\\\s[a-zA-Z]+)*")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        if (!nombre.matches("^[a-zA-Z]+(\\s[a-zA-Z]+){0,3}$")) {
+    JOptionPane.showMessageDialog(this, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
         
         if (telefono.matches("\\d{11}")) {
             JOptionPane.showMessageDialog(this, "Ingrese un teléfono válido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -153,7 +155,7 @@ public class FrmRegistrarCliente extends javax.swing.JFrame {
         
         logica.registrarCliente(cliente);
         this.dispose();
-//        frm.setVisible(true);
+       clientes.setVisible(true);
     }//GEN-LAST:event_btnRegistrar1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

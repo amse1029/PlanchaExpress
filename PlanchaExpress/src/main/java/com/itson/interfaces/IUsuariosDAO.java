@@ -6,6 +6,7 @@ package com.itson.interfaces;
 
 import com.itson.dominio.Usuario;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface IUsuariosDAO {
     public boolean autenticarUsuario(String nombre, String pass);
     public List<Usuario> buscarUsuarios();
     public boolean editaUsuario(Usuario usuario);
+    public boolean solicitarContrasenaAdmin(JFrame frm);
 }

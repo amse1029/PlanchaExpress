@@ -197,6 +197,13 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila antes de editar la nota.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } else {
+            
+                   // Verificar la contraseña del administrador antes de editar el servicio
+        if (!logica.solicitarPass(this)) {
+            JOptionPane.showMessageDialog(this, "La contraseña de administrador es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
             nota = logica.buscarNota(this.obtenerFolio());
             dispose();
             FrmEditarNota1 frm = new FrmEditarNota1(nota);

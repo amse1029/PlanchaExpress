@@ -6,6 +6,7 @@ package com.itson.dao;
 
 import com.itson.dominio.Usuario;
 import com.itson.interfaces.IUsuariosDAO;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,13 +15,14 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
  * @author alexasoto
  */
 public class UsuariosDAO implements IUsuariosDAO {
-    
+
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.itson.planchaexpress");
     EntityManager em = emf.createEntityManager();
 
@@ -32,14 +34,10 @@ public class UsuariosDAO implements IUsuariosDAO {
         try {
             em.getTransaction().begin();
 
-            Usuario persona1 = new Usuario("Raúl Soto", "admin");
-            Usuario persona2 = new Usuario("Elvia Villegas", "recep");
-
-            em.persist(persona1);
-            em.persist(persona2);
+            em.persist(usuario);
 
             em.getTransaction().commit();
-            JOptionPane.showMessageDialog(null, "Se han insertado 2 personas con éxito");
+            JOptionPane.showMessageDialog(null, "Se han insertado el usuario con éxito");
             return true;
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "Error al insertar");
@@ -47,9 +45,8 @@ public class UsuariosDAO implements IUsuariosDAO {
             return false;
         }
 
-        
     }
-    
+
     @Override
     public boolean eliminarUsuario(Long id) {
         try {
@@ -83,7 +80,7 @@ public class UsuariosDAO implements IUsuariosDAO {
     public List<Usuario> buscarUsuarios() {
         try {
             TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
-        return query.getResultList();
+            return query.getResultList();
         } catch (PersistenceException ex) {
             JOptionPane.showMessageDialog(null, "No hay usuarios registrados");
             em.getTransaction().rollback();
@@ -105,38 +102,45 @@ public class UsuariosDAO implements IUsuariosDAO {
     @Override
     public boolean editaUsuario(Usuario usuario) {
         em.getTransaction().begin();
-            em.merge(usuario); // Actualiza la entidad en la base de datos
-            JOptionPane.showMessageDialog(null, "Usuario actualizado");
-            em.getTransaction().commit();
-            return true;
-        }
-    
-    // Método para solicitar la contraseña al usuario
-    public boolean solicitarContrasenaAdmin(JFrame frm) {
-        String contrasenaIngresada = JOptionPane.showInputDialog(frm, "Ingrese la contraseña de administrador:", "Autenticación", JOptionPane.PLAIN_MESSAGE);
+        em.merge(usuario); // Actualiza la entidad en la base de datos
+        JOptionPane.showMessageDialog(null, "Usuario actualizado");
+        em.getTransaction().commit();
+        return true;
+    }
 
-        // Aquí deberías verificar si la contraseña ingresada coincide con la del administrador en la base de datos
-        String contrasenaAdminRegistrada = obtenerContrasenaAdmin(); // Método ficticio para obtener la contraseña del administrador registrado
-        return contrasenaIngresada.equals(contrasenaAdminRegistrada);
+    // Método para solicitar la contraseña al usuario
+    @Override
+    public boolean solicitarContrasenaAdmin(JFrame frm) {
+        JPasswordField contrasenaField = new JPasswordField();
+        Object[] message = {
+            "Ingrese la contraseña de administrador:", contrasenaField
+        };
+        int option = JOptionPane.showConfirmDialog(frm, message, "Autenticación", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            char[] contrasenaIngresada = contrasenaField.getPassword();
+            String contrasenaAdminRegistrada = obtenerContrasenaAdmin(); // Método ficticio para obtener la contraseña del administrador registrado
+            return Arrays.equals(contrasenaIngresada, contrasenaAdminRegistrada.toCharArray());
+        } else {
+            return false; // Si el usuario cancela, retorna falso
+        }
     }
 
     private String obtenerContrasenaAdmin() {
         Usuario admin = this.obtenerUsuarioAdmin();
         return admin.getPass();
     }
-    
+
     public Usuario obtenerUsuarioAdmin() {
         try {
-            TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.nombre = :nombre", Usuario.class);
+            TypedQuery<Usuario> query = em.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.nombre = :nombre", Usuario.class);
             query.setParameter("nombre", "admin");
             return query.getSingleResult();
-        } catch (PersistenceException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo obtener el usuario administrador");
-            // Realiza aquí alguna acción adecuada en caso de error, como loggear el error o mostrar un mensaje al usuario
-            ex.printStackTrace(); // Esto es solo para propósitos de demostración, podrías manejar el error de otra manera
+        } catch (javax.persistence.NoResultException ex) {
+            // Maneja el caso en el que no se encuentra ningún usuario administrador
+            return null;
         }
-        return null;
-    }
-    
     }
 
+}

@@ -142,9 +142,9 @@ String nombre = this.txtNombre.getText();
         String direccion = this.txtDireccion1.getText();
         String telefono = this.txtTelefono1.getText();
 
-        if (nombre.matches("[a-zA-Z]+(\\\\s[a-zA-Z]+)*")) {
-            JOptionPane.showMessageDialog(this, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (!nombre.matches("^[a-zA-Z]+(\\s[a-zA-Z]+){0,3}$")) {
+    JOptionPane.showMessageDialog(this, "Ingrese un nombre válido", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
         }
         
         if (telefono.matches("\\d{11}")) {
