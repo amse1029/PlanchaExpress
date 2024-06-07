@@ -43,18 +43,19 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     private int indice=0;
     private float total=0;
+    Long user;
     
     /**
      * Creates new form FrmCrearNota
      */
-    public FrmCrearNota() {
+    public FrmCrearNota(Long user) {
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
         llenarListaClientes();
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
         txtAnticipo.setText(String.valueOf(0.00));
-        
+        this.user=user;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         //Listener para el evento de cierre
@@ -62,7 +63,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
             }
         });
@@ -307,7 +308,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        FrmNotasRemision frm = new FrmNotasRemision();
+        FrmNotasRemision frm = new FrmNotasRemision(user);
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -358,7 +359,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         if (tblServicios.getValueAt(0, 0) != null) {
             int pos = this.cbxClientes.getSelectedIndex();
             Cliente cliente = listaClientes.get(pos);
-            Usuario usuario = logica.buscarUsuario(2L);
+            Usuario usuario = logica.buscarUsuario(user);
             Date fecha_recepcion = new Date();
             NotaRemision nota = new NotaRemision(usuario, cliente, total, fecha_recepcion, fechaSeleccionada, Estado.PENDIENTE);
             nota.setAnticipo(Float.parseFloat(this.txtAnticipo.getText()));
@@ -371,7 +372,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "La nota se insertó");
                 NotaRemision nota1 = logica.buscarNota(13L);
                 this.setVisible(false);
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
                 this.dispose();
             } else {

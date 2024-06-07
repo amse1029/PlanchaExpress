@@ -45,11 +45,12 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
     NotaRemision nota1;
     NotaRemision nota2;
     private Date fechaSelec;
+    Long user;
 
     /**
      * Creates new form FrmCrearNota
      */
-    public FrmEditarNota1(NotaRemision nota1) {
+    public FrmEditarNota1(NotaRemision nota1, Long user) {
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -58,6 +59,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         indice=referencias.size();
         nota2=nota1;
         total=nota1.getTotal();
+        this.user=user;
         agregarBotonesServicios(listaServicios); // Llama al método para agregar los botones correspondientes
 //        detallesServicios();
 //        txtAnticipo.setText(String.valueOf(0.00));
@@ -70,7 +72,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
  
-                FrmConsulNotas notas = new FrmConsulNotas();
+                FrmConsulNotas notas = new FrmConsulNotas(user);
                 notas.setVisible(true);
             }
         });
@@ -331,7 +333,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        FrmConsulNotas frm = new FrmConsulNotas();
+        FrmConsulNotas frm = new FrmConsulNotas(user);
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -399,7 +401,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                 if (logica.actualizarNotaRemision(nota1)) {
                     JOptionPane.showMessageDialog(this, "La nota se actualizo correctamente");
                     this.setVisible(false);
-                    FrmNotasRemision notas = new FrmNotasRemision();
+                    FrmNotasRemision notas = new FrmNotasRemision(user);
                     notas.setVisible(true);
                     this.dispose();
             } else {

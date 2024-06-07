@@ -72,8 +72,22 @@ public class UsuariosDAO implements IUsuariosDAO {
     }
 
     @Override
-    public boolean autenticarUsuario(String nombre, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Long autenticarUsuario(String nombre, String pass) {
+        try {
+            TypedQuery<Usuario> query = em.createQuery(
+                    "SELECT u FROM Usuario u WHERE u.nombre = :nombre AND u.pass = :pass", Usuario.class);
+            query.setParameter("nombre", nombre);
+            query.setParameter("pass", pass);
+            Usuario usuario = query.getSingleResult();
+            if(usuario!=null){
+                return usuario.getId();
+            }else{
+                return -1L;
+            }
+        } catch (javax.persistence.NoResultException ex) {
+            // Maneja el caso en el que no se encuentra ningún usuario administrador
+            return -1L;
+        }
     }
 
     @Override

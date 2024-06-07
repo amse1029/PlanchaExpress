@@ -14,7 +14,6 @@ import negocio.LogicaNegocio;
 public class FrmClientes extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
-    
     /**
      * Creates new form FrmClientes
      */

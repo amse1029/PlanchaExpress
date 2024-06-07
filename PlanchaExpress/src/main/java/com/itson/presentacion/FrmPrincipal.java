@@ -5,12 +5,19 @@
 package com.itson.presentacion;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import negocio.ILogica;
+import negocio.LogicaNegocio;
 
 /**
  *
  * @author alexasoto
  */
 public class FrmPrincipal extends javax.swing.JFrame {
+
+    private ILogica logica = new LogicaNegocio();
+    private Long user;
 
     /**
      * Creates new form FrmPrincipal
@@ -31,8 +38,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnNotas.setIcon(iconoNotas);
         ImageIcon iconoReportes = new ImageIcon(getClass().getResource("/img/reportes.png"));
         btnReportes.setIcon(iconoReportes);
-        
-        
+
     }
 
     /**
@@ -119,6 +125,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnReportes.setFocusable(false);
         btnReportes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReportes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnReportes);
 
         pnlFondo.add(jToolBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 450));
@@ -130,11 +141,42 @@ public class FrmPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean ingresarUsuario() {
+        String usuario = JOptionPane.showInputDialog(this, "Ingrese el nombre de usuario");
+        if (usuario != null && !usuario.equals("")) {
+            String pass;
+            JPasswordField passwordField = new JPasswordField();
+            int option = JOptionPane.showConfirmDialog(
+                    null, passwordField, "Ingrese su contraseña", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (option == JOptionPane.OK_OPTION) {
+                char[] password = passwordField.getPassword();
+                pass = new String(password);
+                this.user = this.logica.autenticarUsuario(usuario, pass);
+                if (user != -1) {
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Usuario no encontrado");
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ninguna contraseña ingresada");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ningún usuario ingresado");
+            return false;
+        }
+    }
+
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        FrmClientes frm = new FrmClientes();
-        frm.setVisible(true);
+        if (this.ingresarUsuario()) {
+            this.dispose();
+            FrmClientes frm = new FrmClientes();
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Error al iniciar sesion");
+        }
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
@@ -146,17 +188,36 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        FrmServicios frm = new FrmServicios();
-        frm.setVisible(true);
+        if (this.ingresarUsuario()) {
+            this.dispose();
+            FrmServicios frm = new FrmServicios();
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Error al iniciar sesion");
+        }
     }//GEN-LAST:event_btnServiciosActionPerformed
 
     private void btnNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotasActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        FrmNotasRemision frm = new FrmNotasRemision();
-        frm.setVisible(true);
+        if (this.ingresarUsuario()) {
+            this.dispose();
+            FrmNotasRemision frm = new FrmNotasRemision(user);
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Error al iniciar sesion");
+        }
     }//GEN-LAST:event_btnNotasActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        // TODO add your handling code here:
+        if (this.ingresarUsuario()) {
+            this.dispose();
+            FrmReportes frm = new FrmReportes();
+            frm.setVisible(true);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Error al iniciar sesion");
+        }
+    }//GEN-LAST:event_btnReportesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;

@@ -17,7 +17,7 @@ public interface IUsuariosDAO {
     public boolean insertarUsuario(Usuario usuario);
     public Usuario consultaUsuario(Long id);
     public boolean eliminarUsuario(Long id);
-    public boolean autenticarUsuario(String nombre, String pass);
+    public Long autenticarUsuario(String nombre, String pass);
     public List<Usuario> buscarUsuarios();
     public boolean editaUsuario(Usuario usuario);
     public boolean solicitarContrasenaAdmin(JFrame frm);

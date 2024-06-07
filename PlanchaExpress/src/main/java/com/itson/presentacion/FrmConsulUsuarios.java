@@ -28,6 +28,7 @@ public class FrmConsulUsuarios extends javax.swing.JFrame {
      */
     public FrmConsulUsuarios() {
         initComponents();
+        this.llenarTablaServ();
     }
 
     /**

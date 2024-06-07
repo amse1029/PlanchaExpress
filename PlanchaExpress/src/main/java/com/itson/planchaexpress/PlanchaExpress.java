@@ -4,7 +4,6 @@
 
 package com.itson.planchaexpress;
 
-import com.itson.dao.UsuariosDAO;
 import com.itson.presentacion.FrmPrincipal;
 
 /**

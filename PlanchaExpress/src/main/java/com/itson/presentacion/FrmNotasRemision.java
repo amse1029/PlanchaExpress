@@ -17,15 +17,16 @@ public class FrmNotasRemision extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     NotaRemision nota;
+    Long user;
     
     /**
      * Creates new form FrmNotasRemision
      */
-    public FrmNotasRemision() {
+    public FrmNotasRemision(Long user) {
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
-        
+        this.user=user;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         //Listener para el evento de cierre
@@ -114,14 +115,14 @@ public class FrmNotasRemision extends javax.swing.JFrame {
         // TODO add your handling code here:
           this.dispose();
 //        
-        FrmConsulNotas frm = new FrmConsulNotas();
+        FrmConsulNotas frm = new FrmConsulNotas(user);
         frm.setVisible(true);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        FrmCrearNota frm = new FrmCrearNota();
+        FrmCrearNota frm = new FrmCrearNota(user);
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

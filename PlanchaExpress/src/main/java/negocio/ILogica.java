@@ -37,7 +37,7 @@ public interface ILogica {
     public List<Cliente> recuperarClientes();
     public List<NotaRemision> recuperarnotas();
     public List<Usuario> recuperarUsuarios();
-    public boolean autenticarUsuario(String nombre, String pass);
+    public Long autenticarUsuario(String nombre, String pass);
     public boolean insertarNotaServicio(NotaServicio notaServicio);
     public boolean actualizarNotaRemision(NotaRemision nota);
     public boolean actualizarServicio(Servicio servicio);

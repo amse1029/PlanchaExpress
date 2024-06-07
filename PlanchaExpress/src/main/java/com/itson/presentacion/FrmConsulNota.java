@@ -19,11 +19,13 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     private NotaRemision nota;
+    Long user;
     /**
      * Creates new form FrmConsulNota
      */
-    public FrmConsulNota(NotaRemision nota) {
+    public FrmConsulNota(NotaRemision nota, Long user) {
         this.nota = nota;
+        this.user=user;
         initComponents();
         this.setLocationRelativeTo(null);
         setResizable(false);
@@ -238,7 +240,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        FrmConsulNotas frm = new FrmConsulNotas();
+        FrmConsulNotas frm = new FrmConsulNotas(user);
         frm.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -253,7 +255,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
             if (logica.cancelarNotaRemision(nota.getFolio())) {
                 JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido cancelada");
                 this.setVisible(false);
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
                 this.dispose();
             } else {
@@ -279,7 +281,7 @@ public class FrmConsulNota extends javax.swing.JFrame {
             if (logica.realizarEntrega(nota.getFolio(), fechaActual)) {
                 JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido entregada");
                 this.setVisible(false);
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
                 this.dispose();
             } else {

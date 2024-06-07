@@ -23,23 +23,23 @@ public class FrmConsulNotas extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     NotaRemision nota;
-    
+    Long user;
     
     /**
      * Creates new form FrmConsulServicios
      */
-    public FrmConsulNotas() {
+    public FrmConsulNotas(Long user) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.llenarTablaNotas();
-        
+        this.user=user;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         //Listener para el evento de cierre
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
             }
         });
@@ -164,7 +164,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         dispose();
-        FrmNotasRemision frmRemision = new FrmNotasRemision();
+        FrmNotasRemision frmRemision = new FrmNotasRemision(user);
         frmRemision.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
@@ -176,7 +176,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         } else {
             nota = logica.buscarNota(this.obtenerFolio());
             dispose();
-            FrmConsulNota frm = new FrmConsulNota(nota);
+            FrmConsulNota frm = new FrmConsulNota(nota, user);
             frm.setVisible(true);
         }
     }//GEN-LAST:event_btnDetallesActionPerformed
@@ -206,7 +206,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
         
             nota = logica.buscarNota(this.obtenerFolio());
             dispose();
-            FrmEditarNota1 frm = new FrmEditarNota1(nota);
+            FrmEditarNota1 frm = new FrmEditarNota1(nota, user);
             frm.setVisible(true);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -257,7 +257,7 @@ public class FrmConsulNotas extends javax.swing.JFrame {
              
                 JOptionPane.showMessageDialog(this, "La nota con folio: " + nota.getFolio() + " ha sido entregada");
                 this.setVisible(false);
-                FrmNotasRemision notas = new FrmNotasRemision();
+                FrmNotasRemision notas = new FrmNotasRemision(user);
                 notas.setVisible(true);
                 this.dispose();
             } else {

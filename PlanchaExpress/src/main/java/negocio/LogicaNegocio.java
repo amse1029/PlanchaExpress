@@ -95,7 +95,7 @@ public class LogicaNegocio implements ILogica{
     }
 
     @Override
-    public boolean autenticarUsuario(String nombre, String pass) {
+    public Long autenticarUsuario(String nombre, String pass) {
         return this.usuarios.autenticarUsuario(nombre, pass);
     }
     
