@@ -30,6 +30,11 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     NotaRemision nota;
+    Double total=0.0;
+    Double anticipos=0.0;
+    Double pagos=0.0;
+    Integer notasCreadas=0;
+    Integer notasEntregadas=0;
 
     /**
      * Creates new form FrmConsulServicios
@@ -70,6 +75,16 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         scrlNotas2 = new javax.swing.JScrollPane();
         tblCreadas = new javax.swing.JTable();
         lblNota3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtCreadas = new javax.swing.JTextField();
+        txtAnticipos = new javax.swing.JTextField();
+        txtEntregadas = new javax.swing.JTextField();
+        txtPagos = new javax.swing.JTextField();
+        txtGanancias = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -89,7 +104,7 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 100, -1));
 
         lblNota1.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
         lblNota1.setText("Reporte Diario");
@@ -151,6 +166,31 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         lblNota3.setText("Creadas");
         pnlFondo.add(lblNota3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Ganancias totales:");
+        pnlFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Total de notas creadas:");
+        pnlFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Total de notas entregadas:");
+        pnlFondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Total en anticipos recibido:");
+        pnlFondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Total en pagos recibido:");
+        pnlFondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, -1, -1));
+        pnlFondo.add(txtCreadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 60, -1));
+        pnlFondo.add(txtAnticipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 200, 60, -1));
+        pnlFondo.add(txtEntregadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 60, -1));
+        pnlFondo.add(txtPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 370, 60, -1));
+        pnlFondo.add(txtGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 400, 60, -1));
+
         getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 440));
 
         pack();
@@ -189,6 +229,8 @@ public class FrmReporteDiario extends javax.swing.JFrame {
             if (fechaRecepcion.equals(fechaActual)) {
                 Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getAnticipo()};
                 creadas.addRow(filaNueva);
+                anticipos=anticipos+nota.getAnticipo();
+                notasCreadas++;
             }
 
             if (nota.getFecha_entregada() != null) {
@@ -199,12 +241,21 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                 if (fechaEntregada.equals(fechaActual)) {
                     Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getTotal() - nota.getAnticipo()};
                     entregadas.addRow(filaNueva);
+                    pagos=pagos+nota.getTotal()-nota.getAnticipo();
+                    notasEntregadas++;
                 }
             }
         }
         
         this.tblCreadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
         this.tblEntregadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+        
+        total=anticipos+pagos;
+        this.txtAnticipos.setText(anticipos.toString());
+        this.txtPagos.setText(pagos.toString());
+        this.txtGanancias.setText(total.toString());
+        this.txtCreadas.setText(notasCreadas.toString());
+        this.txtEntregadas.setText(notasEntregadas.toString());
     }
 
     class MultiLineCellRenderer extends JTextArea implements TableCellRenderer {
@@ -228,6 +279,11 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblNota1;
     private javax.swing.JLabel lblNota2;
     private javax.swing.JLabel lblNota3;
@@ -236,5 +292,10 @@ public class FrmReporteDiario extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrlNotas2;
     private javax.swing.JTable tblCreadas;
     private javax.swing.JTable tblEntregadas;
+    private javax.swing.JTextField txtAnticipos;
+    private javax.swing.JTextField txtCreadas;
+    private javax.swing.JTextField txtEntregadas;
+    private javax.swing.JTextField txtGanancias;
+    private javax.swing.JTextField txtPagos;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,13 +5,20 @@
 package com.itson.presentacion;
 
 import com.itson.dominio.NotaRemision;
+import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
+import java.awt.Component;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
 
@@ -55,10 +62,7 @@ public class FrmReporteMensual extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlFondo = new javax.swing.JPanel();
-        lblNota = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
-        scrlNotas = new javax.swing.JScrollPane();
-        tblCanceladas = new javax.swing.JTable();
         lblNota1 = new javax.swing.JLabel();
         scrlNotas1 = new javax.swing.JScrollPane();
         tblEntregadas = new javax.swing.JTable();
@@ -74,10 +78,6 @@ public class FrmReporteMensual extends javax.swing.JFrame {
         pnlFondo.setBackground(new java.awt.Color(255, 255, 255));
         pnlFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblNota.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
-        lblNota.setText("Canceladas");
-        pnlFondo.add(lblNota, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 200, -1, -1));
-
         btnRegresar.setBackground(new java.awt.Color(153, 204, 255));
         btnRegresar.setFont(new java.awt.Font("Kannada MN", 1, 14)); // NOI18N
         btnRegresar.setText("Regresar");
@@ -91,33 +91,9 @@ public class FrmReporteMensual extends javax.swing.JFrame {
         });
         pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, 100, -1));
 
-        tblCanceladas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
-        tblCanceladas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Anticipo", "Fecha de recepción"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        scrlNotas.setViewportView(tblCanceladas);
-
-        pnlFondo.add(scrlNotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 860, 90));
-
         lblNota1.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
-        lblNota1.setText("Reporte Diario");
-        pnlFondo.add(lblNota1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
+        lblNota1.setText("Reporte Mensual");
+        pnlFondo.add(lblNota1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
 
         tblEntregadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblEntregadas.setModel(new javax.swing.table.DefaultTableModel(
@@ -128,7 +104,7 @@ public class FrmReporteMensual extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Anticipo", "Fecha de recepción"
+                "Folio", "Cliente", "Servicios", "Total", "Resto pagado", "Fecha entregada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -141,11 +117,11 @@ public class FrmReporteMensual extends javax.swing.JFrame {
         });
         scrlNotas1.setViewportView(tblEntregadas);
 
-        pnlFondo.add(scrlNotas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 860, 90));
+        pnlFondo.add(scrlNotas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 860, 140));
 
         lblNota2.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
         lblNota2.setText("Entregadas");
-        pnlFondo.add(lblNota2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, -1, -1));
+        pnlFondo.add(lblNota2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, -1, -1));
 
         tblCreadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblCreadas.setModel(new javax.swing.table.DefaultTableModel(
@@ -169,7 +145,7 @@ public class FrmReporteMensual extends javax.swing.JFrame {
         });
         scrlNotas2.setViewportView(tblCreadas);
 
-        pnlFondo.add(scrlNotas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 860, 90));
+        pnlFondo.add(scrlNotas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 860, 160));
 
         lblNota3.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
         lblNota3.setText("Creadas");
@@ -191,46 +167,74 @@ public class FrmReporteMensual extends javax.swing.JFrame {
     public void llenarTablaNotas() {
         List<NotaRemision> notas = logica.recuperarnotas();
         DefaultTableModel creadas = (DefaultTableModel) this.tblCreadas.getModel();
-        DefaultTableModel canceladas = (DefaultTableModel) this.tblCanceladas.getModel();
         DefaultTableModel entregadas = (DefaultTableModel) this.tblEntregadas.getModel();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         creadas.setRowCount(0);
+        entregadas.setRowCount(0);
 
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaInicio = fechaActual.plusMonths(-1);
+        fechaActual = fechaActual.plusDays(1);
         for (NotaRemision nota : notas) {
+            LocalDate fechaRecepcion = nota.getFecha_recepcion().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            
+            StringBuilder servicios = new StringBuilder();
+            for (NotaServicio notaServicio : nota.getNotaServicios()) {
+                servicios.append(notaServicio.getServicio().getDescripcion())
+                        .append(", ").append(notaServicio.getCant())
+                        .append(", ").append(notaServicio.getServicio().getPrecio())
+                        .append(", ").append(notaServicio.getPrecio()).append("\n");
+            }
 
-            String fechaRecepcion = nota.getFecha_recepcion() != null ? dateFormat.format(nota.getFecha_recepcion()) : "";
-            String fechaEntrega = nota.getFecha_entrega() != null ? dateFormat.format(nota.getFecha_entrega()) : "";
-            String fechaEntregada = nota.getFecha_entregada() != null ? dateFormat.format(nota.getFecha_entregada()) : "";
+            if (fechaRecepcion.isAfter(fechaInicio)&&fechaRecepcion.isBefore(fechaActual)) {
+                Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getAnticipo(), nota.getFecha_recepcion()};
+                creadas.addRow(filaNueva);
+            }
 
-            Object[] filaNueva = {nota.getFolio(), nota.getCliente(), nota.getTotal(),
-                nota.getAnticipo(), nota.getEstado(), fechaRecepcion, fechaEntrega, fechaEntregada};
-            creadas.addRow(filaNueva);
+            if (nota.getFecha_entregada() != null) {
+                LocalDate fechaEntregada = nota.getFecha_entregada().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+                if (fechaEntregada.isAfter(fechaInicio)&&fechaEntregada.isBefore(fechaActual)) {
+                    Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getTotal() - nota.getAnticipo(), nota.getFecha_entregada()};
+                    entregadas.addRow(filaNueva);
+                }
+            }
         }
+        
+        this.tblCreadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
+        this.tblEntregadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
     }
 
-    public Long obtenerFolio() {
-        Long folio = 0L;
-        int fila = tblCanceladas.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(null, "No se seleccionó ninguna nota");
-        } else {
-            folio = (Long) tblCanceladas.getValueAt(fila, 0); // Primera columna
+    class MultiLineCellRenderer extends JTextArea implements TableCellRenderer {
+
+        public MultiLineCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
         }
-        return folio;
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value != null ? value.toString() : "");
+            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
+            if (table.getRowHeight(row) < getPreferredSize().height) {
+                table.setRowHeight(row, getPreferredSize().height);
+            }
+            return this;
+        }
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JLabel lblNota;
     private javax.swing.JLabel lblNota1;
     private javax.swing.JLabel lblNota2;
     private javax.swing.JLabel lblNota3;
     private javax.swing.JPanel pnlFondo;
-    private javax.swing.JScrollPane scrlNotas;
     private javax.swing.JScrollPane scrlNotas1;
     private javax.swing.JScrollPane scrlNotas2;
-    private javax.swing.JTable tblCanceladas;
     private javax.swing.JTable tblCreadas;
     private javax.swing.JTable tblEntregadas;
     // End of variables declaration//GEN-END:variables

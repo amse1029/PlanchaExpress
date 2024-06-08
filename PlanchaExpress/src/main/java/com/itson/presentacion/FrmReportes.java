@@ -126,7 +126,7 @@ public class FrmReportes extends javax.swing.JFrame {
     private void btnMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualActionPerformed
         // TODO add your handling code here: 
         this.dispose();
-        FrmConsulClientes frm = new FrmConsulClientes();
+        FrmReporteMensual frm = new FrmReporteMensual();
         frm.setVisible(true);
     }//GEN-LAST:event_btnMensualActionPerformed
 
@@ -146,6 +146,9 @@ public class FrmReportes extends javax.swing.JFrame {
 
     private void btnSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanalActionPerformed
         // TODO add your handling code here:
+        this.dispose();
+        FrmReporteSemanal frm = new FrmReporteSemanal();
+        frm.setVisible(true);
     }//GEN-LAST:event_btnSemanalActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
