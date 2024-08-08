@@ -1,10 +1,10 @@
 package com.itson.dominio;
 
-import javax.annotation.processing.Generated;
+import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-02T17:49:27", comments="EclipseLink-2.7.12.v20230209-rNA")
+@Generated(value="EclipseLink-2.7.12.v20230209-rNA", date="2024-08-08T13:43:33")
 @StaticMetamodel(Servicio.class)
 public class Servicio_ { 
 

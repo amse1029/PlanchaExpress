@@ -4,23 +4,40 @@
  */
 package com.itson.presentacion;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.itson.dominio.NotaRemision;
 import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import negocio.DateLabelFormatter;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 /**
  *
@@ -30,11 +47,13 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     NotaRemision nota;
-    Double total=0.0;
-    Double anticipos=0.0;
-    Double pagos=0.0;
-    Integer notasCreadas=0;
-    Integer notasEntregadas=0;
+    Double total = 0.0;
+    Double anticipos = 0.0;
+    Double pagos = 0.0;
+    Integer notasCreadas = 0;
+    Integer notasEntregadas = 0;
+    private JDatePickerImpl datePickerFrom;
+    private JDatePickerImpl datePickerTo;
 
     /**
      * Creates new form FrmConsulServicios
@@ -42,10 +61,42 @@ public class FrmReporteDiario extends javax.swing.JFrame {
     public FrmReporteDiario() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.llenarTablaNotas();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        initializeDatePickers();
+        addComponentsToPanel();
+        addEventListeners();
+        pack();
+    }
 
-        //Listener para el evento de cierre
+    private void initializeDatePickers() {
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+
+        UtilDateModel modelFrom = new UtilDateModel();
+        JDatePanelImpl datePanelFrom = new JDatePanelImpl(modelFrom, p);
+        datePickerFrom = new JDatePickerImpl(datePanelFrom, new DateLabelFormatter());
+
+        UtilDateModel modelTo = new UtilDateModel();
+        JDatePanelImpl datePanelTo = new JDatePanelImpl(modelTo, p);
+        datePickerTo = new JDatePickerImpl(datePanelTo, new DateLabelFormatter());
+    }
+
+    private void addComponentsToPanel() {
+        pnlFondo.add(datePickerFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
+        pnlFondo.add(datePickerTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, -1, -1));
+
+        JButton btnFiltrar = new JButton("Filtrar");
+        btnFiltrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                llenarTablaNotas();
+            }
+        });
+        pnlFondo.add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 50, -1, -1));
+    }
+
+    private void addEventListeners() {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -53,8 +104,70 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                 frmReportes.setVisible(true);
             }
         });
+    }
 
-        pack();
+    public void llenarTablaNotas() {
+        Date dateFrom = (Date) datePickerFrom.getModel().getValue();
+        Date dateTo = (Date) datePickerTo.getModel().getValue();
+        LocalDate fechaDesde = dateFrom != null ? dateFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        LocalDate fechaHasta = dateTo != null ? dateTo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+
+        List<NotaRemision> notas = logica.recuperarnotas();
+        DefaultTableModel creadas = (DefaultTableModel) this.tblCreadas.getModel();
+        DefaultTableModel entregadas = (DefaultTableModel) this.tblEntregadas.getModel();
+        creadas.setRowCount(0);
+        entregadas.setRowCount(0);
+
+        int anticipos = 0;
+        int pagos = 0;
+        int notasCreadas = 0;
+        int notasEntregadas = 0;
+        int total = 0;
+
+        for (NotaRemision nota : notas) {
+            LocalDate fechaRecepcion = nota.getFecha_recepcion().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+
+            StringBuilder servicios = new StringBuilder();
+            for (NotaServicio notaServicio : nota.getNotaServicios()) {
+                servicios.append(notaServicio.getServicio().getDescripcion())
+                        .append(", ").append(notaServicio.getCant())
+                        .append(", ").append(notaServicio.getServicio().getPrecio())
+                        .append(", ").append(notaServicio.getPrecio()).append("\n");
+            }
+
+            if ((fechaDesde == null || !fechaRecepcion.isBefore(fechaDesde)) && (fechaHasta == null || !fechaRecepcion.isAfter(fechaHasta))) {
+                Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), nota.getTotal(), nota.getAnticipo(), nota.getFecha_recepcion()};
+                creadas.addRow(filaNueva);
+                anticipos += nota.getAnticipo();
+                notasCreadas++;
+            }
+
+            if (nota.getFecha_entregada() != null) {
+                LocalDate fechaEntregada = nota.getFecha_entregada().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+                if ((fechaDesde == null || !fechaEntregada.isBefore(fechaDesde)) && (fechaHasta == null || !fechaEntregada.isAfter(fechaHasta))) {
+                    Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), nota.getTotal(), nota.getTotal() - nota.getAnticipo(), nota.getFecha_entregada()};
+                    entregadas.addRow(filaNueva);
+                    pagos += nota.getTotal() - nota.getAnticipo();
+                    notasEntregadas++;
+                }
+            }
+        }
+
+        total = anticipos + pagos;
+        this.txtAnticipos.setText(String.valueOf(anticipos));
+        this.txtPagos.setText(String.valueOf(pagos));
+        this.txtGanancias.setText(String.valueOf(total));
+        this.txtCreadas.setText(String.valueOf(notasCreadas));
+        this.txtEntregadas.setText(String.valueOf(notasEntregadas));
+
+        // Asignar el MultiLineCellRenderer a la columna de servicios (suponiendo que la tercera columna es la de servicios)
+        tblCreadas.getColumnModel().getColumn(2).setCellRenderer(new MultiLineCellRenderer());
+        tblEntregadas.getColumnModel().getColumn(2).setCellRenderer(new MultiLineCellRenderer());
     }
 
     /**
@@ -85,6 +198,10 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         txtEntregadas = new javax.swing.JTextField();
         txtPagos = new javax.swing.JTextField();
         txtGanancias = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        btnDiario = new javax.swing.JButton();
+        btnSemanal = new javax.swing.JButton();
+        btnMensual = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -104,26 +221,26 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                 btnRegresarActionPerformed(evt);
             }
         });
-        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 100, -1));
+        pnlFondo.add(btnRegresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 480, 100, -1));
 
         lblNota1.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
-        lblNota1.setText("Reporte Diario");
+        lblNota1.setText("Reportes");
         pnlFondo.add(lblNota1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
 
         tblEntregadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblEntregadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Resto Pagado"
+                "Folio", "Cliente", "Servicios", "Total", "Resto Pagado", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -132,26 +249,26 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         });
         scrlNotas1.setViewportView(tblEntregadas);
 
-        pnlFondo.add(scrlNotas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 860, 90));
+        pnlFondo.add(scrlNotas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 860, 90));
 
         lblNota2.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
         lblNota2.setText("Entregadas");
-        pnlFondo.add(lblNota2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, -1, -1));
+        pnlFondo.add(lblNota2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 300, -1, -1));
 
         tblCreadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblCreadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Anticipo"
+                "Folio", "Cliente", "Servicios", "Total", "Anticipo", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -160,38 +277,74 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         });
         scrlNotas2.setViewportView(tblCreadas);
 
-        pnlFondo.add(scrlNotas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 860, 90));
+        pnlFondo.add(scrlNotas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 860, 90));
 
         lblNota3.setFont(new java.awt.Font("Kannada MN", 0, 20)); // NOI18N
         lblNota3.setText("Creadas");
-        pnlFondo.add(lblNota3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, -1, -1));
+        pnlFondo.add(lblNota3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Ganancias totales:");
-        pnlFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, -1, -1));
+        pnlFondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 470, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Total de notas creadas:");
-        pnlFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
+        pnlFondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Total de notas entregadas:");
-        pnlFondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
+        pnlFondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Total en anticipos recibido:");
-        pnlFondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, -1, -1));
+        pnlFondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Total en pagos recibido:");
-        pnlFondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 370, -1, -1));
-        pnlFondo.add(txtCreadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 60, -1));
-        pnlFondo.add(txtAnticipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 200, 60, -1));
-        pnlFondo.add(txtEntregadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 60, -1));
-        pnlFondo.add(txtPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 370, 60, -1));
-        pnlFondo.add(txtGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 400, 60, -1));
+        pnlFondo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, -1, -1));
+        pnlFondo.add(txtCreadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 60, -1));
+        pnlFondo.add(txtAnticipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 60, -1));
+        pnlFondo.add(txtEntregadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 60, -1));
+        pnlFondo.add(txtPagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 440, 60, -1));
+        pnlFondo.add(txtGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 470, 60, -1));
 
-        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 440));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setText("Generar Pdf");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 480, -1, -1));
+
+        btnDiario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnDiario.setText("Diario");
+        btnDiario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiarioActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnDiario, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 20, -1, -1));
+
+        btnSemanal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnSemanal.setText("Semanal");
+        btnSemanal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSemanalActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnSemanal, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 70, -1, -1));
+
+        btnMensual.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnMensual.setText("Mensual");
+        btnMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMensualActionPerformed(evt);
+            }
+        });
+        pnlFondo.add(btnMensual, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 120, -1, -1));
+
+        getContentPane().add(pnlFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 530));
 
         pack();
         setLocationRelativeTo(null);
@@ -204,58 +357,116 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         frmReportes.setVisible(true);
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    public void llenarTablaNotas() {
-        List<NotaRemision> notas = logica.recuperarnotas();
-        DefaultTableModel creadas = (DefaultTableModel) this.tblCreadas.getModel();
-        DefaultTableModel entregadas = (DefaultTableModel) this.tblEntregadas.getModel();
-        creadas.setRowCount(0);
-        entregadas.setRowCount(0);
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        exportarAPDF();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-        LocalDate fechaActual = LocalDate.now();
+    private void btnDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiarioActionPerformed
+        // TODO add your handling code here:
+        setRangoFechasDiario();
+        llenarTablaNotas();
+    }//GEN-LAST:event_btnDiarioActionPerformed
 
-        for (NotaRemision nota : notas) {
-            LocalDate fechaRecepcion = nota.getFecha_recepcion().toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
+    private void btnSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanalActionPerformed
+        // TODO add your handling code here:
+        setRangoFechasSemanal();
+        llenarTablaNotas();
+    }//GEN-LAST:event_btnSemanalActionPerformed
 
-            StringBuilder servicios = new StringBuilder();
-            for (NotaServicio notaServicio : nota.getNotaServicios()) {
-                servicios.append(notaServicio.getServicio().getDescripcion())
-                        .append(", ").append(notaServicio.getCant())
-                        .append(", ").append(notaServicio.getServicio().getPrecio())
-                        .append(", ").append(notaServicio.getPrecio()).append("\n");
+    private void btnMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualActionPerformed
+        // TODO add your handling code here:
+        setRangoFechasMensual();
+        llenarTablaNotas();
+    }//GEN-LAST:event_btnMensualActionPerformed
+
+    private void setRangoFechasDiario() {
+        LocalDate hoy = LocalDate.now();
+        setFechasEnDatePickers(hoy, hoy);
+    }
+
+    private void setRangoFechasSemanal() {
+        LocalDate hoy = LocalDate.now();
+        LocalDate primerDiaSemana = hoy.with(java.time.DayOfWeek.MONDAY);
+        LocalDate ultimoDiaSemana = hoy.with(java.time.DayOfWeek.SUNDAY);
+        setFechasEnDatePickers(primerDiaSemana, ultimoDiaSemana);
+    }
+
+    private void setRangoFechasMensual() {
+        LocalDate hoy = LocalDate.now();
+        LocalDate primerDiaMes = hoy.withDayOfMonth(1);
+        LocalDate ultimoDiaMes = hoy.withDayOfMonth(hoy.lengthOfMonth());
+        setFechasEnDatePickers(primerDiaMes, ultimoDiaMes);
+    }
+
+    private void setFechasEnDatePickers(LocalDate fechaDesde, LocalDate fechaHasta) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        Date dateDesdeUtil = Date.from(fechaDesde.atStartOfDay(defaultZoneId).toInstant());
+        Date dateHastaUtil = Date.from(fechaHasta.atStartOfDay(defaultZoneId).toInstant());
+
+        Calendar calendarDesde = Calendar.getInstance();
+        calendarDesde.setTime(dateDesdeUtil);
+
+        Calendar calendarHasta = Calendar.getInstance();
+        calendarHasta.setTime(dateHastaUtil);
+
+// Asignar al DatePicker usando el modelo subyacente
+        datePickerFrom.getModel().setYear(calendarDesde.get(Calendar.YEAR));
+        datePickerFrom.getModel().setMonth(calendarDesde.get(Calendar.MONTH));
+        datePickerFrom.getModel().setDay(calendarDesde.get(Calendar.DAY_OF_MONTH));
+
+        datePickerTo.getModel().setYear(calendarHasta.get(Calendar.YEAR));
+        datePickerTo.getModel().setMonth(calendarHasta.get(Calendar.MONTH));
+        datePickerTo.getModel().setDay(calendarHasta.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public void exportarAPDF() {
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("ReporteDiario.pdf"));
+            document.open();
+
+            // Agregar título
+            document.add(new Paragraph("Reporte"));
+
+            // Agregar tabla de notas creadas
+            PdfPTable tableCreadas = new PdfPTable(tblCreadas.getColumnCount());
+            for (int i = 0; i < tblCreadas.getColumnCount(); i++) {
+                tableCreadas.addCell(new PdfPCell(new Phrase(tblCreadas.getColumnName(i))));
             }
-
-            if (fechaRecepcion.equals(fechaActual)) {
-                Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getAnticipo()};
-                creadas.addRow(filaNueva);
-                anticipos=anticipos+nota.getAnticipo();
-                notasCreadas++;
-            }
-
-            if (nota.getFecha_entregada() != null) {
-                LocalDate fechaEntregada = nota.getFecha_entregada().toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDate();
-
-                if (fechaEntregada.equals(fechaActual)) {
-                    Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString(), nota.getTotal(), nota.getTotal() - nota.getAnticipo()};
-                    entregadas.addRow(filaNueva);
-                    pagos=pagos+nota.getTotal()-nota.getAnticipo();
-                    notasEntregadas++;
+            for (int i = 0; i < tblCreadas.getRowCount(); i++) {
+                for (int j = 0; j < tblCreadas.getColumnCount(); j++) {
+                    tableCreadas.addCell(new PdfPCell(new Phrase(tblCreadas.getValueAt(i, j).toString())));
                 }
             }
+            document.add(new Paragraph("Notas Creadas"));
+            document.add(tableCreadas);
+
+            // Agregar tabla de notas entregadas
+            PdfPTable tableEntregadas = new PdfPTable(tblEntregadas.getColumnCount());
+            for (int i = 0; i < tblEntregadas.getColumnCount(); i++) {
+                tableEntregadas.addCell(new PdfPCell(new Phrase(tblEntregadas.getColumnName(i))));
+            }
+            for (int i = 0; i < tblEntregadas.getRowCount(); i++) {
+                for (int j = 0; j < tblEntregadas.getColumnCount(); j++) {
+                    tableEntregadas.addCell(new PdfPCell(new Phrase(tblEntregadas.getValueAt(i, j).toString())));
+                }
+            }
+            document.add(new Paragraph("Notas Entregadas"));
+            document.add(tableEntregadas);
+
+            // Agregar totales
+            document.add(new Paragraph("Total de notas creadas: " + txtCreadas.getText()));
+            document.add(new Paragraph("Total en anticipos recibido: " + txtAnticipos.getText()));
+            document.add(new Paragraph("Total de notas entregadas: " + txtEntregadas.getText()));
+            document.add(new Paragraph("Total en pagos recibido: " + txtPagos.getText()));
+            document.add(new Paragraph("Ganancias totales: " + txtGanancias.getText()));
+
+            document.close();
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace();
         }
-        
-        this.tblCreadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
-        this.tblEntregadas.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
-        
-        total=anticipos+pagos;
-        this.txtAnticipos.setText(anticipos.toString());
-        this.txtPagos.setText(pagos.toString());
-        this.txtGanancias.setText(total.toString());
-        this.txtCreadas.setText(notasCreadas.toString());
-        this.txtEntregadas.setText(notasEntregadas.toString());
     }
 
     class MultiLineCellRenderer extends JTextArea implements TableCellRenderer {
@@ -278,7 +489,11 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDiario;
+    private javax.swing.JButton btnMensual;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnSemanal;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
