@@ -479,9 +479,10 @@ public class FrmCrearNota extends javax.swing.JFrame {
                         txtTotal1.setText(String.valueOf(total));
                         NotaServicio notaS=new NotaServicio();
                         notaS.setCant(cant);
-                        notaS.setDetalles(nombreServicio);
+                        notaS.setDetalles("");
                         notaS.setPrecio(precio*cant);
                         notaS.setServicio(servicio);
+                        notaS.setPerdidas(0);
                         referencias.add(notaS);
                     }
 //                    FrmCantidad frmCantidad = new FrmCantidad();

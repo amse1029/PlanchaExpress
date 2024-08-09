@@ -13,13 +13,11 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itson.dominio.NotaRemision;
 import com.itson.dominio.NotaServicio;
-import com.itson.dominio.Servicio;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -27,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
@@ -400,25 +397,19 @@ public class FrmReporteDiario extends javax.swing.JFrame {
     }
 
     private void setFechasEnDatePickers(LocalDate fechaDesde, LocalDate fechaHasta) {
-        ZoneId defaultZoneId = ZoneId.systemDefault();
+        // Convertir LocalDate a Calendar
+        Calendar calDesde = Calendar.getInstance();
+        calDesde.set(fechaDesde.getYear(), fechaDesde.getMonthValue() - 1, fechaDesde.getDayOfMonth());
 
-        Date dateDesdeUtil = Date.from(fechaDesde.atStartOfDay(defaultZoneId).toInstant());
-        Date dateHastaUtil = Date.from(fechaHasta.atStartOfDay(defaultZoneId).toInstant());
+        Calendar calHasta = Calendar.getInstance();
+        calHasta.set(fechaHasta.getYear(), fechaHasta.getMonthValue() - 1, fechaHasta.getDayOfMonth());
 
-        Calendar calendarDesde = Calendar.getInstance();
-        calendarDesde.setTime(dateDesdeUtil);
+        // Asignar las fechas a los DatePickers
+        datePickerFrom.getModel().setDate(calDesde.get(Calendar.YEAR), calDesde.get(Calendar.MONTH), calDesde.get(Calendar.DAY_OF_MONTH));
+        datePickerFrom.getModel().setSelected(true);
 
-        Calendar calendarHasta = Calendar.getInstance();
-        calendarHasta.setTime(dateHastaUtil);
-
-// Asignar al DatePicker usando el modelo subyacente
-        datePickerFrom.getModel().setYear(calendarDesde.get(Calendar.YEAR));
-        datePickerFrom.getModel().setMonth(calendarDesde.get(Calendar.MONTH));
-        datePickerFrom.getModel().setDay(calendarDesde.get(Calendar.DAY_OF_MONTH));
-
-        datePickerTo.getModel().setYear(calendarHasta.get(Calendar.YEAR));
-        datePickerTo.getModel().setMonth(calendarHasta.get(Calendar.MONTH));
-        datePickerTo.getModel().setDay(calendarHasta.get(Calendar.DAY_OF_MONTH));
+        datePickerTo.getModel().setDate(calHasta.get(Calendar.YEAR), calHasta.get(Calendar.MONTH), calHasta.get(Calendar.DAY_OF_MONTH));
+        datePickerTo.getModel().setSelected(true);
     }
 
     public void exportarAPDF() {

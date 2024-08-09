@@ -42,6 +42,9 @@ public class NotaServicio implements Serializable {
 
     @Column(name = "precio", nullable = false)
     private float precio;
+    
+    @Column(name = "perdidas", nullable = false)
+    private float perdidas;
 
     public Long getId() {
         return id;
@@ -89,6 +92,14 @@ public class NotaServicio implements Serializable {
 
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+    
+    public float getPerdidas() {
+        return perdidas;
+    }
+
+    public void setPerdidas(float perdidas) {
+        this.perdidas = perdidas;
     }
 
     @Override

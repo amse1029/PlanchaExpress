@@ -36,6 +36,7 @@ CREATE TABLE NOTA_SERVICIO (
     cant INT(2),
     detalle VARCHAR(100),
     precio float,
+    perdidas float,
     FOREIGN KEY (servicio_id) REFERENCES SERVICIOS(id),
     FOREIGN KEY (notaremision_folio) REFERENCES NOTASREMISION(folio)
 );

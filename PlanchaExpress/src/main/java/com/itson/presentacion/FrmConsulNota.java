@@ -43,6 +43,8 @@ public class FrmConsulNota extends javax.swing.JFrame {
                 this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getCant(), i, 1);
                 this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getServicio().getPrecio(), i, 2);
                 this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getPrecio(), i, 3);
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getDetalles(), i, 4);
+                this.tblServicios.setValueAt(nota.getNotaServicios().get(i).getPerdidas(), i, 5);
             }
         }
         
@@ -184,20 +186,20 @@ public class FrmConsulNota extends javax.swing.JFrame {
 
         tblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Descripción", "Cantidad", "Precio unitario", "Total"
+                "Descripción", "Cantidad", "Precio unitario", "Total", "Detalles", "Perdidas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
