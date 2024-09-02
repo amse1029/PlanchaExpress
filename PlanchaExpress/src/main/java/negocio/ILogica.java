@@ -31,7 +31,7 @@ public interface ILogica {
     public String buscarNotasCliente(Cliente cliente);
     public NotaRemision buscarNota(Long folio);
     public Cliente buscarCliente(Long folio);
-        public Servicio buscarServicio(Long folio);
+    public Servicio buscarServicio(Long folio);
     public Usuario buscarUsuario(Long id);
     public List<Servicio> recuperarServicios();
     public List<Cliente> recuperarClientes();

@@ -41,3 +41,6 @@ CREATE TABLE NOTA_SERVICIO (
     FOREIGN KEY (notaremision_folio) REFERENCES NOTASREMISION(folio)
 );
 
+INSERT INTO USUARIOS(id, nombre, pass)
+VALUES(1, 'admin', 'admin');
+

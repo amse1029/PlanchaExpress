@@ -4,8 +4,11 @@
  */
 package com.itson.presentacion;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -25,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
@@ -40,7 +44,7 @@ import org.jdatepicker.impl.UtilDateModel;
  *
  * @author alexasoto
  */
-public class FrmReporteDiario extends javax.swing.JFrame {
+public class FrmReporte extends javax.swing.JFrame {
 
     ILogica logica = new LogicaNegocio();
     NotaRemision nota;
@@ -51,11 +55,12 @@ public class FrmReporteDiario extends javax.swing.JFrame {
     Integer notasEntregadas = 0;
     private JDatePickerImpl datePickerFrom;
     private JDatePickerImpl datePickerTo;
+    private String tipoReporte;
 
     /**
      * Creates new form FrmConsulServicios
      */
-    public FrmReporteDiario() {
+    public FrmReporte() {
         initComponents();
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -127,15 +132,17 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                     .toLocalDate();
 
             StringBuilder servicios = new StringBuilder();
+            StringBuilder perdidas = new StringBuilder();
             for (NotaServicio notaServicio : nota.getNotaServicios()) {
                 servicios.append(notaServicio.getServicio().getDescripcion())
                         .append(", ").append(notaServicio.getCant())
                         .append(", ").append(notaServicio.getServicio().getPrecio())
                         .append(", ").append(notaServicio.getPrecio()).append("\n");
+                perdidas.append(notaServicio.getDetalles()).append(", ").append(notaServicio.getPerdidas()).append("\n");
             }
 
             if ((fechaDesde == null || !fechaRecepcion.isBefore(fechaDesde)) && (fechaHasta == null || !fechaRecepcion.isAfter(fechaHasta))) {
-                Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), nota.getTotal(), nota.getAnticipo(), nota.getFecha_recepcion()};
+                Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), perdidas.toString().trim(), nota.getTotal(), nota.getAnticipo(), nota.getFecha_recepcion()};
                 creadas.addRow(filaNueva);
                 anticipos += nota.getAnticipo();
                 notasCreadas++;
@@ -147,7 +154,7 @@ public class FrmReporteDiario extends javax.swing.JFrame {
                         .toLocalDate();
 
                 if ((fechaDesde == null || !fechaEntregada.isBefore(fechaDesde)) && (fechaHasta == null || !fechaEntregada.isAfter(fechaHasta))) {
-                    Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), nota.getTotal(), nota.getTotal() - nota.getAnticipo(), nota.getFecha_entregada()};
+                    Object[] filaNueva = {nota.getFolio(), nota.getCliente(), servicios.toString().trim(), perdidas.toString().trim(), nota.getTotal(), nota.getTotal() - nota.getAnticipo(), nota.getFecha_entregada()};
                     entregadas.addRow(filaNueva);
                     pagos += nota.getTotal() - nota.getAnticipo();
                     notasEntregadas++;
@@ -164,7 +171,9 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
         // Asignar el MultiLineCellRenderer a la columna de servicios (suponiendo que la tercera columna es la de servicios)
         tblCreadas.getColumnModel().getColumn(2).setCellRenderer(new MultiLineCellRenderer());
+        tblCreadas.getColumnModel().getColumn(3).setCellRenderer(new MultiLineCellRenderer());
         tblEntregadas.getColumnModel().getColumn(2).setCellRenderer(new MultiLineCellRenderer());
+        tblEntregadas.getColumnModel().getColumn(3).setCellRenderer(new MultiLineCellRenderer());
     }
 
     /**
@@ -227,17 +236,17 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         tblEntregadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblEntregadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Resto Pagado", "Fecha"
+                "Folio", "Cliente", "Servicios", "Perdidas", "Total", "Resto Pagado", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -255,17 +264,17 @@ public class FrmReporteDiario extends javax.swing.JFrame {
         tblCreadas.setFont(new java.awt.Font("Kannada MN", 0, 14)); // NOI18N
         tblCreadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Folio", "Cliente", "Servicios", "Total", "Anticipo", "Fecha"
+                "Folio", "Cliente", "Servicios", "Perdidas", "Total", "Anticipo", "Fecha"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -361,18 +370,21 @@ public class FrmReporteDiario extends javax.swing.JFrame {
 
     private void btnDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiarioActionPerformed
         // TODO add your handling code here:
+        tipoReporte="Diario";
         setRangoFechasDiario();
         llenarTablaNotas();
     }//GEN-LAST:event_btnDiarioActionPerformed
 
     private void btnSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSemanalActionPerformed
         // TODO add your handling code here:
+        tipoReporte="Semanal";
         setRangoFechasSemanal();
         llenarTablaNotas();
     }//GEN-LAST:event_btnSemanalActionPerformed
 
     private void btnMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMensualActionPerformed
         // TODO add your handling code here:
+        tipoReporte="Mensual";
         setRangoFechasMensual();
         llenarTablaNotas();
     }//GEN-LAST:event_btnMensualActionPerformed
@@ -415,46 +427,102 @@ public class FrmReporteDiario extends javax.swing.JFrame {
     public void exportarAPDF() {
         Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("ReporteDiario.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("Reporte" + tipoReporte + ".pdf"));
             document.open();
 
-            // Agregar título
-            document.add(new Paragraph("Reporte"));
+            // Configuración de fuente
+            Font tituloFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+            Font subtituloFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+            Font textoFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
 
+            // Agregar título del reporte
+            Paragraph titulo = new Paragraph("Reporte " + tipoReporte + " de Actividades", tituloFont);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            document.add(titulo);
+            
+            String rango=this.datePickerFrom.getModel().getDay() + "/" 
+                    + this.datePickerFrom.getModel().getMonth() + "/"  
+                    + this.datePickerFrom.getModel().getYear() + " - " 
+                    + this.datePickerTo.getModel().getDay() + "/" 
+                    + this.datePickerTo.getModel().getMonth() + "/"  
+                    + this.datePickerTo.getModel().getYear();
+            Paragraph range = new Paragraph(rango, textoFont);
+            range.setAlignment(Element.ALIGN_CENTER);
+            document.add(range);
+            document.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Agregar fecha del reporte
+            String fechaReporte = "Fecha del reporte: " + java.time.LocalDate.now();
+            Paragraph fecha = new Paragraph(fechaReporte, textoFont);
+            fecha.setAlignment(Element.ALIGN_CENTER);
+            document.add(fecha);
+
+            // Agregar espacio
+            document.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Agregar información de encabezado adicional (opcional)
+            Paragraph autor = new Paragraph("Generado por: Sistema de Gestión de Lavandería", textoFont);
+            autor.setAlignment(Element.ALIGN_CENTER);
+            document.add(autor);
+
+            // Agregar más espacio
+            document.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Agregar subtítulo para Notas Creadas
+            Paragraph subtituloCreadas = new Paragraph("Notas Creadas", subtituloFont);
+            document.add(subtituloCreadas);
+            document.add(new Paragraph(" ")); // Espacio en blanco
             // Agregar tabla de notas creadas
             PdfPTable tableCreadas = new PdfPTable(tblCreadas.getColumnCount());
             for (int i = 0; i < tblCreadas.getColumnCount(); i++) {
-                tableCreadas.addCell(new PdfPCell(new Phrase(tblCreadas.getColumnName(i))));
+                PdfPCell headerCell = new PdfPCell(new Phrase(tblCreadas.getColumnName(i), textoFont));
+                headerCell.setBackgroundColor(BaseColor.LIGHT_GRAY); // Color de fondo para encabezados
+                tableCreadas.addCell(headerCell);
             }
             for (int i = 0; i < tblCreadas.getRowCount(); i++) {
                 for (int j = 0; j < tblCreadas.getColumnCount(); j++) {
-                    tableCreadas.addCell(new PdfPCell(new Phrase(tblCreadas.getValueAt(i, j).toString())));
+                    tableCreadas.addCell(new PdfPCell(new Phrase(tblCreadas.getValueAt(i, j).toString(), textoFont)));
                 }
             }
-            document.add(new Paragraph("Notas Creadas"));
             document.add(tableCreadas);
 
+            // Agregar más espacio
+            document.add(new Paragraph(" ")); // Espacio en blanco
+
+            // Agregar subtítulo para Notas Entregadas
+            Paragraph subtituloEntregadas = new Paragraph("Notas Entregadas", subtituloFont);
+            document.add(subtituloEntregadas);
+            document.add(new Paragraph(" ")); // Espacio en blanco
             // Agregar tabla de notas entregadas
             PdfPTable tableEntregadas = new PdfPTable(tblEntregadas.getColumnCount());
             for (int i = 0; i < tblEntregadas.getColumnCount(); i++) {
-                tableEntregadas.addCell(new PdfPCell(new Phrase(tblEntregadas.getColumnName(i))));
+                PdfPCell headerCell = new PdfPCell(new Phrase(tblEntregadas.getColumnName(i), textoFont));
+                headerCell.setBackgroundColor(BaseColor.LIGHT_GRAY); // Color de fondo para encabezados
+                tableEntregadas.addCell(headerCell);
             }
             for (int i = 0; i < tblEntregadas.getRowCount(); i++) {
                 for (int j = 0; j < tblEntregadas.getColumnCount(); j++) {
-                    tableEntregadas.addCell(new PdfPCell(new Phrase(tblEntregadas.getValueAt(i, j).toString())));
+                    tableEntregadas.addCell(new PdfPCell(new Phrase(tblEntregadas.getValueAt(i, j).toString(), textoFont)));
                 }
             }
-            document.add(new Paragraph("Notas Entregadas"));
             document.add(tableEntregadas);
 
-            // Agregar totales
-            document.add(new Paragraph("Total de notas creadas: " + txtCreadas.getText()));
-            document.add(new Paragraph("Total en anticipos recibido: " + txtAnticipos.getText()));
-            document.add(new Paragraph("Total de notas entregadas: " + txtEntregadas.getText()));
-            document.add(new Paragraph("Total en pagos recibido: " + txtPagos.getText()));
-            document.add(new Paragraph("Ganancias totales: " + txtGanancias.getText()));
+            // Agregar más espacio
+            document.add(new Paragraph(" ")); // Espacio en blanco
 
+            // Agregar secciones de totales
+            Paragraph totales = new Paragraph("Totales", subtituloFont);
+            document.add(totales);
+
+            document.add(new Paragraph("Total de notas creadas: " + txtCreadas.getText(), textoFont));
+            document.add(new Paragraph("Total en anticipos recibidos: " + txtAnticipos.getText(), textoFont));
+            document.add(new Paragraph("Total de notas entregadas: " + txtEntregadas.getText(), textoFont));
+            document.add(new Paragraph("Total en pagos recibidos: " + txtPagos.getText(), textoFont));
+            document.add(new Paragraph("Ganancias totales: " + txtGanancias.getText(), textoFont));
+
+            // Cerrar el documento
             document.close();
+            JOptionPane.showMessageDialog(this, "El reporte ha sido creado con exito");
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }

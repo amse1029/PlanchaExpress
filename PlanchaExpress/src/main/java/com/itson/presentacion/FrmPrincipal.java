@@ -38,7 +38,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnNotas.setIcon(iconoNotas);
         ImageIcon iconoReportes = new ImageIcon(getClass().getResource("/img/reportes.png"));
         btnReportes.setIcon(iconoReportes);
-
     }
 
     /**
@@ -168,6 +167,27 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }
     }
 
+    private boolean ingresarAdmin() {
+        String pass;
+        JPasswordField passwordField = new JPasswordField();
+        int option = JOptionPane.showConfirmDialog(
+                null, passwordField, "Ingrese su contraseña", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) {
+            char[] password = passwordField.getPassword();
+            pass = new String(password);
+            this.user = this.logica.autenticarUsuario("admin", pass);
+            if (user != -1) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ninguna contraseña ingresada");
+            return false;
+        }
+    }
+
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // TODO add your handling code here:
         if (this.ingresarUsuario()) {
@@ -181,9 +201,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         // TODO add your handling code here: 
-        this.dispose();
-        FrmUsuarios frm = new FrmUsuarios();
-        frm.setVisible(true);
+        if (this.ingresarAdmin()) {
+            this.dispose();
+            FrmUsuarios frm = new FrmUsuarios();
+            frm.setVisible(true);
+        }
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed

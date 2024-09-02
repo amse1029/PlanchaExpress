@@ -10,6 +10,7 @@ import com.itson.dominio.NotaServicio;
 import com.itson.dominio.Servicio;
 import com.itson.dominio.Usuario;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -20,11 +21,14 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import negocio.ILogica;
 import negocio.LogicaNegocio;
@@ -34,7 +38,7 @@ import negocio.LogicaNegocio;
  * @author alexasoto
  */
 public class FrmEditarNota1 extends javax.swing.JFrame {
-    
+
     ILogica logica = new LogicaNegocio();
     List<Servicio> listaServicios = logica.recuperarServicios();
     List<Cliente> listaClientes = logica.recuperarClientes();
@@ -64,42 +68,46 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 //        detallesServicios();
 //        txtAnticipo.setText(String.valueOf(0.00));
         this.llenarDatos();
-        
+
         tblServicios.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
                     int column = e.getColumn();
-                    
+
                     if (column == 5) { // Columna de pérdidas
                         actualizarTotal();
                     }
                 }
             }
         });
-        
+        // Configuración para ajuste automático de filas y columnas
+        tblServicios.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblServicios.setRowHeight(30);  // Ajusta la altura inicial de las filas
+
+// Ajuste de filas basado en el contenido de cada celda
+        tblServicios.setDefaultRenderer(Object.class, new MultiLineCellRenderer());
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         //Listener para el evento de cierre
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                
+
                 FrmConsulNotas notas = new FrmConsulNotas(user);
                 notas.setVisible(true);
             }
         });
-        
+
         pack();
-        
+
         JTextField dateTextField = (JTextField) fechaEntrega.getDateEditor().getUiComponent();
         dateTextField.getDocument().addDocumentListener(new DocumentListener() {
-            
+
             private void updateValue() {
                 String text = dateTextField.getText();
                 System.out.println("Valor editado en el JDateChooser: " + text);
-                
+
                 try {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     fechaSelec = dateFormat.parse(text);
@@ -108,38 +116,64 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                     System.out.println("Formato de fecha inválido");
                 }
             }
-            
+
             @Override
             public void insertUpdate(DocumentEvent e) {
                 updateValue();
             }
-            
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 updateValue();
             }
-            
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 updateValue();
             }
         });
     }
-    
+
+    class MultiLineCellRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JTextArea textArea = new JTextArea();
+            textArea.setText(value == null ? "" : value.toString());
+            textArea.setWrapStyleWord(true);
+            textArea.setLineWrap(true);
+            textArea.setOpaque(true);  // Asegura que el fondo del JTextArea sea pintado
+
+            // Ajuste de la altura de la fila según el contenido
+            int preferredHeight = textArea.getPreferredSize().height;
+            table.setRowHeight(row, preferredHeight);
+
+            // Configuración de colores de fondo y fuente
+            if (isSelected) {
+                textArea.setBackground(table.getSelectionBackground());
+                textArea.setForeground(table.getSelectionForeground());
+            } else {
+                textArea.setBackground(table.getBackground());
+                textArea.setForeground(table.getForeground());
+            }
+
+            // Retorno del JTextArea configurado como componente del renderizador
+            return textArea;
+        }
+    }
+
     private void actualizarTotal() {
         float nuevoTotal = 0;
         for (int i = 0; i < tblServicios.getRowCount(); i++) {
-            Float perdidas = (Float) tblServicios.getValueAt(i, 5);
-            Float precioTotal = (Float) tblServicios.getValueAt(i, 3);
+            Float precioTotal = Float.parseFloat(tblServicios.getValueAt(i, 3).toString());
+            Float perdidas = Float.parseFloat(tblServicios.getValueAt(i, 5).toString());
             if (perdidas != null && precioTotal != null) {
-                nuevoTotal += precioTotal - perdidas;
-            } else if (precioTotal != null) {
-                nuevoTotal += precioTotal;
+                nuevoTotal = nuevoTotal + precioTotal - perdidas;
             }
         }
         txtTotal.setText(String.valueOf(nuevoTotal));
     }
-    
+
     private void llenarDatos() {
         if (nota2 != null) {
             this.txtCliente.setText(nota2.getCliente().getNombre());
@@ -149,12 +183,19 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             this.txtTotal.setText(String.valueOf(nota2.getTotal()));
             this.txtAnticipo.setText(String.valueOf(nota2.getAnticipo()));
             for (int i = 0; i < nota2.getNotaServicios().size(); i++) {
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getDescripcion(), i, 0);
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getCant(), i, 1);
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getPrecio(), i, 2);
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getPrecio(), i, 3);
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getDetalles(), i, 4);
-                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getPerdidas(), i, 5);
+                DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
+                model.addRow(new Object[]{nota2.getNotaServicios().get(i).getServicio().getDescripcion(),
+                    nota2.getNotaServicios().get(i).getCant(),
+                    nota2.getNotaServicios().get(i).getServicio().getPrecio(),
+                    nota2.getNotaServicios().get(i).getPrecio(),
+                    nota2.getNotaServicios().get(i).getDetalles(),
+                    nota2.getNotaServicios().get(i).getPerdidas()});
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getDescripcion(), i, 0);
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getCant(), i, 1);
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getServicio().getPrecio(), i, 2);
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getPrecio(), i, 3);
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getDetalles(), i, 4);
+//                this.tblServicios.setValueAt(nota2.getNotaServicios().get(i).getPerdidas(), i, 5);
             }
         }
     }
@@ -291,10 +332,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 
         tblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Descripción", "Cantidad", "Precio unitario", "Total", "Detalles", "Perdidas"
@@ -381,39 +419,39 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
         // TODO add your handling code here:
         Calendar calendarioActual = Calendar.getInstance();
         Date fechaActual = calendarioActual.getTime();
-        
+
         Date fechaSeleccionada = fechaSelec;
-        
+
         if (fechaSeleccionada == null) {
             JOptionPane.showMessageDialog(this, "La fecha de entrega no puede estar vacía");
             return;
         }
-        
+
         if (fechaSeleccionada.compareTo(fechaActual) <= 0) {
             JOptionPane.showMessageDialog(this, "La fecha de entrega debe ser posterior a la fecha y hora actual");
             return;
         }
         String anticipoText = txtAnticipo.getText().trim();
         String totalText = txtTotal.getText().trim();
-        
+
         if (!anticipoText.matches("[-]?\\d*\\.?\\d+") || !totalText.matches("\\d*\\.?\\d+")) {
             JOptionPane.showMessageDialog(this, "Ingrese valores numéricos");
             return;
         }
-        
+
         float anticipo = Float.parseFloat(anticipoText);
         float total = Float.parseFloat(totalText);
-        
+
         if (anticipo < 0) {
             JOptionPane.showMessageDialog(this, "El anticipo debe ser un valor numérico mayor o igual a 0");
             return;
         }
-        
+
         if (anticipo > total) {
             JOptionPane.showMessageDialog(this, "El anticipo no debe ser mayor al monto total");
             return;
         }
-        
+
         if (tblServicios.getValueAt(0, 0) != null) {
             Cliente cliente = nota1.getCliente();
             Usuario usuario = nota1.getUsuario();
@@ -425,7 +463,7 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             nota1.setTotal(total);
             for (int i = 0; i < referencias.size(); i++) {
                 referencias.get(i).setDetalles(this.tblServicios.getValueAt(i, 4).toString());
-                referencias.get(i).setPerdidas((Float) this.tblServicios.getValueAt(i, 5));
+                referencias.get(i).setPerdidas(Float.parseFloat(this.tblServicios.getValueAt(i, 5).toString()));
                 referencias.get(i).setNota(nota1);
             }
             nota1.setNotaServicios(referencias);
@@ -438,11 +476,11 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Ocurrio un error al editar la nota");
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "Debe seleccionar al menos un servicio");
         }
-        
+
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -458,8 +496,8 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             if (res == JOptionPane.YES_OPTION) {
                 // Eliminamos la fila seleccionada
                 DefaultTableModel model = (DefaultTableModel) tblServicios.getModel();
-                total = total - Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 3).toString()) + 
-                        Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 5).toString());
+                total = total - Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 3).toString())
+                        + Float.parseFloat(tblServicios.getValueAt(filaSeleccionada, 5).toString());
                 txtTotal.setText(String.valueOf(total));
                 model.removeRow(filaSeleccionada);
                 referencias.remove(filaSeleccionada);
@@ -469,16 +507,16 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
                     Object valorColumna1 = model.getValueAt(i, 0); // Obtén el valor de la columna 1 antes de eliminar la fila
                     model.setValueAt(valorColumna1, i, 0); // Asigna el valor de la columna 1 en la fila actual
                     Object valorColumna2 = model.getValueAt(i, 1); // Obtén el valor de la columna 1 antes de eliminar la fila
-                    model.setValueAt(valorColumna2, i, 1);                    
+                    model.setValueAt(valorColumna2, i, 1);
                     Object valorColumna3 = model.getValueAt(i, 2); // Obtén el valor de la columna 1 antes de eliminar la fila
-                    model.setValueAt(valorColumna3, i, 2);                    
+                    model.setValueAt(valorColumna3, i, 2);
                     Object valorColumna4 = model.getValueAt(i, 3); // Obtén el valor de la columna 1 antes de eliminar la fila
-                    model.setValueAt(valorColumna4, i, 3);                    
+                    model.setValueAt(valorColumna4, i, 3);
                     Object valorColumna5 = model.getValueAt(i, 2); // Obtén el valor de la columna 1 antes de eliminar la fila
-                    model.setValueAt(valorColumna5, i, 4);                    
+                    model.setValueAt(valorColumna5, i, 4);
                     Object valorColumna6 = model.getValueAt(i, 3); // Obtén el valor de la columna 1 antes de eliminar la fila
-                    model.setValueAt(valorColumna6, i, 5);                    
-                    
+                    model.setValueAt(valorColumna6, i, 5);
+
                 }
                 this.indice--;
             }
@@ -487,21 +525,21 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
-    
+
     private void agregarBotonesServicios(List<Servicio> servicios) {
         for (Servicio servicio : servicios) {
             JButton botonServicio = new JButton(servicio.getDescripcion());
             botonServicio.setSize(100, 50);
             botonServicio.setBackground(new Color(153, 204, 255));
             botonServicio.setForeground(Color.BLACK);
-            
+
             botonServicio.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+
                     String nombreServicio = servicio.getDescripcion();
                     float precio = servicio.getPrecio();
-                    
+
                     DlgCantidad cantidad = new DlgCantidad(FrmEditarNota1.this, true, nombreServicio);
                     cantidad.setVisible(true);
                     int cant = cantidad.getCantidad();
@@ -525,12 +563,12 @@ public class FrmEditarNota1 extends javax.swing.JFrame {
 //                    frmCantidad.getLblNombreServicio().setText(nombreServicio);
 //                    frmCantidad.setVisible(true);
                 }
-                
+
             });
-            
+
             pnlServicios.add(botonServicio);
         }
-        
+
         pnlServicios.revalidate();
     }
 

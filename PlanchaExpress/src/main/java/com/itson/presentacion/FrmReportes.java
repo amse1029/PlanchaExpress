@@ -98,7 +98,7 @@ public class FrmReportes extends javax.swing.JFrame {
     private void btnDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiarioActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        FrmReporteDiario frm = new FrmReporteDiario();
+        FrmReporte frm = new FrmReporte();
         frm.setVisible(true);
     }//GEN-LAST:event_btnDiarioActionPerformed
 
